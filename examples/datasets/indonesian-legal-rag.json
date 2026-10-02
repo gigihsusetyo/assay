@@ -1,0 +1,139 @@
+{
+  "name": "indonesian-legal-rag",
+  "version": "1.0.0",
+  "description": "Indonesian legal RAG benchmark. 10 queries from wahyyuht/skripsi-data (CC BY 4.0). Source: https://huggingface.co/datasets/wahyyuht/skripsi-data",
+  "source": "https://huggingface.co/datasets/wahyyuht/skripsi-data",
+  "license": "CC BY 4.0",
+  "questions": [
+    {
+      "question": "Apa semboyan yang mencerminkan karakter kultural masyarakat Kota Manado?",
+      "expected_answer": "torang samua basudara",
+      "expected_context": "keragaman suku dan kultural yang secara umum memiliki karakter religius sekaligus menjunjung tinggi adat istiadat, toleransi, dan kelestarian lingkungan, dengan semboyan torang samua basudara.",
+      "metadata": {
+        "source_query_id": "q001",
+        "gold_doc_id": "uu-13-2025",
+        "gold_node_id": "pasal_5_huruf_c",
+        "navigation_path": "BAB II - CAKUPAN WILAYAH, BATAS DAERAH, DAN KARAKTERISTIK KOTA MANADO > Pasal 5 > Pasal 5 Huruf c",
+        "query_type": "factual",
+        "query_style": "colloquial"
+      }
+    },
+    {
+      "question": "Apa saja karakteristik fisik yang dimiliki Kota Manado, mencakup bentang alam datar, pegunungan, hingga kawasan pesisir dan gugusan pulau?",
+      "expected_answer": "dataran rendah, pegunungan, pesisir dan kepulauan",
+      "expected_context": "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;",
+      "metadata": {
+        "source_query_id": "q004",
+        "gold_doc_id": "uu-13-2025",
+        "gold_node_id": "pasal_5_huruf_a",
+        "navigation_path": "BAB II - CAKUPAN WILAYAH, BATAS DAERAH, DAN KARAKTERISTIK KOTA MANADO > Pasal 5 > Pasal 5 Huruf a",
+        "query_type": "paraphrased",
+        "query_style": "formal"
+      }
+    },
+    {
+      "question": "Berapa batas usia maksimal seseorang saat pertama kali diangkat sebagai anggota Direksi Holding Investasi berdasarkan UU Nomor 16 Tahun 2025?",
+      "expected_answer": "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama",
+      "expected_context": "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama;",
+      "metadata": {
+        "source_query_id": "q006",
+        "gold_doc_id": "uu-16-2025",
+        "gold_node_id": "pasal_I_angka_17_pasal_3AE_ayat_1_huruf_d",
+        "navigation_path": "Pasal I > Pasal I Angka 17 > Pasal 3AE > Pasal 3AE Ayat (1) > Pasal 3AE Ayat (1) Huruf d",
+        "query_type": "factual",
+        "query_style": "formal"
+      }
+    },
+    {
+      "question": "Kalau Perum mau dinyatakan pailit, siapa yang harus kasih persetujuan dulu sebelum Direksi Perum bisa mengajukan permohonan ke pengadilan negeri?",
+      "expected_answer": "berdasarkan persetujuan kepala BP BUMN",
+      "expected_context": "Direksi Perum hanya dapat mengajukan permohonan ke pengadilan negeri agar Perum dinyatakan pailit berdasarkan persetujuan kepala BP BUMN.",
+      "metadata": {
+        "source_query_id": "q007",
+        "gold_doc_id": "uu-16-2025",
+        "gold_node_id": "pasal_I_angka_53_pasal_43M_ayat_1",
+        "navigation_path": "Pasal I > Pasal I Angka 53 > Pasal 43M > Pasal 43M Ayat (1)",
+        "query_type": "factual",
+        "query_style": "colloquial"
+      }
+    },
+    {
+      "question": "Jika seorang perwira tinggi bintang 3 (tiga) yang saat ini berusia 57 tahun ingin mengetahui batas usia pensiun yang berlaku baginya berdasarkan ketentuan baru UU 3/2025, berapa usia pensiun yang ditetapkan dalam norma permanen dan berapa usia yang diberlakukan kepadanya sebagai ketentuan peralihan?",
+      "expected_answer": "Norma permanen: maks 62 tahun; peralihan bagi yg berusia 57 tahun: maks 60 tahun.",
+      "expected_context": "perwira tinggi bintang 3 (tiga) paling tinggi 62 (enam puluh dua) tahun.",
+      "metadata": {
+        "source_query_id": "q012",
+        "gold_doc_id": "uu-3-2025",
+        "gold_node_id": "pasal_I_angka_7_pasal_53_ayat_2_huruf_e",
+        "navigation_path": "Pasal I > Pasal I Angka 7 > Pasal 53 > Pasal 53 Ayat (2) > Pasal 53 Ayat (2) Huruf e",
+        "query_type": "multihop",
+        "query_style": "formal"
+      }
+    },
+    {
+      "question": "Instansi pemerintah mana saja yang boleh diisi oleh personel aktif TNI tanpa harus terlebih dahulu keluar dari dinas militer?",
+      "expected_answer": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara...",
+      "expected_context": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara termasuk dewan pertahanan nasional, kesekretariatan negara yang menangani urusan kesekretariatan presiden dan kesekretariatan militer presiden, intelijen negara, siber dan/ atau sandi negara, lembaga ketahanan nasional, pencarian dan pertolongan, narkotika nasional, pengelola perbatasan, penanggulangan bencana, penanggulangan terorisme, keamanan laut, Kejaksaan Republik Indonesia, dan Mahkamah Agung.",
+      "metadata": {
+        "source_query_id": "q014",
+        "gold_doc_id": "uu-3-2025",
+        "gold_node_id": "pasal_I_angka_6_pasal_47_ayat_1",
+        "navigation_path": "Pasal I > Pasal I Angka 6 > Pasal 47 > Pasal 47 Ayat (1)",
+        "query_type": "paraphrased",
+        "query_style": "formal"
+      }
+    },
+    {
+      "question": "Berapa jumlah realisasi Pendapatan Negara dalam pelaksanaan APBN Tahun Anggaran 2023 dan berapa persentasenya terhadap anggaran yang ditetapkan?",
+      "expected_answer": "Rp2.783.929.676.930.198,00 yang berarti 105,56%",
+      "expected_context": "realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00 (dua kuadriliun tujuh ratus delapan puluh tiga triliun sembilan ratus dua puluh sembilan miliar enam ratus tujuh puluh enam juta sembilan ratus tiga puluh ribu seratus sembilan puluh delapan rupiah) yang berarti 105,56% (seratus lima koma lima puluh enam persen) dari Anggaran Pendapatan dalam Anggaran Pendapatan dan Belanja Negara Tahun Anggaran 2023 sebesar Rp2.637.248.881.485.000,00 (dua kuadriliun enam ratus tiga puluh tujuh triliun dua ratus empat puluh delapan miliar delapan ratus delapan puluh satu juta empat ratus delapan puluh lima ribu rupiah);",
+      "metadata": {
+        "source_query_id": "q015",
+        "gold_doc_id": "uu-60-2024",
+        "gold_node_id": "pasal_3_huruf_a",
+        "navigation_path": "Pasal 3 > Pasal 3 Huruf a",
+        "query_type": "factual",
+        "query_style": "formal"
+      }
+    },
+    {
+      "question": "Apakah cadangan sisa anggaran pemerintah boleh dipakai ketika pengeluaran aktual melampaui pemasukan aktual dalam tahun fiskal yang sedang berjalan?",
+      "expected_answer": "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi",
+      "expected_context": "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi anggaran penerimaan tahun anggaran berjalan dan/atau terdapat pengembalian pendapatan tahun-tahun yang lalu.",
+      "metadata": {
+        "source_query_id": "q018",
+        "gold_doc_id": "uu-60-2024",
+        "gold_node_id": "pasal_10",
+        "navigation_path": "Pasal 10",
+        "query_type": "paraphrased",
+        "query_style": "formal"
+      }
+    },
+    {
+      "question": "Untuk tahun 2023, laporan finansial milik pemerintah pusat dapet nilai apa dari BPK waktu diaudit?",
+      "expected_answer": "diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian",
+      "expected_context": "Laporan Keuangan Pemerintah Pusat sebagaimana dimaksud dalam Pasal 2, telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian.",
+      "metadata": {
+        "source_query_id": "q019",
+        "gold_doc_id": "uu-60-2024",
+        "gold_node_id": "pasal_11",
+        "navigation_path": "Pasal 11",
+        "query_type": "paraphrased",
+        "query_style": "colloquial"
+      }
+    },
+    {
+      "question": "Berapa lama jangka waktu penangkalan yang dapat dikenakan terhadap orang asing, dan apakah bisa diperpanjang?",
+      "expected_answer": "paling lama 10 tahun dan dapat diperpanjang paling lama 10 tahun",
+      "expected_context": "Jangka waktu Penangkalan berlaku paling lama 10 (sepuluh) tahun dan dapat diperpanjang paling lama 10 (sepuluh) tahun.",
+      "metadata": {
+        "source_query_id": "q020",
+        "gold_doc_id": "uu-63-2024",
+        "gold_node_id": "pasal_I_angka_7_pasal_102_ayat_1",
+        "navigation_path": "Pasal I > Pasal I Angka 7 > Pasal 102 > Pasal 102 Ayat (1)",
+        "query_type": "factual",
+        "query_style": "colloquial"
+      }
+    }
+  ]
+}
