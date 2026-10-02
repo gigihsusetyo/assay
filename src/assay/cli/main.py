@@ -380,7 +380,7 @@ def dataset_import(
         imported = 0
         skipped = 0
 
-        for i, item in enumerate(data["questions"]):
+        for item in data["questions"]:
             if not isinstance(item, dict):
                 skipped += 1
                 continue

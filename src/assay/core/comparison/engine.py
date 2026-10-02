@@ -78,7 +78,14 @@ def _delta(
         return None, None, None
 
     delta_abs = current - baseline
-    delta_pct = None if baseline == 0 else (delta_abs / abs(baseline)) * 100.0
+    # If baseline is 0 and current is 0, no change (0%).
+    # If baseline is 0 but current is not, percent change is undefined.
+    # Otherwise, compute percent change normally.
+    delta_pct = (
+        (0.0 if current == 0 else None)
+        if baseline == 0
+        else (delta_abs / abs(baseline)) * 100.0
+    )
 
     passed: bool | None = None
     if threshold_percent is not None and delta_pct is not None:
