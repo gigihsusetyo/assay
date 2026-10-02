@@ -46,3 +46,30 @@ class QuestionResponse(BaseModel):
     expected_answer: str | None
     expected_context: str | None
     created_at: datetime
+
+
+# Run schemas
+class RunCreate(BaseModel):
+    """Request body to create a run."""
+
+    dataset_id: int
+    name: str = Field(..., min_length=1, max_length=255)
+    target_url: str = Field(..., min_length=1, max_length=500)
+    config: str | None = None
+
+
+class RunResponse(BaseModel):
+    """Response body for a run."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    dataset_id: int
+    name: str
+    target_url: str
+    config: str | None
+    status: str
+    error_message: str | None
+    started_at: datetime | None
+    completed_at: datetime | None
+    created_at: datetime

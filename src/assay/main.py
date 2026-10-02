@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from assay.api.datasets import router as datasets_router
+from assay.api.runs import router as runs_router
 from assay.db import models  # noqa: F401  (import for side effect: register models)
 from assay.db.base import Base, engine
 
@@ -25,6 +26,7 @@ app = FastAPI(
 )
 
 app.include_router(datasets_router)
+app.include_router(runs_router)
 
 
 @app.get("/health")
