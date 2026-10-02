@@ -5,7 +5,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from assay.db.models import Baseline, Result, Run
+from assay.db.models import Baseline, Run
 from assay.db.repositories.run import ResultRepository, RunRepository
 
 
@@ -78,20 +78,18 @@ def _delta(
         return None, None, None
 
     delta_abs = current - baseline
-    if baseline == 0:
-        delta_pct = None
-    else:
-        delta_pct = (delta_abs / abs(baseline)) * 100.0
+    delta_pct = None if baseline == 0 else (delta_abs / abs(baseline)) * 100.0
 
     passed: bool | None = None
     if threshold_percent is not None and delta_pct is not None:
         # threshold_percent is the maximum allowed regression (positive number).
         # For higher_is_better, regression means delta_pct < -threshold.
         # For lower_is_better, regression means delta_pct > +threshold.
-        if higher_is_better:
-            passed = delta_pct >= -threshold_percent
-        else:
-            passed = delta_pct <= threshold_percent
+        passed = (
+            delta_pct >= -threshold_percent
+            if higher_is_better
+            else delta_pct <= threshold_percent
+        )
 
     return delta_abs, delta_pct, passed
 

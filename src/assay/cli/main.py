@@ -198,7 +198,7 @@ def gate(
             thresholds = load_policy(policy)
         except PolicyError as e:
             console.print(f"[red]Policy error:[/red] {e}")
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from e
 
         # Load baseline
         base_repo = BaselineRepository(session)
@@ -224,7 +224,7 @@ def gate(
         )
 
         # Print report
-        console.print(f"[bold]Assay Report[/bold]")
+        console.print("[bold]Assay Report[/bold]")
         console.print(f"Baseline: {report.baseline_name} (run {report.baseline_run_id})")
         console.print(f"Current:  run {report.current_run_id}")
         console.print()
@@ -281,7 +281,7 @@ def run_execute(
             summary = execute_run(session, run_id, verbose=verbose)
         except ValueError as e:
             console.print(f"[red]Error:[/red] {e}")
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from e
 
         console.print()
         console.print(f"[bold green]Run {summary.run_id} completed[/bold green]")

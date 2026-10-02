@@ -6,8 +6,8 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from assay.db.base import Base
 from assay.db import models  # noqa: F401  (register models)
+from assay.db.base import Base
 
 
 @pytest.fixture
@@ -25,8 +25,8 @@ def test_engine():
 @pytest.fixture
 def test_session(test_engine) -> Generator[Session, None, None]:
     """Create a test database session."""
-    TestSessionLocal = sessionmaker(bind=test_engine, autocommit=False, autoflush=False)
-    session = TestSessionLocal()
+    test_session_local = sessionmaker(bind=test_engine, autocommit=False, autoflush=False)
+    session = test_session_local()
     try:
         yield session
     finally:

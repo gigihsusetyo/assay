@@ -1,7 +1,7 @@
 """SQLAlchemy models for Assay."""
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from sqlalchemy import (
     DateTime,
@@ -17,7 +17,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from assay.db.base import Base
 
 
-class RunStatus(str, Enum):
+class RunStatus(StrEnum):
     """Status of an evaluation run."""
 
     PENDING = "pending"

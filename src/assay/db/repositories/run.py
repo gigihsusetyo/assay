@@ -1,6 +1,6 @@
 """Repository for Run, Result, and Baseline models."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -56,7 +56,7 @@ class RunRepository:
         if run is None:
             return None
         run.status = RunStatus.RUNNING.value
-        run.started_at = datetime.now(timezone.utc)
+        run.started_at = datetime.now(UTC)
         self.session.commit()
         self.session.refresh(run)
         return run
@@ -67,7 +67,7 @@ class RunRepository:
         if run is None:
             return None
         run.status = RunStatus.COMPLETED.value
-        run.completed_at = datetime.now(timezone.utc)
+        run.completed_at = datetime.now(UTC)
         self.session.commit()
         self.session.refresh(run)
         return run
@@ -79,7 +79,7 @@ class RunRepository:
             return None
         run.status = RunStatus.FAILED.value
         run.error_message = error_message
-        run.completed_at = datetime.now(timezone.utc)
+        run.completed_at = datetime.now(UTC)
         self.session.commit()
         self.session.refresh(run)
         return run
