@@ -12,7 +12,7 @@ class Settings(BaseSettings):
         env_prefix="ASSAY_",
     )
 
-    database_url: str = "postgresql+psycopg://assay:assay@localhost:5432/assay"
+    database_url: str = "sqlite:///./assay.db"
     log_level: str = "INFO"
 
 
