@@ -1,0 +1,68 @@
+name: Assay Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Start mock RAG
+        run: |
+          uvicorn examples.mock_rag.app:app --host 0.0.0.0 --port 9000 &
+          sleep 3
+          curl -f http://localhost:9000/health || exit 1
+
+      - name: Setup dataset and baseline
+        run: |
+          assay dataset create gate-demo --description "Gate demo dataset"
+          assay dataset add-question 1 \
+            --question "How do I reset my password?" \
+            --answer "Go to settings and click reset password." \
+            --context "You can reset your password in settings."
+          assay dataset add-question 1 \
+            --question "How do I configure SSO?" \
+            --answer "Go to settings, select SSO, and enter provider details." \
+            --context "SSO configuration is available in settings."
+          assay run create --dataset 1 --name baseline-run --target http://localhost:9000/query
+          assay run execute 1 --verbose
+          echo "Baseline run done"
+
+      - name: Create baseline
+        run: |
+          python3 -c "
+          from assay.db.base import SessionLocal
+          from assay.db.repositories.run import BaselineRepository, RunRepository
+          session = SessionLocal()
+          run_repo = RunRepository(session)
+          base_repo = BaselineRepository(session)
+          run = run_repo.get_by_name('baseline-run')
+          base_repo.create(name='ci-baseline', run_id=run.id, description='CI baseline')
+          print('Baseline created')
+          session.close()
+          "
+
+      - name: Run current evaluation
+        run: |
+          assay run create --dataset 1 --name current-run --target http://localhost:9000/query
+          assay run execute 2 --verbose
+
+      - name: Run gate
+        run: |
+          assay gate --baseline ci-baseline --run 2 --policy examples/policy.yaml
+        continue-on-error: false
