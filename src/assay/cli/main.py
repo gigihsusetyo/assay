@@ -292,3 +292,31 @@ def run_execute(
         console.print(f"Total cost: ${summary.total_cost_usd:.4f}")
     finally:
         session.close()
+
+
+@dataset_app.command("add-question")
+def dataset_add_question(
+    dataset_id: int = typer.Argument(..., help="Dataset ID"),
+    question: str = typer.Option(..., "--question", "-q", help="Question text"),
+    expected_answer: str = typer.Option(None, "--answer", "-a", help="Expected answer"),
+    expected_context: str = typer.Option(None, "--context", "-c", help="Expected context"),
+) -> None:
+    """Add a question to a dataset."""
+    session = SessionLocal()
+    try:
+        ds_repo = DatasetRepository(session)
+        dataset = ds_repo.get(dataset_id)
+        if dataset is None:
+            console.print(f"[red]Dataset {dataset_id} not found.[/red]")
+            raise typer.Exit(code=1)
+
+        q_repo = QuestionRepository(session)
+        q = q_repo.create(
+            dataset_id=dataset_id,
+            question=question,
+            expected_answer=expected_answer,
+            expected_context=expected_context,
+        )
+        console.print(f"[green]Added question:[/green] id={q.id} to dataset {dataset_id}")
+    finally:
+        session.close()
