@@ -1,10 +1,11 @@
 """Assay API entry point."""
 
-from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from assay.db import models  # noqa: F401  (import for side effect: register models)
 from assay.db.base import Base, engine
 
 
