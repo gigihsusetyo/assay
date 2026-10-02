@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from assay.api.datasets import router as datasets_router
 from assay.db import models  # noqa: F401  (import for side effect: register models)
 from assay.db.base import Base, engine
 
@@ -22,6 +23,8 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+app.include_router(datasets_router)
 
 
 @app.get("/health")
