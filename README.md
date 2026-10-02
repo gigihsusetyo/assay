@@ -292,3 +292,9 @@ Apache 2.0. See [LICENSE](LICENSE).
 
 - Domain: [assay.web.id](https://assay.web.id)
 - GitHub: [github.com/gigihsusetyo/assay](https://github.com/gigihsusetyo/assay)
+---
+
+## Testing the Gate
+
+This section exists to test the Assay Gate GitHub Action on a pull request.
+It will be removed after the test.

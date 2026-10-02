@@ -4,9 +4,14 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from assay.db.base import SessionLocal
+from assay.db import models  # noqa: F401  (register models)
+from assay.db.base import Base, SessionLocal, engine
 from assay.db.repositories.dataset import DatasetRepository, QuestionRepository
 from assay.db.repositories.run import RunRepository
+
+# Ensure tables exist before any CLI command runs.
+# This is idempotent and safe to call on every invocation.
+Base.metadata.create_all(bind=engine)
 
 app = typer.Typer(
     name="assay",
