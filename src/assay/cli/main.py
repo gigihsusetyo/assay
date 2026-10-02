@@ -402,3 +402,60 @@ def dataset_import(
             console.print(f"[yellow]Skipped {skipped} items.[/yellow]")
     finally:
         session.close()
+
+
+baseline_app = typer.Typer(help="Manage baselines")
+app.add_typer(baseline_app, name="baseline")
+
+
+@baseline_app.command("create")
+def baseline_create(
+    name: str = typer.Option(..., "--name", "-n", help="Baseline name"),
+    run_id: int = typer.Option(..., "--run", "-r", help="Run ID to pin as baseline"),
+    description: str = typer.Option(None, "--description", "-d", help="Baseline description"),
+) -> None:
+    """Create a baseline from a completed run."""
+    from assay.db.repositories.run import BaselineRepository, RunRepository
+
+    session = SessionLocal()
+    try:
+        run_repo = RunRepository(session)
+        run = run_repo.get(run_id)
+        if run is None:
+            console.print(f"[red]Run {run_id} not found.[/red]")
+            raise typer.Exit(code=1)
+
+        if run.status != "completed":
+            console.print(f"[red]Run {run_id} has status '{run.status}'. Only completed runs can be pinned.[/red]")
+            raise typer.Exit(code=1)
+
+        base_repo = BaselineRepository(session)
+        existing = base_repo.get_by_name(name)
+        if existing is not None:
+            console.print(f"[red]Baseline '{name}' already exists.[/red]")
+            raise typer.Exit(code=1)
+
+        baseline = base_repo.create(name=name, run_id=run_id, description=description)
+        console.print(f"[green]Created baseline:[/green] {baseline.name} (id={baseline.id}, run_id={baseline.run_id})")
+    finally:
+        session.close()
+
+
+@baseline_app.command("list")
+def baseline_list() -> None:
+    """List all baselines."""
+    from assay.db.repositories.run import BaselineRepository
+
+    session = SessionLocal()
+    try:
+        repo = BaselineRepository(session)
+        baselines = repo.list()
+        if not baselines:
+            console.print("[yellow]No baselines found.[/yellow]")
+            return
+        table = Table("ID", "Name", "Run ID", "Description")
+        for b in baselines:
+            table.add_row(str(b.id), b.name, str(b.run_id), b.description or "")
+        console.print(table)
+    finally:
+        session.close()
