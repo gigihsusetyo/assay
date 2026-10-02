@@ -265,3 +265,30 @@ def gate(
             raise typer.Exit(code=1)
     finally:
         session.close()
+
+
+@run_app.command("execute")
+def run_execute(
+    run_id: int = typer.Argument(..., help="Run ID to execute"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show per-question output"),
+) -> None:
+    """Execute a run: call the target for each question and store results."""
+    from assay.core.executor import execute_run
+
+    session = SessionLocal()
+    try:
+        try:
+            summary = execute_run(session, run_id, verbose=verbose)
+        except ValueError as e:
+            console.print(f"[red]Error:[/red] {e}")
+            raise typer.Exit(code=2)
+
+        console.print()
+        console.print(f"[bold green]Run {summary.run_id} completed[/bold green]")
+        console.print(f"Total questions: {summary.total}")
+        console.print(f"Succeeded: [green]{summary.succeeded}[/green]")
+        console.print(f"Failed: [red]{summary.failed}[/red]" if summary.failed else f"Failed: {summary.failed}")
+        console.print(f"Total latency: {summary.total_latency_ms}ms")
+        console.print(f"Total cost: ${summary.total_cost_usd:.4f}")
+    finally:
+        session.close()
