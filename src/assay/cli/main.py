@@ -495,3 +495,62 @@ def result_list(
         console.print(f"[dim]Showing {min(len(results), limit)} of {len(results)} results.[/dim]")
     finally:
         session.close()
+
+
+@dataset_app.command("delete")
+def dataset_delete(
+    dataset_id: int = typer.Argument(..., help="Dataset ID"),
+    confirm: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),
+) -> None:
+    """Delete a dataset and all its questions."""
+    session = SessionLocal()
+    try:
+        ds_repo = DatasetRepository(session)
+        dataset = ds_repo.get(dataset_id)
+        if dataset is None:
+            console.print(f"[red]Dataset {dataset_id} not found.[/red]")
+            raise typer.Exit(code=1)
+
+        if not confirm:
+            console.print(
+                f"[yellow]About to delete dataset '{dataset.name}' "
+                f"(id={dataset.id}) and all its questions.[/yellow]"
+            )
+            typer.confirm("Are you sure?", abort=True)
+
+        ds_repo.delete(dataset_id)
+        console.print(f"[green]Deleted dataset {dataset_id}.[/green]")
+    finally:
+        session.close()
+
+
+@baseline_app.command("delete")
+def baseline_delete(
+    baseline_id: int = typer.Argument(..., help="Baseline ID"),
+    confirm: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),
+) -> None:
+    """Delete a baseline."""
+    from assay.db.repositories.run import BaselineRepository
+
+    session = SessionLocal()
+    try:
+        repo = BaselineRepository(session)
+        baseline = repo.get(baseline_id) if hasattr(repo, "get") else None
+
+        if baseline is None:
+            # Fallback: iterate list to find by id
+            baselines = repo.list()
+            baseline = next((b for b in baselines if b.id == baseline_id), None)
+
+        if baseline is None:
+            console.print(f"[red]Baseline {baseline_id} not found.[/red]")
+            raise typer.Exit(code=1)
+
+        if not confirm:
+            console.print(f"[yellow]About to delete baseline '{baseline.name}' (id={baseline.id}).[/yellow]")
+            typer.confirm("Are you sure?", abort=True)
+
+        repo.delete(baseline_id)
+        console.print(f"[green]Deleted baseline {baseline_id}.[/green]")
+    finally:
+        session.close()
