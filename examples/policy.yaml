@@ -1,0 +1,6 @@
+version: 1
+thresholds:
+  groundedness: 5.0
+  context_recall: 5.0
+  p95_latency_ms: 20.0
+  avg_cost_usd: 20.0

@@ -174,3 +174,94 @@ def run_show(
 
 if __name__ == "__main__":
     app()
+
+
+@app.command()
+def gate(
+    baseline: str = typer.Option(..., "--baseline", "-b", help="Baseline name"),
+    current_run: int = typer.Option(..., "--run", "-r", help="Current run ID"),
+    policy: str = typer.Option("examples/policy.yaml", "--policy", "-p", help="Policy file path"),
+    top_failures: int = typer.Option(5, "--failures", "-f", help="Number of worst failures to show"),
+) -> None:
+    """Compare a run against a baseline and fail if quality regresses.
+
+    Exit code 0 if passed, 1 if failed, 2 if error.
+    """
+    from assay.core.comparison.engine import compare_runs
+    from assay.core.policy.loader import PolicyError, load_policy
+    from assay.db.repositories.run import BaselineRepository, RunRepository
+
+    session = SessionLocal()
+    try:
+        # Load policy
+        try:
+            thresholds = load_policy(policy)
+        except PolicyError as e:
+            console.print(f"[red]Policy error:[/red] {e}")
+            raise typer.Exit(code=2)
+
+        # Load baseline
+        base_repo = BaselineRepository(session)
+        baseline_obj = base_repo.get_by_name(baseline)
+        if baseline_obj is None:
+            console.print(f"[red]Baseline '{baseline}' not found.[/red]")
+            raise typer.Exit(code=2)
+
+        # Load run
+        run_repo = RunRepository(session)
+        run = run_repo.get(current_run)
+        if run is None:
+            console.print(f"[red]Run {current_run} not found.[/red]")
+            raise typer.Exit(code=2)
+
+        # Compare
+        report = compare_runs(
+            session,
+            baseline=baseline_obj,
+            current_run=run,
+            thresholds=thresholds,
+            top_failures=top_failures,
+        )
+
+        # Print report
+        console.print(f"[bold]Assay Report[/bold]")
+        console.print(f"Baseline: {report.baseline_name} (run {report.baseline_run_id})")
+        console.print(f"Current:  run {report.current_run_id}")
+        console.print()
+
+        table = Table("Metric", "Baseline", "Current", "Delta", "Status")
+        for m in report.metrics:
+            base_str = f"{m.baseline_value:.3f}" if m.baseline_value is not None else "N/A"
+            curr_str = f"{m.current_value:.3f}" if m.current_value is not None else "N/A"
+            delta_str = f"{m.delta_percent:+.1f}%" if m.delta_percent is not None else "N/A"
+            if m.passed is True:
+                status_str = "[green]PASS[/green]"
+            elif m.passed is False:
+                status_str = "[red]FAIL[/red]"
+            else:
+                status_str = "-"
+            table.add_row(m.name, base_str, curr_str, delta_str, status_str)
+        console.print(table)
+        console.print()
+
+        if report.passed:
+            console.print("[bold green]Verdict: PASSED[/bold green]")
+        else:
+            console.print("[bold red]Verdict: FAILED[/bold red]")
+            for reason in report.reasons:
+                console.print(f"  [red]-[/red] {reason}")
+
+        if report.worst_failures:
+            console.print()
+            console.print("[bold]Worst failures:[/bold]")
+            for f in report.worst_failures:
+                console.print(
+                    f"  Q{f.question_id} \"{f.question_text}\": "
+                    f"{f.baseline_value:.2f} -> {f.current_value:.2f} "
+                    f"(delta {f.delta:+.2f})"
+                )
+
+        if not report.passed:
+            raise typer.Exit(code=1)
+    finally:
+        session.close()
