@@ -325,3 +325,80 @@ def dataset_add_question(
         console.print(f"[green]Added question:[/green] id={q.id} to dataset {dataset_id}")
     finally:
         session.close()
+
+
+@dataset_app.command("import")
+def dataset_import(
+    file_path: str = typer.Argument(..., help="Path to JSON dataset file"),
+    name: str = typer.Option(None, "--name", "-n", help="Override dataset name"),
+    description: str = typer.Option(None, "--description", "-d", help="Override description"),
+) -> None:
+    """Import a dataset from a JSON file."""
+    import json
+    from pathlib import Path
+
+    path = Path(file_path)
+    if not path.exists():
+        console.print(f"[red]File not found:[/red] {file_path}")
+        raise typer.Exit(code=1)
+
+    try:
+        with path.open(encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        console.print(f"[red]Invalid JSON:[/red] {e}")
+        raise typer.Exit(code=1) from e
+
+    if "questions" not in data or not isinstance(data["questions"], list):
+        console.print("[red]JSON must have a 'questions' list.[/red]")
+        raise typer.Exit(code=1)
+
+    dataset_name = name or data.get("name")
+    if not dataset_name:
+        console.print("[red]Dataset name is required.[/red]")
+        raise typer.Exit(code=1)
+
+    dataset_description = description or data.get("description")
+    dataset_version = data.get("version", "1.0.0")
+
+    session = SessionLocal()
+    try:
+        ds_repo = DatasetRepository(session)
+        existing = ds_repo.get_by_name(dataset_name)
+        if existing is not None:
+            console.print(f"[red]Dataset '{dataset_name}' already exists.[/red]")
+            raise typer.Exit(code=1)
+
+        ds = ds_repo.create(
+            name=dataset_name,
+            description=dataset_description,
+            version=dataset_version,
+        )
+        console.print(f"[green]Created dataset:[/green] {ds.name} (id={ds.id})")
+
+        q_repo = QuestionRepository(session)
+        imported = 0
+        skipped = 0
+
+        for i, item in enumerate(data["questions"]):
+            if not isinstance(item, dict):
+                skipped += 1
+                continue
+            question_text = item.get("question")
+            if not question_text:
+                skipped += 1
+                continue
+
+            q_repo.create(
+                dataset_id=ds.id,
+                question=question_text,
+                expected_answer=item.get("expected_answer"),
+                expected_context=item.get("expected_context"),
+            )
+            imported += 1
+
+        console.print(f"[green]Imported {imported} questions.[/green]")
+        if skipped:
+            console.print(f"[yellow]Skipped {skipped} items.[/yellow]")
+    finally:
+        session.close()
