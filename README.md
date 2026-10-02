@@ -80,6 +80,7 @@ Early development. The core pipeline works end to end, but the project is not re
 What works today:
 
 - Create datasets and add questions via CLI or API.
+- Import datasets from JSON files.
 - Create runs pointing at a RAG endpoint.
 - Execute runs: Assay calls the endpoint for each question and stores results.
 - Compute groundedness and context recall (simple heuristics for now).
@@ -90,10 +91,9 @@ What is not done yet:
 
 - LLM-as-judge metrics. Current metrics are token-overlap heuristics.
 - Integration with Ragas or DeepEval.
-- Docker and docker-compose for the full stack.
-- GitHub Action for CI.
 - Cloud deployment.
 - Real Kubernetes.
+- Human calibration set for judge validation.
 
 ---
 
@@ -104,10 +104,12 @@ Assay runs on Python 3.11.
 ```bash
 git clone https://github.com/gigihsusetyo/assay.git
 cd assay
+python3.11 -m venv .venv
+source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-Create a dataset:
+Create a dataset manually:
 
 ```bash
 assay dataset create support-faq --description "Customer support FAQ"
@@ -122,10 +124,18 @@ assay dataset add-question 1 \
   --context "You can reset your password in settings."
 ```
 
+Or import a dataset from a JSON file:
+
+```bash
+assay dataset import examples/datasets/indonesian-legal-rag.json
+```
+
+The repo ships with a sample dataset of 10 questions from Indonesian legal regulations. It comes from [wahyyuht/skripsi-data](https://huggingface.co/datasets/wahyyuht/skripsi-data) on Hugging Face, under CC BY 4.0.
+
 Create a run pointing at your RAG endpoint:
 
 ```bash
-assay run create --dataset 1 --name run-001 --target http://localhost:9000/query
+assay run create --dataset 2 --name run-001 --target http://localhost:9000/query
 ```
 
 Execute the run:
@@ -134,10 +144,22 @@ Execute the run:
 assay run execute 1 --verbose
 ```
 
-Compare against a baseline:
+Pin the run as a baseline:
 
 ```bash
-assay gate --baseline baseline-v1 --run 1 --policy examples/policy.yaml
+assay baseline create --name baseline-v1 --run 1 --description "First baseline"
+```
+
+List baselines:
+
+```bash
+assay baseline list
+```
+
+Compare a new run against the baseline:
+
+```bash
+assay gate --baseline baseline-v1 --run 2 --policy examples/policy.yaml
 ```
 
 If the run passes, exit code is 0. If it fails, exit code is 1. If something is wrong with the input, exit code is 2.
@@ -240,15 +262,15 @@ Target adapters:
   Assay → HTTP RAG endpoint
 ```
 
-SQLite is the default for local development. PostgreSQL is the target for production.
+SQLite is the default for local development. PostgreSQL is the target for production. Assay is tested with Supabase as a managed PostgreSQL provider.
 
 ---
 
 ## Roadmap
 
-**MVP (current):** Core evaluation, CLI, simple metrics, comparison, gate. SQLite for development.
+**MVP (current):** Core evaluation, CLI, simple metrics, comparison, gate. SQLite and Supabase.
 
-**Phase 2:** Go execution plane for high-concurrency evaluation. Benchmark against Python asyncio to justify it.
+**Phase 2:** Go execution plane for high-concurrency evaluation. Benchmark against Python asyncio to justify it. LLM-as-judge metrics with human validation.
 
 **Phase 3:** Real Kubernetes. Deploy to Oracle Cloud Free Tier with k3s. Infrastructure as code.
 
@@ -260,13 +282,26 @@ A hosted, multi-tenant version is on the longer-term roadmap. The core stays ope
 
 ## Development
 
-Assay is developed in GitHub Codespaces. The devcontainer is configured for Python 3.11 with Docker-in-Docker.
+Assay runs on Python 3.11. The recommended development setup:
 
-Run tests:
+1. Clone the repository.
+2. Create a virtual environment: `python3.11 -m venv .venv`.
+3. Activate it: `source .venv/bin/activate`.
+4. Install dependencies: `pip install -e ".[dev]"`.
+5. Create a `.env` file with your database URL. See `.env.example` for the format.
+6. Run tests: `pytest tests/ -v`.
 
-```bash
-pytest tests/ -v
+### Database
+
+For local development, SQLite works out of the box. Set the default in `.env`:
+
 ```
+ASSAY_DATABASE_URL=sqlite:///./assay.db
+```
+
+For production, PostgreSQL is the target. Assay is tested with [Supabase](https://supabase.com) as a managed PostgreSQL provider. Use the Session Pooler connection string, not the direct connection, because the direct connection is IPv6-only and may not work from all networks.
+
+### Running the services
 
 Run the API:
 
@@ -277,8 +312,18 @@ uvicorn assay.main:app --host 0.0.0.0 --port 8000
 Run the mock RAG for testing:
 
 ```bash
-uvicorn examples.mock_rag.app:app --host 0.0.0.0 --port 9000
+python -m uvicorn examples.mock_rag.app:app --host 0.0.0.0 --port 9000
 ```
+
+### Docker
+
+A Dockerfile is included. To build:
+
+```bash
+docker build -t assay:dev .
+```
+
+Note: Docker Desktop 4.15.0 is the last version that runs on macOS Catalina. On newer systems, any recent Docker version works.
 
 ---
 
@@ -292,9 +337,3 @@ Apache 2.0. See [LICENSE](LICENSE).
 
 - Domain: [assay.web.id](https://assay.web.id)
 - GitHub: [github.com/gigihsusetyo/assay](https://github.com/gigihsusetyo/assay)
----
-
-## Testing the Gate
-
-This section exists to test the Assay Gate GitHub Action on a pull request.
-It will be removed after the test.
