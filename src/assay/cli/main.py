@@ -554,3 +554,66 @@ def baseline_delete(
         console.print(f"[green]Deleted baseline {baseline_id}.[/green]")
     finally:
         session.close()
+
+
+@run_app.command("delete")
+def run_delete(
+    run_id: int = typer.Argument(..., help="Run ID"),
+    confirm: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),
+) -> None:
+    """Delete a run and all its results."""
+    session = SessionLocal()
+    try:
+        repo = RunRepository(session)
+        run = repo.get(run_id)
+        if run is None:
+            console.print(f"[red]Run {run_id} not found.[/red]")
+            raise typer.Exit(code=1)
+
+        if not confirm:
+            console.print(
+                f"[yellow]About to delete run '{run.name}' "
+                f"(id={run.id}) and all its results.[/yellow]"
+            )
+            typer.confirm("Are you sure?", abort=True)
+
+        repo.delete(run_id)
+        console.print(f"[green]Deleted run {run_id}.[/green]")
+    finally:
+        session.close()
+
+
+question_app = typer.Typer(help="Inspect questions in a dataset")
+app.add_typer(question_app, name="question")
+
+
+@question_app.command("list")
+def question_list(
+    dataset_id: int = typer.Option(..., "--dataset", "-d", help="Dataset ID"),
+    limit: int = typer.Option(20, "--limit", "-l", help="Maximum number of questions"),
+) -> None:
+    """List questions in a dataset."""
+    session = SessionLocal()
+    try:
+        ds_repo = DatasetRepository(session)
+        dataset = ds_repo.get(dataset_id)
+        if dataset is None:
+            console.print(f"[red]Dataset {dataset_id} not found.[/red]")
+            raise typer.Exit(code=1)
+
+        q_repo = QuestionRepository(session)
+        questions = q_repo.list_by_dataset(dataset_id)
+        if not questions:
+            console.print(f"[yellow]No questions in dataset {dataset_id}.[/yellow]")
+            return
+
+        table = Table("ID", "Question", "Has Answer", "Has Context")
+        for q in questions[:limit]:
+            q_text = q.question[:60] + "..." if len(q.question) > 60 else q.question
+            has_answer = "yes" if q.expected_answer else ""
+            has_context = "yes" if q.expected_context else ""
+            table.add_row(str(q.id), q_text, has_answer, has_context)
+        console.print(table)
+        console.print(f"[dim]Showing {min(len(questions), limit)} of {len(questions)} questions.[/dim]")
+    finally:
+        session.close()
