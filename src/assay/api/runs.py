@@ -3,7 +3,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from assay.api.schemas import RunCreate, RunResponse
+from assay.api.schemas import ExecuteResponse, RunCreate, RunResponse
+from assay.core.executor import execute_run
 from assay.db.base import get_db
 from assay.db.repositories.dataset import DatasetRepository
 from assay.db.repositories.run import RunRepository
@@ -114,3 +115,40 @@ def complete_run(
             detail=f"Run {run_id} not found",
         )
     return RunResponse.model_validate(run)
+
+
+
+@router.post("/{run_id}/execute", response_model=ExecuteResponse)
+def execute_run_endpoint(
+    run_id: int,
+    db: Session = Depends(get_db),
+) -> ExecuteResponse:
+    """Execute a run: call the target for each question and store results."""
+    repo = RunRepository(db)
+    run = repo.get(run_id)
+    if run is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Run {run_id} not found",
+        )
+
+    try:
+        summary = execute_run(db, run_id, verbose=False)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        ) from e
+
+    # Reload run to get final status
+    run = repo.get(run_id)
+
+    return ExecuteResponse(
+        run_id=summary.run_id,
+        total=summary.total,
+        succeeded=summary.succeeded,
+        failed=summary.failed,
+        total_latency_ms=summary.total_latency_ms,
+        total_cost_usd=summary.total_cost_usd,
+        status=run.status if run else "unknown",
+    )

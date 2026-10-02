@@ -73,3 +73,16 @@ class RunResponse(BaseModel):
     started_at: datetime | None
     completed_at: datetime | None
     created_at: datetime
+
+
+# Execute schemas
+class ExecuteResponse(BaseModel):
+    """Response body for run execution."""
+
+    run_id: int
+    total: int
+    succeeded: int
+    failed: int
+    total_latency_ms: int
+    total_cost_usd: float
+    status: str
