@@ -132,12 +132,14 @@ def run_create(
 
 
 @run_app.command("list")
-def run_list() -> None:
-    """List all runs."""
+def run_list(
+    dataset_id: int = typer.Option(None, "--dataset", "-d", help="Filter by dataset ID"),
+) -> None:
+    """List all runs, optionally filtered by dataset."""
     session = SessionLocal()
     try:
         repo = RunRepository(session)
-        runs = repo.list()
+        runs = repo.list(dataset_id=dataset_id)
         if not runs:
             console.print("[yellow]No runs found.[/yellow]")
             return
@@ -457,5 +459,39 @@ def baseline_list() -> None:
         for b in baselines:
             table.add_row(str(b.id), b.name, str(b.run_id), b.description or "")
         console.print(table)
+    finally:
+        session.close()
+
+
+result_app = typer.Typer(help="Inspect evaluation results")
+app.add_typer(result_app, name="result")
+
+
+@result_app.command("list")
+def result_list(
+    run_id: int = typer.Option(..., "--run", "-r", help="Run ID"),
+    limit: int = typer.Option(20, "--limit", "-l", help="Maximum number of results"),
+) -> None:
+    """List results for a run."""
+    from assay.db.repositories.run import ResultRepository
+
+    session = SessionLocal()
+    try:
+        repo = ResultRepository(session)
+        results = repo.list_by_run(run_id)
+        if not results:
+            console.print(f"[yellow]No results found for run {run_id}.[/yellow]")
+            return
+
+        table = Table("Q#", "Groundedness", "Recall", "Latency (ms)", "Cost (USD)", "Error")
+        for r in results[:limit]:
+            g = f"{r.groundedness:.2f}" if r.groundedness is not None else "-"
+            rc = f"{r.context_recall:.2f}" if r.context_recall is not None else "-"
+            lat = str(r.latency_ms) if r.latency_ms is not None else "-"
+            cost = f"{r.cost_usd:.4f}" if r.cost_usd is not None else "-"
+            err = "yes" if r.error_message else ""
+            table.add_row(str(r.question_id), g, rc, lat, cost, err)
+        console.print(table)
+        console.print(f"[dim]Showing {min(len(results), limit)} of {len(results)} results.[/dim]")
     finally:
         session.close()
