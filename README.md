@@ -92,8 +92,6 @@ What works today:
 What is not done yet:
 
 - Integration with Ragas or DeepEval.
-- JSON output for CI.
-- PR comments.
 - Cloud deployment.
 - Real Kubernetes.
 - Bias probes for judge validation.
@@ -277,28 +275,14 @@ SQLite is the default for local development. PostgreSQL is the target for produc
 
 ## Roadmap
 
-### Product Roadmap
-
 **Phase 1 — Trust (current):**
 Golden datasets, baselines, regression policies, CLI, CI gate, JSON output, PR comments.
 
-**Phase 2 — Quality:**
-Ragas integration, LLM-as-judge with human calibration, failure analysis.
+**Phase 2 — Quality and Scale:**
+Ragas integration, LLM-as-judge with human calibration, failure analysis. Go execution plane for high-concurrency evaluation, benchmarked against Python asyncio. Parallel execution and caching.
 
-**Phase 3 — Scale:**
-Parallel execution, caching, remote datasets, hosted evaluation.
-
-**Phase 4 — Observability:**
-OpenTelemetry, historical regressions, alerts, dashboards.
-
-### Portfolio Roadmap
-
-Assay is also a learning vehicle for the author. The following items are on the portfolio roadmap, not the product roadmap:
-
-**Phase 2:** Go execution plane. Benchmark against Python asyncio to justify.
-**Phase 3:** Real Kubernetes. Deploy to Oracle Cloud Free Tier with k3s.
-
-These are implementation details, not product milestones. They exist because the author wants to learn Go and Kubernetes, not because Assay needs them to work.
+**Phase 3 — Deployment and Observability:**
+Kubernetes deployment with k3s. OpenTelemetry traces, historical regressions, alerts, dashboards.
 
 A hosted, multi-tenant version is on the longer-term roadmap. The core stays open source.
 
