@@ -31,7 +31,7 @@ Datasets are collections of questions with expected answers and contexts.
 Create a new dataset.
 
 ```bash
-assay dataset create <name> [--description "..." ]
+assay dataset create <name> [--description "..."]
 ```
 
 **Arguments:**
@@ -200,7 +200,7 @@ assay run show <run_id>
 Execute a run: call the target for each question and store results.
 
 ```bash
-assay run execute <run_id> [--verbose]
+assay run execute <run_id> [--verbose] [--judge]
 ```
 
 **Arguments:**
@@ -208,11 +208,13 @@ assay run execute <run_id> [--verbose]
 
 **Options:**
 - `--verbose`, `-v` — Show per-question output.
+- `--judge` — Use LLM-as-judge for groundedness. Requires `ASSAY_JUDGE_*` environment variables.
 
 **Example:**
 
 ```bash
 assay run execute 1 --verbose
+assay run execute 2 --verbose --judge
 ```
 
 ### `assay run delete`
@@ -275,7 +277,7 @@ The gate command compares a run against a baseline and fails if quality regresse
 Compare a run against a baseline and fail if quality regresses.
 
 ```bash
-assay gate --baseline <name> --run <id> --policy <path> [--failures <n>]
+assay gate --baseline <name> --run <id> --policy <path> [--failures <n>] [--format <fmt>]
 ```
 
 **Options:**
@@ -283,17 +285,95 @@ assay gate --baseline <name> --run <id> --policy <path> [--failures <n>]
 - `--run`, `-r` — Current run ID. Required.
 - `--policy`, `-p` — Policy file path. Default: `examples/policy.yaml`.
 - `--failures`, `-f` — Number of worst failures to show. Default: 5.
+- `--format`, `-o` — Output format: `text` (default), `json`, `junit`.
 
 **Exit codes:**
 - `0` — Passed.
 - `1` — Failed (quality regressed).
 - `2` — Error (invalid input, missing baseline, etc).
 
-**Example:**
+**Text output (default):**
 
 ```bash
 assay gate --baseline baseline-v1 --run 2 --policy examples/policy.yaml
 ```
+
+Output:
+
+```
+Assay Report
+Baseline: baseline-v1 (run 1)
+Current:  run 2
+
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━━┓
+┃ Metric         ┃ Baseline ┃ Current ┃ Δ abs  ┃ Δ %   ┃ Status ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━━┩
+│ groundedness   │ 0.800    │ 0.734   │ -0.066 │ -8.2% │ FAIL   │
+│ context_recall │ 0.790    │ 0.770   │ -0.020 │ -2.5% │ PASS   │
+│ p95_latency_ms │ 1420.000 │ 1180.000│ -240.0 │ -16.9%│ PASS   │
+│ avg_cost_usd   │ 0.008    │ 0.003   │ -0.005 │ -62.5%│ PASS   │
+└────────────────┴──────────┴─────────┴────────┴───────┴────────┘
+
+Verdict: FAILED
+  - groundedness dropped by 8.2% (threshold 5.0% relative)
+
+Worst failures:
+  Q1 "How do I configure SSO with Okta?": 0.81 -> 0.42 (delta -0.39)
+  ...
+```
+
+**JSON output (for machine parsing):**
+
+```bash
+assay gate --baseline baseline-v1 --run 2 --policy examples/policy.yaml --format json
+```
+
+Output:
+
+```json
+{
+  "baseline_name": "baseline-v1",
+  "baseline_run_id": 1,
+  "current_run_id": 2,
+  "passed": false,
+  "reasons": ["groundedness dropped by 8.2% (threshold 5.0% relative)"],
+  "metrics": [
+    {
+      "name": "groundedness",
+      "baseline": 0.8,
+      "current": 0.734,
+      "delta_absolute": -0.066,
+      "delta_percent": -8.2,
+      "threshold_value": 5.0,
+      "threshold_type": "relative",
+      "higher_is_better": true,
+      "passed": false
+    }
+  ],
+  "worst_failures": [...]
+}
+```
+
+**JUnit output (for CI systems):**
+
+```bash
+assay gate --baseline baseline-v1 --run 2 --policy examples/policy.yaml --format junit
+```
+
+Output:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="assay-gate" tests="4" failures="1">
+  <testcase name="groundedness" classname="assay">
+    <failure message="groundedness regressed. Baseline=0.8, Current=0.734, 
+      Delta=-0.0660 (-8.20%), Threshold=5.0 relative" />
+  </testcase>
+  ...
+</testsuite>
+```
+
+The JUnit format is useful for CI systems that display test results. Each metric becomes a test case. Failed metrics become failures.
 
 ---
 
@@ -368,3 +448,4 @@ assay run execute 2 --verbose
 assay gate --baseline baseline-v1 --run 2 --policy examples/policy.yaml
 
 # 8. If it passes, exit code is 0. If it fails, exit code is 1.
+```
