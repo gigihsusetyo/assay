@@ -186,6 +186,12 @@ def judge_groundedness(
     response = _call_with_retry(client, prompt)
 
     raw = response.choices[0].message.content or ""
+
+    # If the response is empty, try once more.
+    if not raw.strip():
+        response = _call_with_retry(client, prompt, max_retries=2)
+        raw = response.choices[0].message.content or ""
+
     parsed = _extract_json(raw)
     if parsed is None:
         raise JudgeError(f"Judge returned invalid JSON: {raw[:200]}")

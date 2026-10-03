@@ -1,0 +1,136 @@
+{
+  "version": "1.0.0",
+  "description": "Calibration set for Assay LLM-as-judge validation",
+  "entries": [
+    {
+      "question": "Apa semboyan yang mencerminkan karakter kultural masyarakat Kota Manado?",
+      "answer": "torang samua basudara",
+      "contexts": [
+        "keragaman suku dan kultural yang secara umum memiliki karakter religius sekaligus menjunjung tinggi adat istiadat, toleransi, dan kelestarian lingkungan, dengan semboyan torang samua basudara."
+      ],
+      "human_grounded": true,
+      "human_reason": "Context menyebutkan semboyan 'torang samua basudara' di akhir kalimat.'",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Apa saja karakteristik fisik yang dimiliki Kota Manado, mencakup bentang alam datar, pegunungan, hingga kawasan pesisir dan gugusan pulau?",
+      "answer": "dataran rendah, pegunungan, pesisir dan kepulauan",
+      "contexts": [
+        "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;"
+      ],
+      "human_grounded": true,
+      "human_reason": "jawaban context sesuai karakteristik yang ada di answer",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Berapa batas usia maksimal seseorang saat pertama kali diangkat sebagai anggota Direksi Holding Investasi berdasarkan UU Nomor 16 Tahun 2025?",
+      "answer": "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama",
+      "contexts": [
+        "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama;"
+      ],
+      "human_grounded": true,
+      "human_reason": "context persis seperti answer",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Kalau Perum mau dinyatakan pailit, siapa yang harus kasih persetujuan dulu sebelum Direksi Perum bisa mengajukan permohonan ke pengadilan negeri?",
+      "answer": "berdasarkan persetujuan kepala BP BUMN",
+      "contexts": [
+        "Direksi Perum hanya dapat mengajukan permohonan ke pengadilan negeri agar Perum dinyatakan pailit berdasarkan persetujuan kepala BP BUMN."
+      ],
+      "human_grounded": true,
+      "human_reason": "context sesuai answer",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Jika seorang perwira tinggi bintang 3 (tiga) yang saat ini berusia 57 tahun ingin mengetahui batas usia pensiun yang berlaku baginya berdasarkan ketentuan baru UU 3/2025, berapa usia pensiun yang ditetapkan dalam norma permanen dan berapa usia yang diberlakukan kepadanya sebagai ketentuan peralihan?",
+      "answer": "Norma permanen: maks 62 tahun; peralihan bagi yg berusia 57 tahun: maks 60 tahun.",
+      "contexts": [
+        "perwira tinggi bintang 3 (tiga) paling tinggi 62 (enam puluh dua) tahun."
+      ],
+      "human_grounded": false,
+      "human_reason": "Konteks hanya sebagian sesuai karena baru mencakup norma permanen dan belum memuat aturan ketentuan peralihan.",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Instansi pemerintah mana saja yang boleh diisi oleh personel aktif TNI tanpa harus terlebih dahulu keluar dari dinas militer?",
+      "answer": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara...",
+      "contexts": [
+        "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara termasuk dewan pertahanan nasional, kesekretariatan negara yang menangani urusan kesekretariatan presiden dan kesekretariatan militer presiden, intelijen negara, siber dan/ atau sandi negara, lembaga ketahanan nasional, pencarian dan pertolongan, narkotika nasional, pengelola perbatasan, penanggulangan bencana, penanggulangan terorisme, keamanan laut, Kejaksaan Republik Indonesia, dan Mahkamah Agung."
+      ],
+      "human_grounded": true,
+      "human_reason": "context sesuai answer",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Berapa jumlah realisasi Pendapatan Negara dalam pelaksanaan APBN Tahun Anggaran 2023 dan berapa persentasenya terhadap anggaran yang ditetapkan?",
+      "answer": "Rp2.783.929.676.930.198,00 yang berarti 105,56%",
+      "contexts": [
+        "realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00 (dua kuadriliun tujuh ratus delapan puluh tiga triliun sembilan ratus dua puluh sembilan miliar enam ratus tujuh puluh enam juta sembilan ratus tiga puluh ribu seratus sembilan puluh delapan rupiah) yang berarti 105,56% (seratus lima koma lima puluh enam persen) dari Anggaran Pendapatan dalam Anggaran Pendapatan dan Belanja Negara Tahun Anggaran 2023 sebesar Rp2.637.248.881.485.000,00 (dua kuadriliun enam ratus tiga puluh tujuh triliun dua ratus empat puluh delapan miliar delapan ratus delapan puluh satu juta empat ratus delapan puluh lima ribu rupiah);"
+      ],
+      "human_grounded": true,
+      "human_reason": "nominal realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00 dan persentase pencapaian sebesar 105,56% tertulis secara persis dan lengkap di dalam teks konteks yang disediakan.",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Apakah cadangan sisa anggaran pemerintah boleh dipakai ketika pengeluaran aktual melampaui pemasukan aktual dalam tahun fiskal yang sedang berjalan?",
+      "answer": "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi",
+      "contexts": [
+        "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi anggaran penerimaan tahun anggaran berjalan dan/atau terdapat pengembalian pendapatan tahun-tahun yang lalu."
+      ],
+      "human_grounded": true,
+      "human_reason": "konteks secara eksplisit menyatakan bahwa Saldo Anggaran Lebih dapat digunakan apabila realisasi pengeluaran melebihi realisasi penerimaan dalam tahun anggaran berjalan",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Untuk tahun 2023, laporan finansial milik pemerintah pusat dapet nilai apa dari BPK waktu diaudit?",
+      "answer": "diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian",
+      "contexts": [
+        "Laporan Keuangan Pemerintah Pusat sebagaimana dimaksud dalam Pasal 2, telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian."
+      ],
+      "human_grounded": true,
+      "human_reason": "konteks secara eksplisit menegaskan bahwa Laporan Keuangan Pemerintah Pusat tersebut telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian.",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    },
+    {
+      "question": "Berapa lama jangka waktu penangkalan yang dapat dikenakan terhadap orang asing, dan apakah bisa diperpanjang?",
+      "answer": "paling lama 10 tahun dan dapat diperpanjang paling lama 10 tahun",
+      "contexts": [
+        "Jangka waktu Penangkalan berlaku paling lama 10 (sepuluh) tahun dan dapat diperpanjang paling lama 10 (sepuluh) tahun."
+      ],
+      "human_grounded": true,
+      "human_reason": "onteks menyatakan secara eksplisit dan tepat bahwa jangka waktu penangkalan berlaku paling lama 10 tahun dan dapat diperpanjang paling lama 10 tahun.",
+      "metadata": {
+        "source": "indonesian-legal-rag",
+        "date": "2026-10-04"
+      }
+    }
+  ]
+}
