@@ -234,9 +234,9 @@ def gate(
 
         # Output based on format
         if fmt == "json":
-            console.print(to_json(report))
+            print(to_json(report))
         elif fmt == "junit":
-            console.print(to_junit(report))
+            print(to_junit(report))
         else:
             # text format (default)
             console.print("[bold]Assay Report[/bold]")
