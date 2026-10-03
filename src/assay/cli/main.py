@@ -278,6 +278,7 @@ def gate(
 def run_execute(
     run_id: int = typer.Argument(..., help="Run ID to execute"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Show per-question output"),
+    judge: bool = typer.Option(False, "--judge", help="Use LLM-as-judge for groundedness"),
 ) -> None:
     """Execute a run: call the target for each question and store results."""
     from assay.core.executor import execute_run
@@ -285,7 +286,7 @@ def run_execute(
     session = SessionLocal()
     try:
         try:
-            summary = execute_run(session, run_id, verbose=verbose)
+            summary = execute_run(session, run_id, verbose=verbose, use_judge=judge)
         except ValueError as e:
             console.print(f"[red]Error:[/red] {e}")
             raise typer.Exit(code=2) from e
@@ -297,6 +298,8 @@ def run_execute(
         console.print(f"Failed: [red]{summary.failed}[/red]" if summary.failed else f"Failed: {summary.failed}")
         console.print(f"Total latency: {summary.total_latency_ms}ms")
         console.print(f"Total cost: ${summary.total_cost_usd:.4f}")
+        if summary.judge_used:
+            console.print(f"Judge used on [cyan]{summary.judge_used}[/cyan] questions")
     finally:
         session.close()
 
