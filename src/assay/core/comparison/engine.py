@@ -18,7 +18,8 @@ class MetricDelta:
     current_value: float | None
     delta_absolute: float | None
     delta_percent: float | None
-    threshold_percent: float | None
+    threshold_value: float | None
+    threshold_type: str  # "relative" or "absolute"
     passed: bool | None
     higher_is_better: bool = True
 
@@ -71,9 +72,16 @@ def _delta(
     baseline: float | None,
     current: float | None,
     higher_is_better: bool,
-    threshold_percent: float | None,
+    threshold_value: float | None,
+    threshold_type: str,
 ) -> tuple[float | None, float | None, bool | None]:
-    """Compute absolute delta, percent delta, and pass/fail."""
+    """Compute absolute delta, percent delta, and pass/fail.
+
+    threshold_type is "relative" or "absolute".
+    For "relative", threshold_value is a percent (e.g., 5.0 means 5%).
+    For "absolute", threshold_value is in the same unit as the metric
+    (e.g., 0.05 for groundedness).
+    """
     if baseline is None or current is None:
         return None, None, None
 
@@ -88,17 +96,56 @@ def _delta(
     )
 
     passed: bool | None = None
-    if threshold_percent is not None and delta_pct is not None:
-        # threshold_percent is the maximum allowed regression (positive number).
-        # For higher_is_better, regression means delta_pct < -threshold.
-        # For lower_is_better, regression means delta_pct > +threshold.
-        passed = (
-            delta_pct >= -threshold_percent
-            if higher_is_better
-            else delta_pct <= threshold_percent
-        )
+    if threshold_value is not None:
+        if threshold_type == "absolute":
+            # threshold_value is in metric units.
+            # For higher_is_better, regression means delta_abs < -threshold.
+            # For lower_is_better, regression means delta_abs > +threshold.
+            passed = (
+                delta_abs >= -threshold_value
+                if higher_is_better
+                else delta_abs <= threshold_value
+            )
+        else:
+            # relative threshold (default)
+            passed = (
+                (
+                    delta_pct >= -threshold_value
+                    if higher_is_better
+                    else delta_pct <= threshold_value
+                )
+                if delta_pct is not None
+                else None
+            )
 
     return delta_abs, delta_pct, passed
+
+
+def _normalize_threshold(raw: Any) -> tuple[float | None, str]:
+    """Normalize a threshold spec into (value, type).
+
+    Accepts:
+      - 5.0 (number) -> (5.0, "relative")
+      - {"value": 5.0} -> (5.0, "relative")
+      - {"value": 5.0, "type": "absolute"} -> (5.0, "absolute")
+      - None -> (None, "relative")
+    """
+    if raw is None:
+        return None, "relative"
+    if isinstance(raw, (int, float)):
+        return float(raw), "relative"
+    if isinstance(raw, dict):
+        value = raw.get("value")
+        if value is None:
+            return None, "relative"
+        threshold_type = raw.get("type", "relative")
+        if threshold_type not in ("relative", "absolute"):
+            raise ValueError(
+                f"Invalid threshold type: {threshold_type!r}. "
+                f"Must be 'relative' or 'absolute'."
+            )
+        return float(value), threshold_type
+    raise ValueError(f"Invalid threshold spec: {raw!r}")
 
 
 def compare_runs(
@@ -112,12 +159,11 @@ def compare_runs(
 
     Thresholds is a dict like:
     {
-        "groundedness": 5.0,
-        "context_recall": 5.0,
-        "p95_latency_ms": 20.0,
+        "groundedness": 5.0,               # relative, 5%
+        "context_recall": {"value": 5.0, "type": "relative"},
+        "p95_latency_ms": {"value": 100, "type": "absolute"},
         "avg_cost_usd": 20.0,
     }
-    Numbers are maximum allowed regression in percent.
     """
     thresholds = thresholds or {}
 
@@ -136,17 +182,33 @@ def compare_runs(
         raise ValueError(f"Current run {current_run.id} has no results")
 
     # Compute aggregate metrics
-    baseline_groundedness = _avg([r.groundedness for r in baseline_results if r.groundedness is not None])
-    current_groundedness = _avg([r.groundedness for r in current_results if r.groundedness is not None])
+    baseline_groundedness = _avg(
+        [r.groundedness for r in baseline_results if r.groundedness is not None]
+    )
+    current_groundedness = _avg(
+        [r.groundedness for r in current_results if r.groundedness is not None]
+    )
 
-    baseline_recall = _avg([r.context_recall for r in baseline_results if r.context_recall is not None])
-    current_recall = _avg([r.context_recall for r in current_results if r.context_recall is not None])
+    baseline_recall = _avg(
+        [r.context_recall for r in baseline_results if r.context_recall is not None]
+    )
+    current_recall = _avg(
+        [r.context_recall for r in current_results if r.context_recall is not None]
+    )
 
-    baseline_p95 = _percentile([r.latency_ms for r in baseline_results if r.latency_ms is not None], 0.95)
-    current_p95 = _percentile([r.latency_ms for r in current_results if r.latency_ms is not None], 0.95)
+    baseline_p95 = _percentile(
+        [r.latency_ms for r in baseline_results if r.latency_ms is not None], 0.95
+    )
+    current_p95 = _percentile(
+        [r.latency_ms for r in current_results if r.latency_ms is not None], 0.95
+    )
 
-    baseline_cost = _avg([r.cost_usd for r in baseline_results if r.cost_usd is not None])
-    current_cost = _avg([r.cost_usd for r in current_results if r.cost_usd is not None])
+    baseline_cost = _avg(
+        [r.cost_usd for r in baseline_results if r.cost_usd is not None]
+    )
+    current_cost = _avg(
+        [r.cost_usd for r in current_results if r.cost_usd is not None]
+    )
 
     report = ComparisonReport(
         baseline_name=baseline.name,
@@ -162,15 +224,21 @@ def compare_runs(
     ]
 
     for name, base_val, curr_val, higher_better, threshold_key in metrics_config:
-        threshold = thresholds.get(threshold_key)
-        delta_abs, delta_pct, passed = _delta(base_val, curr_val, higher_better, threshold)
+        raw_threshold = thresholds.get(threshold_key)
+        threshold_value, threshold_type = _normalize_threshold(raw_threshold)
+
+        delta_abs, delta_pct, passed = _delta(
+            base_val, curr_val, higher_better, threshold_value, threshold_type
+        )
+
         metric = MetricDelta(
             name=name,
             baseline_value=base_val,
             current_value=curr_val,
             delta_absolute=delta_abs,
             delta_percent=delta_pct,
-            threshold_percent=threshold,
+            threshold_value=threshold_value,
+            threshold_type=threshold_type,
             passed=passed,
             higher_is_better=higher_better,
         )
@@ -179,10 +247,16 @@ def compare_runs(
         if passed is False:
             report.passed = False
             direction = "dropped" if higher_better else "increased"
-            report.reasons.append(
-                f"{name} {direction} by {abs(delta_pct):.1f}% "
-                f"(threshold {threshold}%)"
-            )
+            if threshold_type == "absolute":
+                report.reasons.append(
+                    f"{name} {direction} by {abs(delta_abs):.4f} "
+                    f"(threshold {threshold_value} absolute)"
+                )
+            else:
+                report.reasons.append(
+                    f"{name} {direction} by {abs(delta_pct):.1f}% "
+                    f"(threshold {threshold_value}% relative)"
+                )
 
     # Worst failures: questions where groundedness dropped the most
     baseline_by_q = {r.question_id: r for r in baseline_results}

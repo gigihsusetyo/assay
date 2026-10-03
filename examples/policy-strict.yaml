@@ -1,0 +1,14 @@
+version: 1
+thresholds:
+  groundedness:
+    value: 0.001
+    type: absolute
+  context_recall:
+    value: 0.001
+    type: absolute
+  p95_latency_ms:
+    value: 0.1
+    type: absolute
+  avg_cost_usd:
+    value: 0.00001
+    type: absolute

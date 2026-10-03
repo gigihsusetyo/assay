@@ -19,6 +19,57 @@ VALID_THRESHOLD_KEYS = {
     "avg_cost_usd",
 }
 
+VALID_THRESHOLD_TYPES = {"relative", "absolute"}
+
+
+def _validate_threshold(key: str, raw: Any) -> dict[str, Any]:
+    """Validate a single threshold spec.
+
+    Accepts:
+      - number: 5.0 -> {"value": 5.0, "type": "relative"}
+      - dict: {"value": 5.0, "type": "relative"}
+
+    Returns a normalized dict.
+    """
+    if isinstance(raw, bool):
+        raise PolicyError(
+            f"Threshold '{key}' must be a number or a mapping, got bool"
+        )
+    if isinstance(raw, (int, float)):
+        value = float(raw)
+        threshold_type = "relative"
+    elif isinstance(raw, dict):
+        if "value" not in raw:
+            raise PolicyError(
+                f"Threshold '{key}' is a mapping but has no 'value' key"
+            )
+        value = raw["value"]
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            raise PolicyError(
+                f"Threshold '{key}.value' must be a number, "
+                f"got {type(value).__name__}"
+            )
+        value = float(value)
+        threshold_type = raw.get("type", "relative")
+    else:
+        raise PolicyError(
+            f"Threshold '{key}' must be a number or a mapping, "
+            f"got {type(raw).__name__}"
+        )
+
+    if threshold_type not in VALID_THRESHOLD_TYPES:
+        raise PolicyError(
+            f"Threshold '{key}.type' must be one of "
+            f"{sorted(VALID_THRESHOLD_TYPES)}, got {threshold_type!r}"
+        )
+
+    if value < 0:
+        raise PolicyError(
+            f"Threshold '{key}' must be non-negative, got {value}"
+        )
+
+    return {"value": value, "type": threshold_type}
+
 
 def load_policy(path: str | Path) -> dict[str, Any]:
     """Load a policy from a YAML file.
@@ -31,7 +82,18 @@ def load_policy(path: str | Path) -> dict[str, Any]:
           p95_latency_ms: 20.0
           avg_cost_usd: 20.0
 
-    Returns the thresholds dict.
+    Or with explicit types:
+        version: 1
+        thresholds:
+          groundedness:
+            value: 5.0
+            type: relative
+          context_recall:
+            value: 0.05
+            type: absolute
+
+    Returns the thresholds dict, with each value normalized to
+    {"value": float, "type": str}.
     """
     path = Path(path)
     if not path.exists():
@@ -50,15 +112,13 @@ def load_policy(path: str | Path) -> dict[str, Any]:
     if not isinstance(thresholds, dict):
         raise PolicyError("'thresholds' must be a mapping")
 
-    for key, value in thresholds.items():
+    normalized: dict[str, Any] = {}
+    for key, raw in thresholds.items():
         if key not in VALID_THRESHOLD_KEYS:
             raise PolicyError(
                 f"Unknown threshold key: {key}. "
                 f"Valid keys: {sorted(VALID_THRESHOLD_KEYS)}"
             )
-        if not isinstance(value, (int, float)):
-            raise PolicyError(f"Threshold '{key}' must be a number, got {type(value).__name__}")
-        if value < 0:
-            raise PolicyError(f"Threshold '{key}' must be non-negative, got {value}")
+        normalized[key] = _validate_threshold(key, raw)
 
-    return thresholds
+    return normalized

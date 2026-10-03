@@ -236,18 +236,33 @@ def gate(
         console.print(f"Current:  run {report.current_run_id}")
         console.print()
 
-        table = Table("Metric", "Baseline", "Current", "Delta", "Status")
+        table = Table(
+            "Metric",
+            "Baseline",
+            "Current",
+            "Δ abs",
+            "Δ %",
+            "Status",
+            show_lines=False,
+        )
         for m in report.metrics:
             base_str = f"{m.baseline_value:.3f}" if m.baseline_value is not None else "N/A"
             curr_str = f"{m.current_value:.3f}" if m.current_value is not None else "N/A"
-            delta_str = f"{m.delta_percent:+.1f}%" if m.delta_percent is not None else "N/A"
+            delta_abs_str = (
+                f"{m.delta_absolute:+.3f}" if m.delta_absolute is not None else "N/A"
+            )
+            delta_pct_str = (
+                f"{m.delta_percent:+.1f}%" if m.delta_percent is not None else "N/A"
+            )
             if m.passed is True:
                 status_str = "[green]PASS[/green]"
             elif m.passed is False:
                 status_str = "[red]FAIL[/red]"
             else:
                 status_str = "-"
-            table.add_row(m.name, base_str, curr_str, delta_str, status_str)
+            table.add_row(
+                m.name, base_str, curr_str, delta_abs_str, delta_pct_str, status_str
+            )
         console.print(table)
         console.print()
 
