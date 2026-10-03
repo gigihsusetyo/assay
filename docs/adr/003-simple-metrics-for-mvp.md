@@ -21,6 +21,14 @@ For the MVP, Assay uses simple heuristic metrics.
 
 These are token-overlap heuristics. They are not LLM-as-judge. They are fast, deterministic, and good enough to catch obvious regressions.
 
+## Important: Regression Signals, Not Correctness Guarantees
+
+These metrics are regression signals. They are not correctness guarantees.
+
+Token overlap catches obvious drift. It does not catch semantic errors. An answer that says "rate limit is 1000" when the context says "rate limit is 100" will score high on groundedness, because most tokens overlap. That is a real limitation.
+
+The purpose of these metrics is to detect whether a change made the system worse, not to certify that the system is good. For semantic correctness, use LLM-as-judge (see ADR-004).
+
 ## Consequences
 
 What I gain:
@@ -68,6 +76,14 @@ Untuk MVP, Assay pakai metrics heuristic sederhana.
 **Context recall:** fraksi token expected context yang muncul di retrieved contexts. Return None kalau tidak ada expected context.
 
 Ini heuristic token-overlap. Bukan LLM-as-judge. Cepat, deterministic, dan cukup untuk tangkap regresi jelas.
+
+## Penting: Sinyal Regresi, Bukan Jaminan Kebenaran
+
+Metrics ini adalah sinyal regresi. Bukan jaminan kebenaran.
+
+Token overlap menangkap drift yang jelas. Tidak menangkap kesalahan semantic. Jawaban yang bilang "rate limit 1000" padahal konteks bilang "rate limit 100" akan skor tinggi di groundedness, karena sebagian besar token overlap. Ini keterbatasan nyata.
+
+Tujuan metrics ini adalah mendeteksi apakah perubahan membuat sistem lebih buruk, bukan mensertifikasi bahwa sistem bagus. Untuk kebenaran semantic, pakai LLM-as-judge (lihat ADR-004).
 
 ## Konsekuensi
 

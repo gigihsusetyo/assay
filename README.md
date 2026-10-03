@@ -1,10 +1,10 @@
 # Assay
 
-**The release gate for RAG systems.**
+**CI gate for RAG quality regressions.**
 
-Assay runs a dataset of questions against a RAG endpoint, compares the results to a pinned baseline, and fails the deployment if quality, latency, or cost regress beyond a defined threshold.
+Run your production-like RAG against a golden dataset, compare it with a pinned baseline, and fail the build when quality, latency, or cost regress beyond your policy.
 
-If you have ever changed an embedding model, updated a knowledge base, or swapped an LLM provider and wondered whether the system got better or worse, Assay is for you.
+If you have ever changed an embedding model, updated a knowledge base, swapped an LLM provider, or tuned chunking and wondered whether the system got better or worse, Assay is for you. It answers one question: did my latest change make things worse?
 
 ---
 
@@ -83,17 +83,20 @@ What works today:
 - Import datasets from JSON files.
 - Create runs pointing at a RAG endpoint.
 - Execute runs: Assay calls the endpoint for each question and stores results.
-- Compute groundedness and context recall (simple heuristics for now).
+- Compute groundedness and context recall with simple heuristics.
+- Optionally use LLM-as-judge for groundedness (BYOK).
+- Validate the judge against human labels (Cohen's kappa).
 - Compare a run against a pinned baseline.
 - Gate: fail with exit code 1 if quality regresses.
 
 What is not done yet:
 
-- LLM-as-judge metrics. Current metrics are token-overlap heuristics.
 - Integration with Ragas or DeepEval.
+- JSON output for CI.
+- PR comments.
 - Cloud deployment.
 - Real Kubernetes.
-- Human calibration set for judge validation.
+- Bias probes for judge validation.
 
 ---
 
@@ -223,7 +226,13 @@ For the MVP, Assay uses simple heuristic metrics.
 
 **Context recall** measures how much of the expected context was retrieved. It is the fraction of expected context tokens that appear in retrieved contexts. Returns None if no expected context is provided.
 
-These are not LLM-as-judge metrics. They are fast, deterministic, and good enough to catch obvious regressions. LLM-as-judge metrics will be added later, along with judge validation against human labels.
+These are regression signals, not correctness guarantees.
+
+Token overlap catches obvious drift. It does not catch semantic errors. An answer that says "rate limit is 1000" when the context says "rate limit is 100" will score high on groundedness, because most tokens overlap. That is a real limitation.
+
+For semantic correctness, use LLM-as-judge. Assay supports it via Bring Your Own Key (BYOK). See ADR-004 for details.
+
+The point of these metrics is not to tell you whether your RAG is good. It is to tell you whether your latest change made it worse.
 
 ---
 
@@ -268,17 +277,30 @@ SQLite is the default for local development. PostgreSQL is the target for produc
 
 ## Roadmap
 
-**MVP (current):** Core evaluation, CLI, simple metrics, comparison, gate. SQLite and Supabase.
+### Product Roadmap
 
-**Phase 2:** Go execution plane for high-concurrency evaluation. Benchmark against Python asyncio to justify it. LLM-as-judge metrics with human validation.
+**Phase 1 — Trust (current):**
+Golden datasets, baselines, regression policies, CLI, CI gate, JSON output, PR comments.
 
-**Phase 3:** Real Kubernetes. Deploy to Oracle Cloud Free Tier with k3s. Infrastructure as code.
+**Phase 2 — Quality:**
+Ragas integration, LLM-as-judge with human calibration, failure analysis.
 
-**Phase 4:** Observability with OpenTelemetry and Prometheus. Regression alerts. PR comments.
+**Phase 3 — Scale:**
+Parallel execution, caching, remote datasets, hosted evaluation.
+
+**Phase 4 — Observability:**
+OpenTelemetry, historical regressions, alerts, dashboards.
+
+### Portfolio Roadmap
+
+Assay is also a learning vehicle for the author. The following items are on the portfolio roadmap, not the product roadmap:
+
+**Phase 2:** Go execution plane. Benchmark against Python asyncio to justify.
+**Phase 3:** Real Kubernetes. Deploy to Oracle Cloud Free Tier with k3s.
+
+These are implementation details, not product milestones. They exist because the author wants to learn Go and Kubernetes, not because Assay needs them to work.
 
 A hosted, multi-tenant version is on the longer-term roadmap. The core stays open source.
-
----
 
 ## Development
 
