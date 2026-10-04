@@ -100,7 +100,10 @@ Evaluation rules:
 
 2. A claim is grounded when it is directly supported or faithfully
    paraphrased by one or more CONTEXTS. Multiple CONTEXTS may jointly
-   support one claim.
+   support one claim. A claim is also grounded if it follows from the
+   CONTEXTS by trivial logical deduction, including simple arithmetic,
+   unit conversion, temporal ordering ("after", "before"), and
+   conjunction of facts from multiple contexts.
 
 3. Do not require identical wording. Semantic paraphrases and
    translations are allowed.
