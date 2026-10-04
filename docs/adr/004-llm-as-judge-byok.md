@@ -7,7 +7,7 @@
 
 Assay measures RAG quality. The initial MVP used simple heuristic metrics: token overlap between answer and context. These are fast, deterministic, and free. But they are shallow. An answer that is semantically correct but uses different words scores low. An answer that copies tokens but is semantically wrong scores high.
 
-To measure quality properly, we need LLM-as-judge. An LLM reads the question, the answer, and the contexts, then decides whether the answer is grounded.
+To measure quality properly, LLM-as-judge is needed. An LLM reads the question, the answer, and the contexts, then decides whether the answer is grounded.
 
 But LLM-as-judge has problems. It costs money. It is non-deterministic. And the judge itself needs validation.
 
@@ -23,7 +23,7 @@ Options considered:
 
 ## Decision
 
-We chose BYOK (Bring Your Own Key).
+The decision: BYOK (Bring Your Own Key).
 
 Users set these environment variables:
 
@@ -36,20 +36,20 @@ ASSAY_JUDGE_BASE_URL=https://openrouter.ai/api/v1
 
 If these are not set, the judge is disabled. Assay falls back to simple heuristic metrics. The user can still use Assay, just without LLM-based evaluation.
 
-We use the OpenAI-compatible API. This means the same code works with OpenRouter, OpenAI, Anthropic (via proxy), Ollama, and any other provider that follows the same format.
+The OpenAI-compatible API is used. This means the same code works with OpenRouter, OpenAI, Anthropic (via proxy), Ollama, and any other provider that follows the same format.
 
-We do not provide a default LLM. No free tier from Assay. No API key from Assay.
+No default LLM is provided. No free tier from Assay. No API key from Assay.
 
 ## Consequences
 
-What we gain:
+What is gained:
 
 - Assay does not pay for LLM calls.
 - Users are free to choose any model. Some teams need local models (Ollama) for data privacy. Some need GPT-4 for accuracy. Some need cheap models for volume.
 - The code is provider-agnostic. The same judge module works with any OpenAI-compatible API.
 - This matches industry standards. RAGAS, DeepEval, and TruLens all use BYOK.
 
-What we sacrifice:
+What is sacrificed:
 
 - Users must set up their own API key. This is friction. But our target users are engineers, and they understand this.
 - Judge quality depends on the model the user picks. A weak model gives weak judgments. This is why we need judge validation (see below).
@@ -57,9 +57,9 @@ What we sacrifice:
 
 ## Judge Validation
 
-Because judge quality varies by model, we need to measure it. This is what makes Assay different from other tools.
+Because judge quality varies by model, it needs to be measured. This is what makes Assay different from other tools.
 
-We will:
+The plan:
 
 1. Build a calibration set: 50 questions with human-labeled groundedness.
 2. Run the judge on the calibration set.
@@ -81,13 +81,33 @@ When the judge fails, Assay falls back to simple heuristic metrics. The CLI repo
 
 This means the pipeline never breaks. But the user should know that some scores came from heuristics, not from the judge.
 
+## Position Bias: Found and Fixed
+
+On 4 October 2026, a position bias probe was run on the judge. The probe reverses the order of contexts and checks whether the judge's score changes.
+
+The result: **50% flip rate**. Two entries, one flipped. The same content, different order, different score. This is severe position bias.
+
+The cause: the original prompt did not state that context order does not matter. The judge treated the first context as more important.
+
+The fix: explicit rules were added to the prompt:
+
+- Consider all contexts equally. The order of contexts does not matter.
+- A claim is grounded if it is supported by ANY of the contexts.
+- A claim is ungrounded only if it is supported by NONE of the contexts.
+
+After the fix, the flip rate dropped to **0%**. No position bias detected.
+
+The judge validation still shows Cohen's kappa 1.000 on the calibration set. The fix did not hurt accuracy.
+
+This is what makes Assay different from other tools. The judge is not just used. It is tested. When a problem is found, it is fixed. And the fix is documented.
+
 ## Retry Logic
 
-We retry on rate limit and server errors. Up to 3 attempts, with exponential backoff (1s, 2s, 4s). This is standard practice.
+The judge retries on rate limit and server errors. Up to 3 attempts, with exponential backoff (1s, 2s, 4s). This is standard practice.
 
 ## JSON Parsing
 
-Not all models return clean JSON, even when asked. We have a tolerant parser:
+Not all models return clean JSON, even when asked. A tolerant parser is used:
 
 1. Try direct JSON parse.
 2. Try to extract JSON from markdown fences.
@@ -107,7 +127,7 @@ This is not perfect. But it handles most cases. If the parser fails completely, 
 
 Assay mengukur kualitas RAG. MVP awal pakai metrics heuristic sederhana: token overlap antara jawaban dan konteks. Cepat, deterministic, gratis. Tapi dangkal. Jawaban yang benar secara semantic tapi pakai kata berbeda akan skor rendah. Jawaban yang copy token tapi salah secara semantic akan skor tinggi.
 
-Untuk mengukur kualitas dengan benar, kita butuh LLM-as-judge. LLM baca pertanyaan, jawaban, dan konteks, lalu putuskan apakah jawaban didukung konteks.
+Untuk mengukur kualitas dengan benar, LLM-as-judge diperlukan. LLM baca pertanyaan, jawaban, dan konteks, lalu putuskan apakah jawaban didukung konteks.
 
 Tapi LLM-as-judge ada masalah. Biaya. Non-deterministic. Dan judge-nya sendiri butuh validasi.
 
@@ -123,7 +143,7 @@ Opsi yang dipertimbangkan:
 
 ## Keputusan
 
-Kami pilih BYOK (Bring Your Own Key).
+Keputusannya: BYOK (Bring Your Own Key).
 
 User set environment variable ini:
 
@@ -136,30 +156,30 @@ ASSAY_JUDGE_BASE_URL=https://openrouter.ai/api/v1
 
 Kalau tidak di-set, judge tidak aktif. Assay fallback ke simple heuristic metrics. User tetap bisa pakai Assay, cuma tanpa LLM-based evaluation.
 
-Kami pakai OpenAI-compatible API. Artinya kode yang sama bekerja dengan OpenRouter, OpenAI, Anthropic (via proxy), Ollama, dan provider apa pun yang ikut format yang sama.
+OpenAI-compatible API digunakan. Artinya kode yang sama bekerja dengan OpenRouter, OpenAI, Anthropic (via proxy), Ollama, dan provider apa pun yang ikut format yang sama.
 
-Kami tidak sediakan default LLM. Tidak ada free tier dari Assay. Tidak ada API key dari Assay.
+Tidak ada default LLM yang disediakan. Tidak ada free tier dari Assay. Tidak ada API key dari Assay.
 
 ## Konsekuensi
 
-Yang kami dapat:
+Yang didapat:
 
 - Assay tidak bayar LLM call.
 - User bebas pilih model. Tim compliance mungkin butuh model lokal (Ollama) untuk privasi data. Tim lain butuh GPT-4 untuk akurasi. Tim lain butuh model murah untuk volume.
 - Kode provider-agnostic. Modul judge yang sama bekerja dengan API OpenAI-compatible apa pun.
 - Ini sesuai standar industri. RAGAS, DeepEval, TruLens semua pakai BYOK.
 
-Yang kami korbankan:
+Yang dikorbankan:
 
-- User harus setup API key sendiri. Ini friksi. Tapi target user kami adalah engineer, dan mereka paham ini.
-- Kualitas judge bergantung pada model yang user pilih. Model lemah kasih judgment lemah. Ini kenapa kita butuh judge validation.
+- User harus setup API key sendiri. Ini friksi. Tapi target user adalah engineer, dan mereka paham ini.
+- Kualitas judge bergantung pada model yang user pilih. Model lemah kasih judgment lemah. Ini kenapa judge validation diperlukan.
 - Tidak ada pengalaman "out of the box". User tidak bisa langsung clone dan jalan. Mereka butuh API key.
 
 ## Validasi Judge
 
-Karena kualitas judge bervariasi, kami perlu mengukurnya. Ini yang membedakan Assay dari tools lain.
+Karena kualitas judge bervariasi, perlu diukur. Ini yang membedakan Assay dari tools lain.
 
-Kami akan:
+Rencananya:
 
 1. Bangun calibration set: 50 pertanyaan dengan label groundedness dari manusia.
 2. Jalankan judge pada calibration set.
@@ -181,13 +201,33 @@ Kalau judge gagal, Assay fallback ke simple heuristic metrics. CLI melaporkan be
 
 Artinya pipeline tidak pernah putus. Tapi user harus tahu bahwa beberapa skor berasal dari heuristic, bukan dari judge.
 
+## Bias Posisi: Ditemukan dan Diperbaiki
+
+Pada 4 Oktober 2026, probe bias posisi dijalankan pada judge. Probe membalik urutan context dan memeriksa apakah skor judge berubah.
+
+Hasilnya: **50% flip rate**. Dua entries, satu terbalik. Konten sama, urutan beda, skor beda. Ini bias posisi yang parah.
+
+Penyebabnya: prompt awal tidak menyatakan bahwa urutan context tidak penting. Judge menganggap context pertama lebih penting.
+
+Perbaikannya: aturan eksplisit ditambahkan ke prompt:
+
+- Pertimbangkan semua context sama penting. Urutan context tidak penting.
+- Klaim grounded jika didukung oleh SALAH SATU context.
+- Klaim ungrounded hanya jika tidak didukung oleh SEMUA context.
+
+Setelah perbaikan, flip rate turun ke **0%**. Tidak ada bias posisi terdeteksi.
+
+Validasi judge tetap menunjukkan Cohen's kappa 1.000 pada calibration set. Perbaikan tidak merusak akurasi.
+
+Ini yang membedakan Assay dari tools lain. Judge tidak cuma dipakai. Judge diuji. Saat masalah ditemukan, diperbaiki. Dan perbaikannya didokumentasikan.
+
 ## Retry Logic
 
-Kami retry pada rate limit dan server error. Sampai 3 kali, dengan exponential backoff (1s, 2s, 4s). Ini praktik standar.
+Judge retry pada rate limit dan server error. Sampai 3 kali, dengan exponential backoff (1s, 2s, 4s). Ini praktik standar.
 
 ## JSON Parsing
 
-Tidak semua model return JSON bersih, meskipun diminta. Kami punya parser toleran:
+Tidak semua model return JSON bersih, meskipun diminta. Parser toleran digunakan:
 
 1. Coba parse JSON langsung.
 2. Coba ekstrak JSON dari markdown fence.
