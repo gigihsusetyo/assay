@@ -73,8 +73,8 @@ def main() -> None:
             continue
 
         total += 1
-        original_label = original.score >= 0.5
-        reversed_label = reversed_result.score >= 0.5
+        original_label = original.grounded
+        reversed_label = reversed_result.grounded
 
         if original_label != reversed_label:
             flips += 1

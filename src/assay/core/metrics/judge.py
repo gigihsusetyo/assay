@@ -140,7 +140,12 @@ Evaluation rules:
    metric. A refusal that adds facts is not an abstention: judge those
    facts.
 
-10. The order of CONTEXTS must not affect the judgment. Do not favor a
+10. AGGREGATION. If ANY claim has verdict "unsupported", "contradicted",
+    or "ambiguous", the answer is NOT grounded. If ALL claims are
+    "supported", the answer IS grounded. Do not decide groundedness
+    separately from the claims.
+
+11. The order of CONTEXTS must not affect the judgment. Do not favor a
     context because it appears first or last.
 
 Reply with a single valid JSON object, keys in this exact order, and
@@ -263,9 +268,19 @@ def _verify_evidence(evidence: str | None, contexts: list[str]) -> bool:
     """
     if not evidence:
         return False
+    # Split on common separators used by models to join evidence from
+    # multiple contexts: ellipsis, pipe, newline, semicolon. We do not
+    # split on periods alone because they appear inside sentences.
     fragments = [
-        f for f in re.split(r"\.\.\.|…", evidence) if f.strip()
+        f for f in re.split(r"\.\.\.|…|\||\n|;", evidence) if f.strip()
     ]
+    # If we got a single fragment that contains two sentences separated
+    # by a period followed by a space, try splitting there too, but only
+    # if both halves are long enough to be meaningful.
+    if len(fragments) == 1 and ". " in fragments[0]:
+        parts = [p.strip() for p in fragments[0].split(". ") if p.strip()]
+        if len(parts) > 1 and all(len(p) >= 20 for p in parts):
+            fragments = parts
     if not fragments:
         return False
     normalized_contexts = [_normalize(c) for c in contexts]

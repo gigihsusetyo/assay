@@ -68,7 +68,7 @@ def main() -> None:
                 answer=entry["answer"],
                 contexts=entry["contexts"],
             )
-            judge = result.score >= 0.5
+            judge = result.grounded
         except JudgeError as e:
             print(f"Entry {i + 1}: judge failed ({e})")
             skipped += 1

@@ -92,8 +92,8 @@ def main() -> None:
             continue
 
         total += 1
-        original_label = original.score >= 0.5
-        padded_label = padded.score >= 0.5
+        original_label = original.grounded
+        padded_label = padded.grounded
         diff = padded.score - original.score
         score_diffs.append(diff)
 

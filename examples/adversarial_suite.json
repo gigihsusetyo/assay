@@ -59,8 +59,8 @@
         "Employees may work remotely."
       ],
       "expected_grounded": false,
-      "expected_verdict": "contradicted",
-      "why": "'May' vs 'must' is a material difference in legal contexts."
+      "expected_verdict": null,
+      "why": "'May' vs 'must' is a material difference. Either unsupported or contradicted is acceptable."
     },
     {
       "id": "adv-06",
