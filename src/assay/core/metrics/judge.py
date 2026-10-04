@@ -59,12 +59,13 @@ Your job is to determine whether every claim in the answer is
 supported by the contexts.
 
 Rules:
-- If the answer contains claims not supported by the contexts,
-  it is not grounded.
+- Consider all contexts equally. The order of contexts does not matter.
+- A claim is grounded if it is supported by ANY of the contexts.
+- A claim is ungrounded only if it is supported by NONE of the contexts.
+- If the answer contains claims not supported by any context, it is not grounded.
 - If the answer says "I do not have enough information" or similar,
   and the contexts do not contain the answer, it is grounded.
-- Do not use outside knowledge. Only judge based on the contexts
-  provided.
+- Do not use outside knowledge. Only judge based on the contexts provided.
 
 Question:
 {question}
@@ -72,7 +73,7 @@ Question:
 Answer:
 {answer}
 
-Contexts:
+Contexts (all equally important):
 {contexts}
 
 You MUST reply with a JSON object. Do NOT include any text before
