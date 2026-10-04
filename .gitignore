@@ -68,3 +68,4 @@ docker-compose.override.yml
 data/
 logs/
 reports/
+.env.gemini

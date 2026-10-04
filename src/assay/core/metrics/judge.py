@@ -154,13 +154,8 @@ def _extract_json(text: str) -> dict | None:
         except json.JSONDecodeError:
             pass
 
-    # Last resort: parse text for grounded/unsafe signals
-    lowered = text.lower()
-    if "unsafe" in lowered or "not grounded" in lowered or "unsupported" in lowered:
-        return {"grounded": False, "reason": text, "confidence": 0.5}
-    if "safe" in lowered or "grounded" in lowered or "supported" in lowered:
-        return {"grounded": True, "reason": text, "confidence": 0.5}
-
+    # Fail closed: do not guess. If no JSON found, return None.
+    # The caller will raise JudgeError.
     return None
 
 
