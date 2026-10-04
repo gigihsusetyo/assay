@@ -28,10 +28,10 @@ The decision: BYOK (Bring Your Own Key).
 Users set these environment variables:
 
 ```
-ASSAY_JUDGE_PROVIDER=openrouter
-ASSAY_JUDGE_MODEL=openrouter/free
-ASSAY_JUDGE_API_KEY=sk-or-...
-ASSAY_JUDGE_BASE_URL=https://openrouter.ai/api/v1
+ASSAY_JUDGE_PROVIDER=groq
+ASSAY_JUDGE_MODEL=openai/gpt-oss-120b
+ASSAY_JUDGE_API_KEY=gsk_...
+ASSAY_JUDGE_BASE_URL=https://api.groq.com/openai/v1
 ```
 
 If these are not set, the judge is disabled. Assay falls back to simple heuristic metrics. The user can still use Assay, just without LLM-based evaluation.
@@ -39,6 +39,14 @@ If these are not set, the judge is disabled. Assay falls back to simple heuristi
 The OpenAI-compatible API is used. This means the same code works with OpenRouter, OpenAI, Anthropic (via proxy), Ollama, and any other provider that follows the same format.
 
 No default LLM is provided. No free tier from Assay. No API key from Assay.
+
+### Recommended Providers
+
+As of October 2026, the recommended provider for development and testing is **Groq**. It offers 14,400 requests per day on the free tier, which is enough for intensive development. The model `openai/gpt-oss-120b` produces clean JSON and reliable judgments.
+
+OpenRouter is also supported, but the free tier is limited to 50 requests per day. This is too small for development. Adding credit ($10) unlocks 1,000 requests per day.
+
+Ollama is supported for local, private inference. It requires a machine with enough RAM to run a model, and it does not work on older operating systems.
 
 ## Consequences
 
@@ -148,10 +156,10 @@ Keputusannya: BYOK (Bring Your Own Key).
 User set environment variable ini:
 
 ```
-ASSAY_JUDGE_PROVIDER=openrouter
-ASSAY_JUDGE_MODEL=openrouter/free
-ASSAY_JUDGE_API_KEY=sk-or-...
-ASSAY_JUDGE_BASE_URL=https://openrouter.ai/api/v1
+ASSAY_JUDGE_PROVIDER=groq
+ASSAY_JUDGE_MODEL=openai/gpt-oss-120b
+ASSAY_JUDGE_API_KEY=gsk_...
+ASSAY_JUDGE_BASE_URL=https://api.groq.com/openai/v1
 ```
 
 Kalau tidak di-set, judge tidak aktif. Assay fallback ke simple heuristic metrics. User tetap bisa pakai Assay, cuma tanpa LLM-based evaluation.
@@ -159,6 +167,14 @@ Kalau tidak di-set, judge tidak aktif. Assay fallback ke simple heuristic metric
 OpenAI-compatible API digunakan. Artinya kode yang sama bekerja dengan OpenRouter, OpenAI, Anthropic (via proxy), Ollama, dan provider apa pun yang ikut format yang sama.
 
 Tidak ada default LLM yang disediakan. Tidak ada free tier dari Assay. Tidak ada API key dari Assay.
+
+### Provider yang Direkomendasikan
+
+Per Oktober 2026, provider yang direkomendasikan untuk development dan testing adalah **Groq**. Groq menawarkan 14.400 request per hari di free tier, cukup untuk development intensif. Model `openai/gpt-oss-120b` menghasilkan JSON bersih dan judgment yang reliable.
+
+OpenRouter juga didukung, tapi free tier-nya terbatas 50 request per hari. Ini terlalu kecil untuk development. Menambah credit ($10) membuka 1.000 request per hari.
+
+Ollama didukung untuk inference lokal dan privat. Butuh mesin dengan RAM cukup untuk menjalankan model, dan tidak bekerja di sistem operasi lama.
 
 ## Konsekuensi
 
