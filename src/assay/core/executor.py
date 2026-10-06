@@ -7,7 +7,11 @@ from sqlalchemy.orm import Session
 
 from assay.adapters.http_target import HTTPTargetAdapter, TargetError
 from assay.config import settings
-from assay.core.metrics.judge import JudgeError, judge_groundedness
+from assay.core.metrics.judge import (
+    JudgeError,
+    judge_answer_relevance,
+    judge_groundedness,
+)
 from assay.core.metrics.simple import context_recall, groundedness
 from assay.db.models import RunStatus
 from assay.db.repositories.dataset import QuestionRepository
@@ -25,6 +29,7 @@ class ExecutionSummary:
     total_latency_ms: int
     total_cost_usd: float
     judge_used: int
+    relevance_used: int
 
 
 def execute_run(
@@ -35,8 +40,9 @@ def execute_run(
 ) -> ExecutionSummary:
     """Execute a run: call the target for each question, store results.
 
-    If use_judge is True and the judge is configured, groundedness is
-    computed with the LLM-as-judge. Otherwise, simple heuristics are used.
+    If use_judge is True and the judge is configured, groundedness and
+    answer relevance are computed with the LLM-as-judge. Otherwise, only
+    simple heuristics are used for groundedness.
 
     Returns a summary of the execution.
     """
@@ -63,7 +69,6 @@ def execute_run(
 
     adapter = HTTPTargetAdapter(run.target_url)
 
-    # Determine whether to use judge
     judge_active = use_judge and settings.judge_enabled
     if use_judge and not settings.judge_enabled and verbose:
         print("  Judge requested but not configured. Falling back to simple metrics.")
@@ -73,6 +78,7 @@ def execute_run(
     total_latency = 0
     total_cost = 0.0
     judge_used = 0
+    relevance_used = 0
 
     for q in questions:
         try:
@@ -98,10 +104,24 @@ def execute_run(
                         print(f"  Q{q.id}: judge groundedness={g:.2f}")
                 except JudgeError as e:
                     if verbose:
-                        print(f"  Q{q.id}: judge failed ({e}), using simple metrics")
+                        print(f"  Q{q.id}: groundedness judge failed ({e}), using simple metrics")
                     g = groundedness(response.answer, contexts)
             else:
                 g = groundedness(response.answer, contexts)
+
+            # Answer relevance: only with judge
+            ar: float | None = None
+            if judge_active:
+                try:
+                    rr = judge_answer_relevance(q.question, response.answer)
+                    ar = rr.score
+                    relevance_used += 1
+                    if verbose:
+                        print(f"  Q{q.id}: answer relevance={ar:.2f}")
+                except JudgeError as e:
+                    if verbose:
+                        print(f"  Q{q.id}: relevance judge failed ({e})")
+                    ar = None
 
             r = context_recall(q.expected_context, contexts)
             result_repo.create(
@@ -111,6 +131,7 @@ def execute_run(
                 retrieved_contexts=json.dumps(response.retrieved_contexts),
                 groundedness=g,
                 context_recall=r,
+                answer_relevance=ar,
                 latency_ms=response.latency_ms,
                 cost_usd=response.cost_usd,
             )
@@ -143,4 +164,5 @@ def execute_run(
         total_latency_ms=total_latency,
         total_cost_usd=total_cost,
         judge_used=judge_used,
+        relevance_used=relevance_used,
     )

@@ -119,6 +119,7 @@ class Result(Base):
     retrieved_contexts: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON
     groundedness: Mapped[float | None] = mapped_column(Float, nullable=True)
     context_recall: Mapped[float | None] = mapped_column(Float, nullable=True)
+    answer_relevance: Mapped[float | None] = mapped_column(Float, nullable=True)
     latency_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
     cost_usd: Mapped[float | None] = mapped_column(Float, nullable=True)
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)

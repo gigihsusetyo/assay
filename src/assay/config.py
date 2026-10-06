@@ -22,6 +22,12 @@ class Settings(BaseSettings):
     judge_base_url: str | None = None
     judge_timeout: float = 60.0
 
+    # Number of times to run the judge per question. When greater than 1,
+    # the result is decided by majority vote. This improves stability on
+    # non-deterministic providers. Costs scale linearly with the number
+    # of votes.
+    judge_votes: int = 1
+
     @property
     def judge_enabled(self) -> bool:
         """Judge is enabled only if provider, model, and API key are set."""

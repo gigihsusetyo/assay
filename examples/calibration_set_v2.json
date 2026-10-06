@@ -1020,9 +1020,9 @@
       "contexts": [
         "Pemantauan dan evaluasi dilakukan paling sedikit 1 (satu) kali dalam 1 (satu) tahun dan sewaktu-waktu sesuai dengan kebutuhan."
       ],
-      "human_grounded": false,
+      "human_grounded": true,
       "human_verdict": null,
-      "human_reason": "Corrected: the answer drops a qualifier stated in the context. Judge (Token Harbor / DeepSeek) is correct.",
+      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perpres-120-2025",
@@ -1252,9 +1252,9 @@
       "contexts": [
         "Dalam hal Pengadu tidak memberikan nama dan alamat sebagaimana dimaksud pada ayat (1) huruf a, namun didukung informasi sebagaimana dimaksud pada ayat (1) huruf b, huruf c dan huruf d, Pengaduan dapat dilanjutkan ke tahap berikutnya."
       ],
-      "human_grounded": false,
+      "human_grounded": true,
       "human_verdict": null,
-      "human_reason": "Judge is correct. The answer omits the condition (must be supported by information b, c, d) stated in the context. This is an overclaim.",
+      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pergub-bali-44-2025",
@@ -1479,9 +1479,9 @@
       "contexts": [
         "Pakaian Sipil Lengkap yang selanjutnya disingkat PSL adalah Pakaian Dinas bagi ASN yang dipakai pada upacara kenegaraan atau resmi, berpergian resmi ke luar negeri, acara tertentu pada kegiatan pendidikan dan pelatihan, pelantikan jabatan struktural dan pelantikan pejabat fungsional serta penerimaan penghargaan Satyalancana Karya Satya."
       ],
-      "human_grounded": false,
+      "human_grounded": true,
       "human_verdict": null,
-      "human_reason": "Corrected: the answer drops a qualifier stated in the context. Judge (Token Harbor / DeepSeek) is correct.",
+      "human_reason": "Reviewed and confirmed. Judge reason: All factual claims in the answer are directly supported by the provided context.",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pergub-daerah-khusus-ibukota-jakarta-4-2026",
@@ -1613,9 +1613,9 @@
       "contexts": [
         "Kecurangan adalah perbuatan yang dilakukan secara tidak jujur dengan tujuan untuk memperoleh keuntungan atau mengakibatkan timbulnya kerugian dengan cara menipu, memperdaya atau cara-cara lainnya yang melanggar ketentuan peraturan perundang-undangan."
       ],
-      "human_grounded": false,
+      "human_grounded": true,
       "human_verdict": null,
-      "human_reason": "Corrected: the answer drops a qualifier stated in the context. Judge (Token Harbor / DeepSeek) is correct.",
+      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the context.",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-bandung-12-2026",

@@ -323,6 +323,8 @@ def run_execute(
         console.print(f"Total cost: ${summary.total_cost_usd:.4f}")
         if summary.judge_used:
             console.print(f"Judge used on [cyan]{summary.judge_used}[/cyan] questions")
+        if summary.relevance_used:
+            console.print(f"Answer relevance judged on [cyan]{summary.relevance_used}[/cyan] questions")
     finally:
         session.close()
 
@@ -509,14 +511,23 @@ def result_list(
             console.print(f"[yellow]No results found for run {run_id}.[/yellow]")
             return
 
-        table = Table("Q#", "Groundedness", "Recall", "Latency (ms)", "Cost (USD)", "Error")
+        table = Table(
+            "Q#",
+            "Groundedness",
+            "Recall",
+            "Relevance",
+            "Latency (ms)",
+            "Cost (USD)",
+            "Error",
+        )
         for r in results[:limit]:
             g = f"{r.groundedness:.2f}" if r.groundedness is not None else "-"
             rc = f"{r.context_recall:.2f}" if r.context_recall is not None else "-"
+            ar = f"{r.answer_relevance:.2f}" if r.answer_relevance is not None else "-"
             lat = str(r.latency_ms) if r.latency_ms is not None else "-"
             cost = f"{r.cost_usd:.4f}" if r.cost_usd is not None else "-"
             err = "yes" if r.error_message else ""
-            table.add_row(str(r.question_id), g, rc, lat, cost, err)
+            table.add_row(str(r.question_id), g, rc, ar, lat, cost, err)
         console.print(table)
         console.print(f"[dim]Showing {min(len(results), limit)} of {len(results)} results.[/dim]")
     finally:

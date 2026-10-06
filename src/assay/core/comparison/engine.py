@@ -161,6 +161,7 @@ def compare_runs(
     {
         "groundedness": 5.0,               # relative, 5%
         "context_recall": {"value": 5.0, "type": "relative"},
+        "answer_relevance": 5.0,
         "p95_latency_ms": {"value": 100, "type": "absolute"},
         "avg_cost_usd": 20.0,
     }
@@ -196,6 +197,13 @@ def compare_runs(
         [r.context_recall for r in current_results if r.context_recall is not None]
     )
 
+    baseline_relevance = _avg(
+        [r.answer_relevance for r in baseline_results if r.answer_relevance is not None]
+    )
+    current_relevance = _avg(
+        [r.answer_relevance for r in current_results if r.answer_relevance is not None]
+    )
+
     baseline_p95 = _percentile(
         [r.latency_ms for r in baseline_results if r.latency_ms is not None], 0.95
     )
@@ -219,6 +227,7 @@ def compare_runs(
     metrics_config = [
         ("groundedness", baseline_groundedness, current_groundedness, True, "groundedness"),
         ("context_recall", baseline_recall, current_recall, True, "context_recall"),
+        ("answer_relevance", baseline_relevance, current_relevance, True, "answer_relevance"),
         ("p95_latency_ms", baseline_p95, current_p95, False, "p95_latency_ms"),
         ("avg_cost_usd", baseline_cost, current_cost, False, "avg_cost_usd"),
     ]

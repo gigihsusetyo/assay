@@ -2,18 +2,67 @@
 
 Source: wahyyuht/skripsi-data on Hugging Face.
 License: CC BY 4.0.
+
+This script reads the test split, looks up the gold context for each
+query from the index_rincian files, and writes a calibration set
+template. The human_grounded and human_reason fields are left empty
+for manual labeling.
+
+Usage:
+    python scripts/convert_legal_dataset.py \
+        --output examples/calibration_set.json \
+        --limit 50
 """
 
+import argparse
 import json
 from pathlib import Path
 
-HF_CACHE = Path(
-    "/home/vscode/.cache/huggingface/hub/"
-    "datasets--wahyyuht--skripsi-data/snapshots/"
-    "b29572cbddafa0a65948ed86ad278a8b3a06a1f6"
-)
+from huggingface_hub import hf_hub_download
 
-OUTPUT = Path("examples/datasets/indonesian-legal-rag.json")
+# Map from doc_id prefix to folder name in the dataset repo.
+FOLDER_MAP = {
+    "uu": "UU",
+    "pp": "PP",
+    "perpres": "PERPRES",
+    "perpu": "PERPU",
+    "pmk": "PMK",
+    "permenkes": "PERMENKES",
+    "permendag": "PERMENDAG",
+    "permendagri": "PERMENDAGRI",
+    "permenaker": "PERMENAKER",
+    "permenkumham": "PERMENKUMHAM",
+    "permenkominfo": "PERMENKOMINFO",
+    "permenkomdigi": "PERMENKOMDIGI",
+    "permenperin": "PERMENPERIN",
+    "permen-pupr": "PERMEN_PUPR",
+    "permen-esdm": "PERMEN_ESDM",
+    "peraturan-ojk": "PERATURAN_OJK",
+    "peraturan-bi": "PERATURAN_BI",
+    "peraturan-bpom": "PERATURAN_BPOM",
+    "peraturan-bssn": "PERATURAN_BSSN",
+    "peraturan-kpu": "PERATURAN_KPU",
+    "peraturan-menag": "PERMENAG",
+    "peraturan-polri": "PERATURAN_POLRI",
+    "perda": "PERDA",
+    "perwali": "PERWALI",
+    "pergub": "PERGUB",
+    "perbup": "PERBUP",
+    "perma": "PERATURAN_MA",
+    "permendikbud": "PERMENDIKBUD",
+    "permendikbudristek": "PERMENDIKBUDRISTEK",
+    "permen-atr-kepala-bpn": "PERMEN_ATRBPN",
+    "permen-bumn": "PERMENBUMN",
+}
+
+
+def folder_for(doc_id: str) -> str | None:
+    """Guess the folder name for a doc_id."""
+    # Try longest prefix match.
+    for prefix in sorted(FOLDER_MAP.keys(), key=len, reverse=True):
+        if doc_id.startswith(prefix):
+            return FOLDER_MAP[prefix]
+    return None
 
 
 def find_node(nodes: list, target_id: str) -> dict | None:
@@ -29,56 +78,88 @@ def find_node(nodes: list, target_id: str) -> dict | None:
 
 
 def load_index(doc_id: str) -> dict | None:
-    """Load index_rincian for a doc_id. Assumes UU folder for now."""
-    path = HF_CACHE / "index_rincian" / "UU" / f"{doc_id}.json"
-    if not path.exists():
+    """Download and load the index_rincian for a doc_id."""
+    folder = folder_for(doc_id)
+    if folder is None:
         return None
-    with path.open() as f:
+    filename = f"index_rincian/{folder}/{doc_id}.json"
+    try:
+        path = hf_hub_download(
+            repo_id="wahyyuht/skripsi-data",
+            filename=filename,
+            repo_type="dataset",
+        )
+    except Exception:
+        return None
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
 def main() -> None:
-    test_path = HF_CACHE / "splits" / "test.jsonl"
-    if not test_path.exists():
-        raise SystemExit(f"Test file not found: {test_path}")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        default="examples/calibration_set.json",
+        help="Output JSON file",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=50,
+        help="Maximum number of entries",
+    )
+    args = parser.parse_args()
 
-    queries = []
-    with test_path.open() as f:
-        for i, line in enumerate(f):
-            if i >= 10:
-                break
-            queries.append(json.loads(line))
+    test_path = hf_hub_download(
+        repo_id="wahyyuht/skripsi-data",
+        filename="splits/test.jsonl",
+        repo_type="dataset",
+    )
+
+    with open(test_path, encoding="utf-8") as f:
+        queries = [json.loads(line) for line in f]
+
+    print(f"Total queries available: {len(queries)}")
 
     index_cache: dict[str, dict] = {}
-    questions = []
+    entries: list[dict] = []
     skipped = 0
 
     for q in queries:
+        if len(entries) >= args.limit:
+            break
+
         doc_id = q["gold_doc_id"]
         node_id = q["gold_node_id"]
 
         if doc_id not in index_cache:
             index = load_index(doc_id)
             if index is None:
-                print(f"  Skip {q['query_id']}: index for {doc_id} not found")
                 skipped += 1
                 continue
             index_cache[doc_id] = index
 
-        index = index_cache[doc_id]
-        node = find_node(index.get("structure", []), node_id)
-
+        node = find_node(index_cache[doc_id].get("structure", []), node_id)
         if node is None:
-            print(f"  Skip {q['query_id']}: node {node_id} not found in {doc_id}")
             skipped += 1
             continue
 
-        questions.append({
+        context_text = node.get("text", "").strip()
+        if not context_text:
+            skipped += 1
+            continue
+
+        entries.append({
+            "id": q["query_id"],
+            "category": "legal_indonesia",
             "question": q["query"],
-            "expected_answer": q["answer_hint"],
-            "expected_context": node.get("text", ""),
+            "answer": q.get("answer_hint", ""),
+            "contexts": [context_text],
+            "human_grounded": None,
+            "human_verdict": None,
+            "human_reason": "",
             "metadata": {
-                "source_query_id": q["query_id"],
+                "source": "indonesian-legal-rag",
                 "gold_doc_id": doc_id,
                 "gold_node_id": node_id,
                 "navigation_path": q.get("navigation_path", ""),
@@ -87,25 +168,25 @@ def main() -> None:
             },
         })
 
-    dataset = {
-        "name": "indonesian-legal-rag",
+    output = {
         "version": "1.0.0",
         "description": (
-            "Indonesian legal RAG benchmark. 10 queries from "
-            "wahyyuht/skripsi-data (CC BY 4.0). "
-            "Source: https://huggingface.co/datasets/wahyyuht/skripsi-data"
+            "Calibration set for Assay LLM-as-judge validation. "
+            "Entries from wahyyuht/skripsi-data (CC BY 4.0). "
+            "human_grounded and human_reason must be filled manually."
         ),
-        "source": "https://huggingface.co/datasets/wahyyuht/skripsi-data",
-        "license": "CC BY 4.0",
-        "questions": questions,
+        "entries": entries,
     }
 
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    with OUTPUT.open("w", encoding="utf-8") as f:
-        json.dump(dataset, f, indent=2, ensure_ascii=False)
+    output_path = Path(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
 
-    print(f"Written {len(questions)} questions to {OUTPUT}")
+    print(f"Written {len(entries)} entries to {output_path}")
     print(f"Skipped: {skipped}")
+    print()
+    print("Next: fill in human_grounded and human_reason manually.")
 
 
 if __name__ == "__main__":

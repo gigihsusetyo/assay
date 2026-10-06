@@ -15,6 +15,7 @@ class PolicyError(Exception):
 VALID_THRESHOLD_KEYS = {
     "groundedness",
     "context_recall",
+    "answer_relevance",
     "p95_latency_ms",
     "avg_cost_usd",
 }
