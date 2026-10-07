@@ -14,20 +14,32 @@ class Base(DeclarativeBase):
     pass
 
 
-# Engine
-# For SQLite, we need check_same_thread=False because FastAPI runs
-# in multiple threads.
-connect_args = {}
-if settings.database_url.startswith("sqlite"):
-    connect_args = {"check_same_thread": False}
+def _build_engine():
+    """Build the SQLAlchemy engine from settings."""
+    url = settings.database_url
 
-engine = create_engine(
-    settings.database_url,
-    connect_args=connect_args,
-    echo=False,
-)
+    if url.startswith("sqlite"):
+        connect_args = {"check_same_thread": False}
+        return create_engine(url, connect_args=connect_args, echo=False)
 
-# Session factory
+    from urllib.parse import parse_qs, urlparse
+
+    parsed = urlparse(url)
+    query = parse_qs(parsed.query)
+
+    connect_args = {}
+    if "sslmode" in query:
+        connect_args["sslmode"] = query["sslmode"][0]
+
+    return create_engine(
+        url,
+        connect_args=connect_args,
+        echo=False,
+    )
+
+
+engine = _build_engine()
+
 SessionLocal = sessionmaker(
     bind=engine,
     autocommit=False,
