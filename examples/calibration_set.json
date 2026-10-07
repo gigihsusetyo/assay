@@ -283,9 +283,9 @@
       "contexts": [
         "Laporan Keuangan Pemerintah Pusat sebagaimana dimaksud dalam Pasal 2, telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian."
       ],
-      "human_grounded": true,
+      "human_grounded": false,
       "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "Corrected: the context does not mention year 2023. Judge is correct.",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "uu-60-2024",

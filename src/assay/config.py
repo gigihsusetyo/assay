@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     judge_model: str | None = None
     judge_api_key: str | None = None
     judge_base_url: str | None = None
-    judge_timeout: float = 60.0
+    judge_timeout: float = 120.0  # 2 minutes, generous for slow providers
 
     # Number of times to run the judge per question. When greater than 1,
     # the result is decided by majority vote. This improves stability on

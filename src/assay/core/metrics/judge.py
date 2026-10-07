@@ -216,12 +216,23 @@ def _call_with_retry(client: OpenAI, prompt: str, max_retries: int = 3) -> objec
             )
         except Exception as e:
             error_str = str(e)
+            error_type = type(e).__name__
+
             is_rate_limit = "429" in error_str
             is_server_error = (
                 "500" in error_str or "502" in error_str or "503" in error_str
             )
+            is_timeout = (
+                "timeout" in error_str.lower()
+                or "timed out" in error_str.lower()
+                or error_type in ("APITimeoutError", "ReadTimeout", "ConnectTimeout")
+            )
+            is_connection = (
+                "connection" in error_str.lower()
+                or error_type in ("APIConnectionError", "ConnectError")
+            )
 
-            if is_rate_limit or is_server_error:
+            if is_rate_limit or is_server_error or is_timeout or is_connection:
                 wait = 2 ** attempt  # 1s, 2s, 4s
                 last_error = e
                 time.sleep(wait)
@@ -240,6 +251,10 @@ def _extract_json(text: str) -> dict | None:
     """
     if not text:
         return None
+
+    # Strip <thought>...</thought> blocks that some models (e.g. Gemma)
+    # include before the actual response.
+    text = re.sub(r"<thought>.*?</thought>", "", text, flags=re.DOTALL).strip()
 
     # Try direct parse first
     try:
