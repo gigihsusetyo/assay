@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 4 October 2026
-**Updated:** 7 October 2026
+**Updated:** 8 October 2026
 
 ## Context
 
@@ -95,6 +95,32 @@ When the judge fails, Assay falls back to simple heuristic metrics. The CLI repo
 
 This means the pipeline never breaks. But the user should know that some scores came from heuristics, not from the judge.
 
+## Multi-Provider Fallback
+
+LLM providers are not always available. Rate limits, outages, and latency spikes are common. For a CI gate, a pipeline that stops when the provider is down is not useful.
+
+Assay supports multiple judge providers. Users configure one or more via environment variables:
+
+```
+ASSAY_JUDGE_PROVIDER=groq
+ASSAY_JUDGE_MODEL=openai/gpt-oss-120b
+ASSAY_JUDGE_API_KEY=gsk_...
+ASSAY_JUDGE_BASE_URL=https://api.groq.com/openai/v1
+
+ASSAY_JUDGE_PROVIDER_2=gemini
+ASSAY_JUDGE_MODEL_2=gemma-4-26b-a4b-it
+ASSAY_JUDGE_API_KEY_2=AQ...
+ASSAY_JUDGE_BASE_URL_2=https://generativelanguage.googleapis.com/v1beta/openai/
+```
+
+When the primary provider fails with a transient error (rate limit, timeout, connection error, server error), Assay tries the next provider in the list. If all providers fail, a JudgeError is raised.
+
+Fallback is enabled by default. Set `ASSAY_JUDGE_FALLBACK=false` to disable it. When disabled, only the first provider is used, and any failure is surfaced immediately.
+
+Different providers may give different judgments. This is a trade-off. Fallback keeps the pipeline running, but the user should know that the provider used may differ between runs. Assay records which provider was used in the result so the user can audit.
+
+Provider configuration is flexible. Any OpenAI-compatible API works. Gemini uses a different authentication scheme and is handled through the google-genai SDK.
+
 ## Position Bias: Found and Fixed
 
 On 4 October 2026, a position bias probe was run on the judge. The probe reverses the order of contexts and checks whether the judge's score changes.
@@ -163,7 +189,9 @@ Majority vote does not fix the root cause of ambiguity. It reduces the symptom. 
 
 ## Retry Logic
 
-The judge retries on rate limit and server errors. Up to 3 attempts, with exponential backoff (1s, 2s, 4s). This is standard practice.
+The judge retries on rate limit, server errors, timeouts, and connection errors. Up to 3 attempts, with exponential backoff (1s, 2s, 4s). This is standard practice.
+
+When retries within a single provider are exhausted, and multi-provider fallback is enabled, the next provider is tried. Each provider gets its own retry budget.
 
 ## JSON Parsing
 
@@ -172,6 +200,7 @@ Not all models return clean JSON, even when asked. A tolerant parser is used:
 1. Try direct JSON parse.
 2. Try to extract JSON from markdown fences.
 3. Try to find the first { ... } block.
+4. Strip `<thought>` blocks that some models include before the JSON.
 
 If no valid JSON is found, the judge fails closed. It raises `JudgeError` instead of guessing. The caller falls back to simple metrics and reports the failure.
 
@@ -183,7 +212,7 @@ This is deliberate. A parser that guesses can turn a broken response into a fals
 
 **Status:** Diterima
 **Tanggal:** 4 Oktober 2026
-**Diperbarui:** 7 Oktober 2026
+**Diperbarui:** 8 Oktober 2026
 
 ## Konteks
 
@@ -276,6 +305,32 @@ Kalau judge gagal, Assay fallback ke simple heuristic metrics. CLI melaporkan be
 
 Artinya pipeline tidak pernah putus. Tapi user harus tahu bahwa beberapa skor berasal dari heuristic, bukan dari judge.
 
+## Multi-Provider Fallback
+
+Provider LLM tidak selalu tersedia. Rate limit, outage, dan lonjakan latency umum terjadi. Untuk CI gate, pipeline yang berhenti saat provider down tidak berguna.
+
+Assay mendukung beberapa provider judge. User konfigurasi satu atau lebih via environment variable:
+
+```
+ASSAY_JUDGE_PROVIDER=groq
+ASSAY_JUDGE_MODEL=openai/gpt-oss-120b
+ASSAY_JUDGE_API_KEY=gsk_...
+ASSAY_JUDGE_BASE_URL=https://api.groq.com/openai/v1
+
+ASSAY_JUDGE_PROVIDER_2=gemini
+ASSAY_JUDGE_MODEL_2=gemma-4-26b-a4b-it
+ASSAY_JUDGE_API_KEY_2=AQ...
+ASSAY_JUDGE_BASE_URL_2=https://generativelanguage.googleapis.com/v1beta/openai/
+```
+
+Ketika provider utama gagal dengan error transient (rate limit, timeout, connection error, server error), Assay mencoba provider berikutnya di daftar. Kalau semua provider gagal, JudgeError di-raise.
+
+Fallback aktif secara default. Set `ASSAY_JUDGE_FALLBACK=false` untuk mematikan. Ketika dimatikan, hanya provider pertama yang dipakai, dan kegagalan langsung dilaporkan.
+
+Provider berbeda bisa memberi judgment berbeda. Ini trade-off. Fallback menjaga pipeline tetap jalan, tapi user harus tahu bahwa provider yang dipakai bisa berbeda antar run. Assay mencatat provider mana yang dipakai di result supaya user bisa audit.
+
+Konfigurasi provider fleksibel. API OpenAI-compatible apa pun bekerja. Gemini pakai skema autentikasi berbeda dan ditangani lewat SDK google-genai.
+
 ## Bias Posisi: Ditemukan dan Diperbaiki
 
 Pada 4 Oktober 2026, probe bias posisi dijalankan pada judge. Probe membalik urutan context dan memeriksa apakah skor judge berubah.
@@ -344,7 +399,9 @@ Majority vote tidak menyelesaikan akar masalah ambiguitas. Dia mengurangi gejala
 
 ## Retry Logic
 
-Judge retry pada rate limit dan server error. Sampai 3 kali, dengan exponential backoff (1s, 2s, 4s). Ini praktik standar.
+Judge retry pada rate limit, server error, timeout, dan connection error. Sampai 3 kali, dengan exponential backoff (1s, 2s, 4s). Ini praktik standar.
+
+Ketika retry dalam satu provider habis, dan multi-provider fallback aktif, provider berikutnya dicoba. Setiap provider punya budget retry sendiri.
 
 ## JSON Parsing
 
@@ -353,7 +410,9 @@ Tidak semua model return JSON bersih, meskipun diminta. Parser toleran digunakan
 1. Coba parse JSON langsung.
 2. Coba ekstrak JSON dari markdown fence.
 3. Coba cari blok { ... } pertama.
+4. Strip blok `<thought>` yang disertakan sebagian model sebelum JSON.
 
 Kalau tidak ada JSON valid, judge gagal tertutup. Dia raise `JudgeError`, bukan menebak. Caller fallback ke simple metrics dan laporkan kegagalan.
 
 Ini disengaja. Parser yang menebak bisa mengubah respons rusak menjadi hasil "grounded" palsu, yang lebih buruk dari error jujur.
+```
