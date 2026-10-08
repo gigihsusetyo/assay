@@ -369,4 +369,3 @@ Apache 2.0. See [LICENSE](LICENSE).
 - API docs: [assay-6pji.onrender.com/docs](https://assay-6pji.onrender.com/docs)
 - Domain: [assay.web.id](https://assay.web.id)
 - GitHub: [github.com/gigihsusetyo/assay](https://github.com/gigihsusetyo/assay)
-

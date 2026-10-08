@@ -187,6 +187,33 @@ The option is configurable rather than always-on. Users who care about cost more
 
 Majority vote does not fix the root cause of ambiguity. It reduces the symptom. When a case is genuinely ambiguous in the prompt, two out of three runs may still agree on the wrong answer. The fix for that is a better prompt, not more votes. The two work together.
 
+## Judge Comparison
+
+Users who configure multiple providers can compare them. The script
+`scripts/compare_judges.py` runs the judge on the same calibration set
+with each provider and reports agreement, Cohen's kappa, and error
+count.
+
+Example output:
+
+```
+Provider        Model                        Entries    Agree    Kappa  Errors
+------------------------------------------------------------------------------
+groq            openai/gpt-oss-120b               50    92.0%    0.831       0
+gemini          gemma-4-26b-a4b-it                49    93.9%    0.867       1
+tokenharbor     deepseek-v4-flash:free            50    96.0%    0.913       0
+```
+
+This is informational. It does not change Assay's behavior. The user
+decides which provider to use based on the comparison.
+
+Different providers give different judgments. A provider with a higher
+kappa on the calibration set may not be better on the user's own data.
+The comparison is a starting point, not a verdict.
+
+Providers are compared without fallback. Each provider is tested in
+isolation. If a provider fails, the error count reflects that.
+
 ## Retry Logic
 
 The judge retries on rate limit, server errors, timeouts, and connection errors. Up to 3 attempts, with exponential backoff (1s, 2s, 4s). This is standard practice.
@@ -396,6 +423,33 @@ Majority vote mengurangi instabilitas ini. Trade-off-nya biaya: tiga votes berbi
 Opsi ini configurable, bukan selalu aktif. User yang lebih peduli biaya daripada stabilitas bisa set `ASSAY_JUDGE_VOTES=1`. User yang jalankan CI gate bisa set `ASSAY_JUDGE_VOTES=3`.
 
 Majority vote tidak menyelesaikan akar masalah ambiguitas. Dia mengurangi gejala. Ketika kasus benar-benar ambigu di prompt, dua dari tiga run bisa tetap setuju pada jawaban yang salah. Yang menyelesaikan itu adalah prompt yang lebih baik, bukan lebih banyak votes. Keduanya bekerja bersama.
+
+## Komparasi Judge
+
+User yang mengkonfigurasi beberapa provider bisa membandingkannya.
+Script `scripts/compare_judges.py` menjalankan judge pada calibration
+set yang sama dengan setiap provider dan melaporkan agreement, Cohen's
+kappa, dan jumlah error.
+
+Contoh output:
+
+```
+Provider        Model                        Entries    Agree    Kappa  Errors
+------------------------------------------------------------------------------
+groq            openai/gpt-oss-120b               50    92.0%    0.831       0
+gemini          gemma-4-26b-a4b-it                49    93.9%    0.867       1
+tokenharbor     deepseek-v4-flash:free            50    96.0%    0.913       0
+```
+
+Ini informatif. Tidak mengubah perilaku Assay. User yang putuskan
+provider mana yang dipakai berdasarkan perbandingan.
+
+Provider berbeda memberi judgment berbeda. Provider dengan kappa lebih
+tinggi di calibration set belum tentu lebih baik di data user.
+Perbandingan adalah titik awal, bukan putusan.
+
+Provider dibandingkan tanpa fallback. Setiap provider diuji secara
+terisolasi. Kalau provider gagal, jumlah error mencerminkan itu.
 
 ## Retry Logic
 
