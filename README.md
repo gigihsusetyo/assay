@@ -286,6 +286,30 @@ Kubernetes deployment with k3s. OpenTelemetry traces, historical regressions, al
 
 A hosted, multi-tenant version is on the longer-term roadmap. The core stays open source.
 
+## Provider Configuration
+
+Assay does not provide an LLM. You bring your own (BYOK). Any OpenAI-compatible API works. Configure one or more providers:
+
+```
+ASSAY_JUDGE_PROVIDER=groq
+ASSAY_JUDGE_MODEL=openai/gpt-oss-120b
+ASSAY_JUDGE_API_KEY=gsk_...
+ASSAY_JUDGE_BASE_URL=https://api.groq.com/openai/v1
+
+ASSAY_JUDGE_PROVIDER_2=gemini
+ASSAY_JUDGE_MODEL_2=gemma-4-26b-a4b-it
+ASSAY_JUDGE_API_KEY_2=AQ...
+ASSAY_JUDGE_BASE_URL_2=https://generativelanguage.googleapis.com/v1beta/openai/
+```
+
+When the primary provider fails with a transient error (rate limit, timeout, connection error, server error), Assay falls back to the next provider in the list. If all providers fail, the judge returns an error.
+
+Fallback is enabled by default. Set `ASSAY_JUDGE_FALLBACK=false` to disable it. When disabled, only the first provider is used.
+
+Different providers may give different judgments. For a CI gate that needs strict consistency, either use a single provider or set `ASSAY_JUDGE_FALLBACK=false`.
+
+Gemini uses a different authentication scheme. Assay handles it via the google-genai SDK.
+
 ## Development
 
 Assay runs on Python 3.11. The recommended development setup:
