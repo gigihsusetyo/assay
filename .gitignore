@@ -69,3 +69,5 @@ data/
 logs/
 reports/
 .env.gemini
+.env.backup
+.env.*

@@ -28,7 +28,7 @@ from dataclasses import dataclass, field
 
 from openai import OpenAI
 
-from assay.config import settings
+from assay.config import JudgeProviderConfig, settings
 
 
 class JudgeError(Exception):
@@ -68,18 +68,80 @@ class JudgeResult:
     vote_details: list[bool] = field(default_factory=list)
 
 
-def _client() -> OpenAI:
-    """Create an OpenAI-compatible client from settings."""
+def _client(provider: JudgeProviderConfig | None = None) -> OpenAI:
+    """Create an OpenAI-compatible client for a provider.
+
+    If no provider is given, use the first configured provider.
+
+    Google Gemini uses a different authentication scheme. API keys that
+    start with ``AQ.`` must be sent in the ``x-goog-api-key`` header, not
+    in the ``Authorization: Bearer`` header. The OpenAI SDK always sends
+    the Bearer header when an api_key is set, so we pass a placeholder
+    and add the real key as a default header instead.
+    """
     if not settings.judge_enabled:
         raise JudgeNotConfiguredError(
             "Judge is not configured. Set ASSAY_JUDGE_PROVIDER, "
             "ASSAY_JUDGE_MODEL, and ASSAY_JUDGE_API_KEY."
         )
+
+    if provider is None:
+        provider = settings.judge_providers[0]
+
+    base_url = provider.base_url or ""
+
+    if "generativelanguage.googleapis.com" in base_url:
+        return OpenAI(
+            api_key="not-used",
+            base_url=base_url,
+            timeout=provider.timeout,
+            default_headers={"x-goog-api-key": provider.api_key},
+        )
+
     return OpenAI(
-        api_key=settings.judge_api_key,
-        base_url=settings.judge_base_url,
-        timeout=settings.judge_timeout,
+        api_key=provider.api_key,
+        base_url=provider.base_url,
+        timeout=provider.timeout,
     )
+
+
+def _is_gemini_provider(provider: JudgeProviderConfig) -> bool:
+    """Return True if the given provider is Gemini."""
+    base_url = provider.base_url or ""
+    return "generativelanguage.googleapis.com" in base_url
+
+
+def _call_gemini(provider: JudgeProviderConfig, prompt: str) -> str:
+    """Call Gemini via the google-genai SDK.
+
+    The OpenAI-compatible endpoint does not accept authorization keys
+    that start with AQ. The native SDK does.
+    """
+    try:
+        from google import genai
+    except ImportError as e:
+        raise JudgeError(
+            "google-genai is not installed. Run: pip install google-genai"
+        ) from e
+
+    if not provider.api_key or not provider.model:
+        raise JudgeNotConfiguredError("Judge provider is not fully configured.")
+
+    client = genai.Client(api_key=provider.api_key)
+
+    try:
+        response = client.models.generate_content(
+            model=provider.model,
+            contents=prompt,
+            config={
+                "response_mime_type": "application/json",
+                "temperature": 0.0,
+            },
+        )
+    except Exception as e:
+        raise JudgeError(f"Gemini call failed: {e}") from e
+
+    return response.text or ""
 
 
 GROUNDEDNESS_PROMPT = """You are an evidence-groundedness judge.
@@ -201,24 +263,35 @@ Do not include a confidence score.
 """
 
 
-def _call_with_retry(client: OpenAI, prompt: str, max_retries: int = 3) -> object:
-    """Call the judge with retry on rate limit and server errors."""
+def _try_provider(
+    provider: JudgeProviderConfig,
+    prompt: str,
+    max_retries: int = 3,
+) -> str:
+    """Try a single provider with retries on transient errors."""
     import time
 
+    use_gemini = _is_gemini_provider(provider)
     last_error: Exception | None = None
+
     for attempt in range(max_retries):
         try:
-            return client.chat.completions.create(
-                model=settings.judge_model,
+            if use_gemini:
+                return _call_gemini(provider, prompt)
+
+            client = _client(provider)
+            response = client.chat.completions.create(
+                model=provider.model,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.0,
                 response_format={"type": "json_object"},
             )
+            return response.choices[0].message.content or ""
         except Exception as e:
             error_str = str(e)
             error_type = type(e).__name__
 
-            is_rate_limit = "429" in error_str
+            is_rate_limit = "429" in error_str or "RESOURCE_EXHAUSTED" in error_str
             is_server_error = (
                 "500" in error_str or "502" in error_str or "503" in error_str
             )
@@ -240,6 +313,36 @@ def _call_with_retry(client: OpenAI, prompt: str, max_retries: int = 3) -> objec
             raise JudgeError(f"Judge call failed: {e}") from e
 
     raise JudgeError(f"Judge call failed after {max_retries} retries: {last_error}")
+
+
+def _call_with_retry(prompt: str, max_retries: int = 3) -> str:
+    """Call the judge with fallback across configured providers.
+
+    Providers are tried in order. If the first provider fails with a
+    transient error, the next one is tried. If all providers fail, a
+    JudgeError is raised.
+
+    When ``settings.judge_fallback`` is False, only the first provider
+    is used.
+    """
+    providers = settings.judge_providers
+    if not providers:
+        raise JudgeNotConfiguredError("No judge providers configured.")
+
+    if not settings.judge_fallback:
+        providers = providers[:1]
+
+    errors: list[str] = []
+    for provider in providers:
+        try:
+            return _try_provider(provider, prompt, max_retries=max_retries)
+        except JudgeError as e:
+            errors.append(f"{provider.name}: {e}")
+            continue
+
+    raise JudgeError(
+        "All judge providers failed. " + " | ".join(errors)
+    )
 
 
 def _extract_json(text: str) -> dict | None:
@@ -406,13 +509,10 @@ def _single_judge_call(
         contexts=context_text,
     )
 
-    client = _client()
-    response = _call_with_retry(client, prompt)
-    raw = response.choices[0].message.content or ""
+    raw = _call_with_retry(prompt)
 
     if not raw.strip():
-        response = _call_with_retry(client, prompt, max_retries=2)
-        raw = response.choices[0].message.content or ""
+        raw = _call_with_retry(prompt, max_retries=2)
 
     parsed = _extract_json(raw)
     if parsed is None:
@@ -614,13 +714,10 @@ def _single_answer_relevance_call(
 ) -> RelevanceResult:
     """Run the answer relevance judge once."""
     prompt = ANSWER_RELEVANCE_PROMPT.format(question=question, answer=answer)
-    client = _client()
-    response = _call_with_retry(client, prompt)
-    raw = response.choices[0].message.content or ""
+    raw = _call_with_retry(prompt)
 
     if not raw.strip():
-        response = _call_with_retry(client, prompt, max_retries=2)
-        raw = response.choices[0].message.content or ""
+        raw = _call_with_retry(prompt, max_retries=2)
 
     parsed = _extract_json(raw)
     if parsed is None:
