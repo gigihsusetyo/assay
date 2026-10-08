@@ -24,7 +24,7 @@ Assay is that way.
 
 1. Takes a dataset of questions with expected answers and contexts.
 2. Calls your RAG endpoint for each question.
-3. Computes quality metrics (groundedness, context recall) and operational metrics (latency, cost).
+3. Computes quality metrics (groundedness, answer relevance, context recall) and operational metrics (latency, cost).
 4. Compares the results against a baseline.
 5. Fails with a non-zero exit code if quality regresses beyond a threshold.
 
@@ -45,6 +45,7 @@ Assay Report: PR #247
 Config: bge-m3 vs text-embedding-3-small
 
 Groundedness        -8.2%   FAIL (threshold -5%)
+Answer Relevance    -1.4%   PASS
 Context Recall      -3.1%   PASS
 P95 Latency         -18%    PASS (better)
 Cost per query      -64%    PASS (better)
@@ -66,7 +67,7 @@ The team avoided a production incident. They made a decision based on data, not 
 
 - Not a RAG framework. It does not build retrieval, chunking, or embedding pipelines.
 - Not a metrics library. It integrates with existing ones like Ragas and DeepEval.
-- Not an observability platform. Tracing and dashboards are on the roadmap, not in the MVP.
+- Not an observability platform. Tracing and dashboards are on the roadmap.
 - Not a general LLM evaluation tool. RAG is the first workload.
 
 Assay evaluates RAG systems. It does not become one.
@@ -75,7 +76,7 @@ Assay evaluates RAG systems. It does not become one.
 
 ## Status
 
-Early development. The core pipeline works end to end, but the project is not ready for production use yet.
+Early development. The core pipeline works end to end, and the project is deployed for demonstration. It is not yet ready for production use.
 
 What works today:
 
@@ -84,17 +85,21 @@ What works today:
 - Create runs pointing at a RAG endpoint.
 - Execute runs: Assay calls the endpoint for each question and stores results.
 - Compute groundedness and context recall with simple heuristics.
-- Optionally use LLM-as-judge for groundedness (BYOK).
+- Use LLM-as-judge for groundedness and answer relevance (BYOK).
+- Multi-provider fallback for resilience.
+- Compare providers on the same calibration set.
 - Validate the judge against human labels (Cohen's kappa).
+- Probe for position, verbosity, and self-preference bias.
 - Compare a run against a pinned baseline.
 - Gate: fail with exit code 1 if quality regresses.
+- Live demo deployed on Render.
 
 What is not done yet:
 
 - Integration with Ragas or DeepEval.
-- Cloud deployment.
-- Real Kubernetes.
-- Bias probes for judge validation.
+- Citation accuracy metric.
+- Refusal correctness metric.
+- Real Kubernetes deployment.
 
 ---
 
@@ -143,6 +148,12 @@ Execute the run:
 
 ```bash
 assay run execute 1 --verbose
+```
+
+With LLM-as-judge:
+
+```bash
+assay run execute 1 --verbose --judge
 ```
 
 Pin the run as a baseline:
@@ -207,6 +218,7 @@ A policy is a YAML file that defines acceptable regression thresholds.
 version: 1
 thresholds:
   groundedness: 5.0
+  answer_relevance: 5.0
   context_recall: 5.0
   p95_latency_ms: 20.0
   avg_cost_usd: 20.0
@@ -214,19 +226,40 @@ thresholds:
 
 Numbers are percentages. For quality metrics, the threshold is the maximum allowed drop. For latency and cost, the threshold is the maximum allowed increase.
 
+Policy can use relative or absolute thresholds:
+
+```yaml
+version: 1
+thresholds:
+  groundedness:
+    value: 5.0
+    type: relative
+  context_recall:
+    value: 0.05
+    type: absolute
+```
+
 ---
 
 ## Metrics
 
-For the MVP, Assay uses simple heuristic metrics.
+### Quality Metrics
 
-**Groundedness** measures how much of the answer is supported by the retrieved contexts. It is the fraction of answer tokens that appear in the contexts. Range 0.0 to 1.0.
+**Groundedness** measures whether the answer is supported by the retrieved contexts. With LLM-as-judge, the answer is decomposed into atomic claims, and each claim is verified against the contexts.
 
-**Context recall** measures how much of the expected context was retrieved. It is the fraction of expected context tokens that appear in retrieved contexts. Returns None if no expected context is provided.
+**Answer relevance** measures whether the answer addresses the question. With LLM-as-judge, the question is decomposed into atomic aspects, and each aspect is checked.
 
-These are regression signals, not correctness guarantees.
+**Context recall** measures how much of the expected context was retrieved. It is deterministic.
 
-Token overlap catches obvious drift. It does not catch semantic errors. An answer that says "rate limit is 1000" when the context says "rate limit is 100" will score high on groundedness, because most tokens overlap. That is a real limitation.
+For the MVP, simple heuristic metrics are also available. These are token overlap based. They are fast, deterministic, and free, but shallow. They catch obvious drift, not semantic errors.
+
+### Operational Metrics
+
+**P95 latency**, **average cost per query**, **P50 latency**, and **cost per successful answer** are tracked.
+
+### Important: Regression Signals, Not Correctness Guarantees
+
+Token overlap metrics catch obvious drift. They do not catch semantic errors. An answer that says "rate limit is 1000" when the context says "rate limit is 100" will score high on token overlap, because most tokens overlap. That is a real limitation.
 
 For semantic correctness, use LLM-as-judge. Assay supports it via Bring Your Own Key (BYOK). See ADR-004 for details.
 
@@ -234,57 +267,41 @@ The point of these metrics is not to tell you whether your RAG is good. It is to
 
 ---
 
-## Architecture
+## Multi-Dimensional Evaluation
 
-```
-                    ┌───────────────────────┐
-                    │      Assay CLI        │
-                    │  assay run            │
-                    │  assay compare        │
-                    │  assay gate           │
-                    └───────────┬───────────┘
-                                │
-                                ▼
-                    ┌───────────────────────┐
-                    │   Python FastAPI      │
-                    │                       │
-                    │  datasets             │
-                    │  runs                 │
-                    │  metrics              │
-                    │  comparison           │
-                    │  regression policy    │
-                    └───────────┬───────────┘
-                                │
-                                ▼
-                    ┌───────────────────────┐
-                    │   PostgreSQL / SQLite │
-                    │                       │
-                    │  datasets             │
-                    │  runs                 │
-                    │  results              │
-                    │  baselines            │
-                    └───────────────────────┘
+Assay measures more than one dimension. This is deliberate.
 
-Target adapters:
-  Assay → HTTP RAG endpoint
-```
+A system that always answers "I do not know" is perfectly grounded and completely useless. Groundedness alone does not catch that. Answer relevance does.
 
-SQLite is the default for local development. PostgreSQL is the target for production. Assay is tested with Supabase as a managed PostgreSQL provider.
+A system that answers the question but ignores the retrieved context is relevant and ungrounded. Answer relevance alone does not catch that. Groundedness does.
+
+No single metric certifies a RAG system. The combination does.
 
 ---
 
-## Roadmap
+## Judge Validation
 
-**Phase 1 — Trust (current):**
-Golden datasets, baselines, regression policies, CLI, CI gate, JSON output, PR comments.
+Assay validates the LLM judge before trusting it.
 
-**Phase 2 — Quality and Scale:**
-Ragas integration, LLM-as-judge with human calibration, failure analysis. Go execution plane for high-concurrency evaluation, benchmarked against Python asyncio. Parallel execution and caching.
+- **Calibration set**: 50 human-labeled entries from 21 Indonesian legal documents.
+- **Adversarial suite**: 20 cases across 20 categories (number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, hedging).
+- **Bias probes**: position bias, verbosity bias, self-preference bias.
 
-**Phase 3 — Deployment and Observability:**
-Kubernetes deployment with k3s. OpenTelemetry traces, historical regressions, alerts, dashboards.
+Run validation:
 
-A hosted, multi-tenant version is on the longer-term roadmap. The core stays open source.
+```bash
+python scripts/validate_judge.py examples/calibration_set.json
+```
+
+Run adversarial suite:
+
+```bash
+python scripts/run_adversarial_suite.py examples/adversarial_suite.json
+```
+
+If the judge is not reliable, do not trust its scores. Better to know than to guess.
+
+---
 
 ## Provider Configuration
 
@@ -310,6 +327,85 @@ Different providers may give different judgments. For a CI gate that needs stric
 
 Gemini uses a different authentication scheme. Assay handles it via the google-genai SDK.
 
+### Comparing Providers
+
+To compare providers on your own calibration set:
+
+```bash
+python scripts/compare_judges.py examples/calibration_set.json
+```
+
+This runs the judge with each configured provider and reports agreement, Cohen's kappa, and error count. Use it to decide which provider is best for your data.
+
+---
+
+## Architecture
+
+```
+                    ┌───────────────────────┐
+                    │      Assay CLI        │
+                    │  assay dataset ...    │
+                    │  assay run ...        │
+                    │  assay baseline ...   │
+                    │  assay gate ...       │
+                    └───────────┬───────────┘
+                                │
+                                ▼
+                    ┌───────────────────────┐
+                    │   Python FastAPI      │
+                    │                       │
+                    │  datasets             │
+                    │  runs                 │
+                    │  results              │
+                    │  baselines            │
+                    │  comparison           │
+                    │  regression policy    │
+                    └───────┬───────────────┘
+                            │
+            ┌───────────────┼───────────────┐
+            │               │               │
+            ▼               ▼               ▼
+    ┌──────────────┐ ┌─────────────┐ ┌────────────────┐
+    │  Simple      │ │  LLM-as-    │ │  HTTP Target   │
+    │  Metrics     │ │  Judge      │ │  Adapter       │
+    │  (token      │ │  (BYOK,     │ │  (calls RAG    │
+    │   overlap)   │ │   fallback) │ │   endpoint)    │
+    │              │ │             │ │                │
+    │              │ │ - grounded  │ │                │
+    │              │ │ - relevance │ │                │
+    └──────────────┘ └─────────────┘ └────────────────┘
+                            │
+                            ▼
+                    ┌───────────────────────┐
+                    │   PostgreSQL / SQLite │
+                    │                       │
+                    │  datasets             │
+                    │  questions            │
+                    │  runs                 │
+                    │  results              │
+                    │  baselines            │
+                    └───────────────────────┘
+```
+
+SQLite is the default for local development. PostgreSQL is the target for production. Assay is tested with Supabase as a managed PostgreSQL provider.
+
+---
+
+## Roadmap
+
+**Phase 1 — Trust:**
+Golden datasets, baselines, regression policies, CLI, CI gate, JSON output, PR comments, judge validation, adversarial suite, multi-provider fallback.
+
+**Phase 2 — Quality and Scale:**
+Citation accuracy metric. Refusal correctness metric. Ragas integration. Calibration set 200+ entries. Multi-domain calibration. Hold-out test set. Timeout handling. Consistency test.
+
+**Phase 3 — Deployment and Observability:**
+Kubernetes deployment with k3s. OpenTelemetry traces. Historical regressions. Alerts. Dashboards.
+
+A hosted, multi-tenant version is on the longer-term roadmap. The core stays open source.
+
+---
+
 ## Development
 
 Assay runs on Python 3.11. The recommended development setup:
@@ -318,7 +414,7 @@ Assay runs on Python 3.11. The recommended development setup:
 2. Create a virtual environment: `python3.11 -m venv .venv`.
 3. Activate it: `source .venv/bin/activate`.
 4. Install dependencies: `pip install -e ".[dev]"`.
-5. Create a `.env` file with your database URL. See `.env.example` for the format.
+5. Create a `.env` file with your database URL and judge provider. See `.env.example` for the format.
 6. Run tests: `pytest tests/ -v`.
 
 ### Database
