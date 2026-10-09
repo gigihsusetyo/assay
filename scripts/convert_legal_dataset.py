@@ -108,6 +108,11 @@ def main() -> None:
         default=50,
         help="Maximum number of entries",
     )
+    parser.add_argument(
+        "--skip-used",
+        default=None,
+        help="Path to existing calibration set. Skip query IDs already used.",
+    )
     args = parser.parse_args()
 
     test_path = hf_hub_download(
@@ -121,6 +126,18 @@ def main() -> None:
 
     print(f"Total queries available: {len(queries)}")
 
+    # Load used query IDs if requested
+    used_ids: set[str] = set()
+    if args.skip_used:
+        skip_path = Path(args.skip_used)
+        if skip_path.exists():
+            with skip_path.open(encoding="utf-8") as f:
+                skip_data = json.load(f)
+            for e in skip_data.get("entries", []):
+                if "id" in e:
+                    used_ids.add(e["id"])
+            print(f"Skipping {len(used_ids)} already-used query IDs")
+
     index_cache: dict[str, dict] = {}
     entries: list[dict] = []
     skipped = 0
@@ -128,6 +145,10 @@ def main() -> None:
     for q in queries:
         if len(entries) >= args.limit:
             break
+
+        if q["query_id"] in used_ids:
+            skipped += 1
+            continue
 
         doc_id = q["gold_doc_id"]
         node_id = q["gold_node_id"]

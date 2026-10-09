@@ -198,6 +198,24 @@ Evaluation rules:
    Do not treat the answer as grounded if it drops any qualifier that
    changes the meaning or scope of the claim.
 
+   Distinguish between material and non-material qualifiers. A qualifier
+   is material if dropping it changes the meaning or scope of the claim:
+   - "provided Y" — material. Without Y, the claim is broader.
+   - "except Z" — material. Without Z, the claim includes cases it should not.
+   - "some" vs "all" — material. Scope changes.
+   - "2024 rule" vs "2025 rule" — material. Version changes.
+
+   A qualifier is non-material if dropping it only removes additional
+   detail that does not change the core claim:
+   - Synonyms: "implementation or operationalization" → "implementation".
+   - Mechanism details: "in Bank Indonesia" when the core claim still holds.
+   - Illustrative additions: "including X, Y, Z" when the core claim still holds.
+   - Definitional context that is not part of the claim itself.
+
+   If the dropped qualifier is non-material, the claim is still supported.
+   If the answer is a subset or paraphrase of the context that does not
+   change the meaning, it is supported.
+
 6. For each claim, assign exactly one verdict:
    - "supported": stated or faithfully paraphrased by the CONTEXTS.
    - "contradicted": a CONTEXT states something incompatible with the

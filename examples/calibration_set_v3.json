@@ -1,1682 +1,7 @@
 {
-  "version": "2.0.0",
-  "description": "Calibration set for Assay LLM-as-judge validation. 150 entries from Indonesian legal documents (21 docs for v2, 43 docs for v3). Human_grounded and human_reason filled manually or reviewed.",
+  "version": "1.0.0",
+  "description": "Calibration set for Assay LLM-as-judge validation. Entries from wahyyuht/skripsi-data (CC BY 4.0). human_grounded and human_reason must be filled manually.",
   "entries": [
-    {
-      "id": "q001",
-      "category": "legal_indonesia",
-      "question": "Apa semboyan yang mencerminkan karakter kultural masyarakat Kota Manado?",
-      "answer": "torang samua basudara",
-      "contexts": [
-        "keragaman suku dan kultural yang secara umum memiliki karakter religius sekaligus menjunjung tinggi adat istiadat, toleransi, dan kelestarian lingkungan, dengan semboyan torang samua basudara."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-13-2025",
-        "gold_node_id": "pasal_5_huruf_c",
-        "navigation_path": "BAB II - CAKUPAN WILAYAH, BATAS DAERAH, DAN KARAKTERISTIK KOTA MANADO > Pasal 5 > Pasal 5 Huruf c",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The slogan (semboyan) is \"torang samua basudara\".",
-          "verdict": "supported",
-          "evidence": "dengan semboyan torang samua basudara"
-        }
-      ]
-    },
-    {
-      "id": "q004",
-      "category": "legal_indonesia",
-      "question": "Apa saja karakteristik fisik yang dimiliki Kota Manado, mencakup bentang alam datar, pegunungan, hingga kawasan pesisir dan gugusan pulau?",
-      "answer": "dataran rendah, pegunungan, pesisir dan kepulauan",
-      "contexts": [
-        "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;"
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-13-2025",
-        "gold_node_id": "pasal_5_huruf_a",
-        "navigation_path": "BAB II - CAKUPAN WILAYAH, BATAS DAERAH, DAN KARAKTERISTIK KOTA MANADO > Pasal 5 > Pasal 5 Huruf a",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Manado has lowlands (dataran rendah)",
-          "verdict": "supported",
-          "evidence": "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;"
-        },
-        {
-          "text": "Manado has mountains (pegunungan)",
-          "verdict": "supported",
-          "evidence": "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;"
-        },
-        {
-          "text": "Manado has a coastal area (pesisir)",
-          "verdict": "supported",
-          "evidence": "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;"
-        },
-        {
-          "text": "Manado includes islands (kepulauan)",
-          "verdict": "supported",
-          "evidence": "kewilayahan dengan ciri geografis utama berupa dataran rendah, pegunungan, pesisir dan kepulauan;"
-        }
-      ]
-    },
-    {
-      "id": "q006",
-      "category": "legal_indonesia",
-      "question": "Berapa batas usia maksimal seseorang saat pertama kali diangkat sebagai anggota Direksi Holding Investasi berdasarkan UU Nomor 16 Tahun 2025?",
-      "answer": "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama",
-      "contexts": [
-        "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama;"
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-16-2025",
-        "gold_node_id": "pasal_I_angka_17_pasal_3AE_ayat_1_huruf_d",
-        "navigation_path": "Pasal I > Pasal I Angka 17 > Pasal 3AE > Pasal 3AE Ayat (1) > Pasal 3AE Ayat (1) Huruf d",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama",
-          "verdict": "supported",
-          "evidence": "berusia paling tinggi 60 (enam puluh) tahun pada saat pengangkatan pertama"
-        }
-      ]
-    },
-    {
-      "id": "q007",
-      "category": "legal_indonesia",
-      "question": "Kalau Perum mau dinyatakan pailit, siapa yang harus kasih persetujuan dulu sebelum Direksi Perum bisa mengajukan permohonan ke pengadilan negeri?",
-      "answer": "berdasarkan persetujuan kepala BP BUMN",
-      "contexts": [
-        "Direksi Perum hanya dapat mengajukan permohonan ke pengadilan negeri agar Perum dinyatakan pailit berdasarkan persetujuan kepala BP BUMN."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All factual claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-16-2025",
-        "gold_node_id": "pasal_I_angka_53_pasal_43M_ayat_1",
-        "navigation_path": "Pasal I > Pasal I Angka 53 > Pasal 43M > Pasal 43M Ayat (1)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All factual claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Persetujuan harus diberikan oleh kepala BP BUMN.",
-          "verdict": "supported",
-          "evidence": "Direksi Perum hanya dapat mengajukan permohonan ke pengadilan negeri agar Perum dinyatakan pailit berdasarkan persetujuan kepala BP BUMN."
-        }
-      ]
-    },
-    {
-      "id": "q012",
-      "category": "legal_indonesia",
-      "question": "Jika seorang perwira tinggi bintang 3 (tiga) yang saat ini berusia 57 tahun ingin mengetahui batas usia pensiun yang berlaku baginya berdasarkan ketentuan baru UU 3/2025, berapa usia pensiun yang ditetapkan dalam norma permanen dan berapa usia yang diberlakukan kepadanya sebagai ketentuan peralihan?",
-      "answer": "Norma permanen: maks 62 tahun; peralihan bagi yg berusia 57 tahun: maks 60 tahun.",
-      "contexts": [
-        "perwira tinggi bintang 3 (tiga) paling tinggi 62 (enam puluh dua) tahun."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-3-2025",
-        "gold_node_id": "pasal_I_angka_7_pasal_53_ayat_2_huruf_e",
-        "navigation_path": "Pasal I > Pasal I Angka 7 > Pasal 53 > Pasal 53 Ayat (2) > Pasal 53 Ayat (2) Huruf e",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "The permanent retirement age for a perwira tinggi bintang 3 is a maximum of 62 years.",
-          "verdict": "supported",
-          "evidence": "perwira tinggi bintang 3 (tiga) paling tinggi 62 (enam puluh dua) tahun."
-        },
-        {
-          "text": "Under the transitional provision, a 57‑year‑old perwira tinggi bintang 3 may retire at a maximum age of 60 years.",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q014",
-      "category": "legal_indonesia",
-      "question": "Instansi pemerintah mana saja yang boleh diisi oleh personel aktif TNI tanpa harus terlebih dahulu keluar dari dinas militer?",
-      "answer": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara...",
-      "contexts": [
-        "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara termasuk dewan pertahanan nasional, kesekretariatan negara yang menangani urusan kesekretariatan presiden dan kesekretariatan militer presiden, intelijen negara, siber dan/ atau sandi negara, lembaga ketahanan nasional, pencarian dan pertolongan, narkotika nasional, pengelola perbatasan, penanggulangan bencana, penanggulangan terorisme, keamanan laut, Kejaksaan Republik Indonesia, dan Mahkamah Agung."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-3-2025",
-        "gold_node_id": "pasal_I_angka_6_pasal_47_ayat_1",
-        "navigation_path": "Pasal I > Pasal I Angka 6 > Pasal 47 > Pasal 47 Ayat (1)",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara",
-          "verdict": "supported",
-          "evidence": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara termasuk dewan pertahanan nasional, kesekretariatan negara yang menangani urusan kesekretariatan presiden dan kesekretariatan militer presiden, intelijen negara, siber dan/ atau sandi negara, lembaga ketahanan nasional, pencarian dan pertolongan, narkotika nasional, pengelola perbatasan, penanggulangan bencana, penanggulangan terorisme, keamanan laut, Kejaksaan Republik Indonesia, dan Mahkamah Agung."
-        }
-      ]
-    },
-    {
-      "id": "q015",
-      "category": "legal_indonesia",
-      "question": "Berapa jumlah realisasi Pendapatan Negara dalam pelaksanaan APBN Tahun Anggaran 2023 dan berapa persentasenya terhadap anggaran yang ditetapkan?",
-      "answer": "Rp2.783.929.676.930.198,00 yang berarti 105,56%",
-      "contexts": [
-        "realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00 (dua kuadriliun tujuh ratus delapan puluh tiga triliun sembilan ratus dua puluh sembilan miliar enam ratus tujuh puluh enam juta sembilan ratus tiga puluh ribu seratus sembilan puluh delapan rupiah) yang berarti 105,56% (seratus lima koma lima puluh enam persen) dari Anggaran Pendapatan dalam Anggaran Pendapatan dan Belanja Negara Tahun Anggaran 2023 sebesar Rp2.637.248.881.485.000,00 (dua kuadriliun enam ratus tiga puluh tujuh triliun dua ratus empat puluh delapan miliar delapan ratus delapan puluh satu juta empat ratus delapan puluh lima ribu rupiah);"
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-60-2024",
-        "gold_node_id": "pasal_3_huruf_a",
-        "navigation_path": "Pasal 3 > Pasal 3 Huruf a",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00",
-          "verdict": "supported",
-          "evidence": "realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00 (dua kuadriliun tujuh ratus delapan puluh tiga triliun sembilan ratus dua puluh sembilan miliar enam ratus tujuh puluh enam juta sembilan ratus tiga puluh ribu seratus sembilan puluh delapan rupiah) yang berarti 105,56% (seratus lima koma lima puluh enam persen) dari Anggaran Pendapatan dalam Anggaran Pendapatan dan Belanja Negara Tahun Anggaran 2023 sebesar Rp2.637.248.881.485.000,00 (dua kuadriliun enam ratus tiga puluh tujuh triliun dua ratus empat puluh delapan miliar delapan ratus delapan puluh satu juta empat ratus delapan puluh lima ribu rupiah);"
-        },
-        {
-          "text": "The amount represents 105,56% of the budget",
-          "verdict": "supported",
-          "evidence": "realisasi Pendapatan Negara sebesar Rp2.783.929.676.930.198,00 ... yang berarti 105,56% (seratus lima koma lima puluh enam persen) dari Anggaran Pendapatan dalam Anggaran Pendapatan dan Belanja Negara Tahun Anggaran 2023 ..."
-        }
-      ]
-    },
-    {
-      "id": "q018",
-      "category": "legal_indonesia",
-      "question": "Apakah cadangan sisa anggaran pemerintah boleh dipakai ketika pengeluaran aktual melampaui pemasukan aktual dalam tahun fiskal yang sedang berjalan?",
-      "answer": "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi",
-      "contexts": [
-        "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi anggaran penerimaan tahun anggaran berjalan dan/atau terdapat pengembalian pendapatan tahun-tahun yang lalu."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-60-2024",
-        "gold_node_id": "pasal_10",
-        "navigation_path": "Pasal 10",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi",
-          "verdict": "supported",
-          "evidence": "Saldo Anggaran Lebih dapat digunakan dalam hal realisasi anggaran pengeluaran melebihi realisasi anggaran penerimaan tahun anggaran berjalan"
-        }
-      ]
-    },
-    {
-      "id": "q019",
-      "category": "legal_indonesia",
-      "question": "Untuk tahun 2023, laporan finansial milik pemerintah pusat dapet nilai apa dari BPK waktu diaudit?",
-      "answer": "diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian",
-      "contexts": [
-        "Laporan Keuangan Pemerintah Pusat sebagaimana dimaksud dalam Pasal 2, telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Corrected: the context does not mention year 2023. Judge is correct.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-60-2024",
-        "gold_node_id": "pasal_11",
-        "navigation_path": "Pasal 11",
-        "query_type": "paraphrased",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The report was examined by the Badan Pemeriksa Keuangan with an opinion of Wajar Tanpa Pengecualian.",
-          "verdict": "supported",
-          "evidence": "Laporan Keuangan Pemerintah Pusat sebagaimana dimaksud dalam Pasal 2, telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian."
-        }
-      ]
-    },
-    {
-      "id": "q020",
-      "category": "legal_indonesia",
-      "question": "Berapa lama jangka waktu penangkalan yang dapat dikenakan terhadap orang asing, dan apakah bisa diperpanjang?",
-      "answer": "paling lama 10 tahun dan dapat diperpanjang paling lama 10 tahun",
-      "contexts": [
-        "Jangka waktu Penangkalan berlaku paling lama 10 (sepuluh) tahun dan dapat diperpanjang paling lama 10 (sepuluh) tahun."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-63-2024",
-        "gold_node_id": "pasal_I_angka_7_pasal_102_ayat_1",
-        "navigation_path": "Pasal I > Pasal I Angka 7 > Pasal 102 > Pasal 102 Ayat (1)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Penangkalan paling lama 10 tahun",
-          "verdict": "supported",
-          "evidence": "Jangka waktu Penangkalan berlaku paling lama 10 (sepuluh) tahun dan dapat diperpanjang paling lama 10 (sepuluh) tahun."
-        },
-        {
-          "text": "Penangkalan dapat diperpanjang paling lama 10 tahun",
-          "verdict": "supported",
-          "evidence": "Jangka waktu Penangkalan berlaku paling lama 10 (sepuluh) tahun dan dapat diperpanjang paling lama 10 (sepuluh) tahun."
-        }
-      ]
-    },
-    {
-      "id": "q021",
-      "category": "legal_indonesia",
-      "question": "Apa kewajiban pemilik tempat penginapan terkait data Orang Asing dan sanksi pidana apa yang dikenakan jika kewajiban tersebut tidak dipenuhi?",
-      "answer": "Wajib berikan data OA jika diminta; sanksi kurungan maks 3 bulan atau denda maks Rp25.000.000",
-      "contexts": [
-        "Pemilik atau pengurus tempat penginapan wajib memberikan data mengenai Orang Asing yang menginap di tempat penginapannya jika diminta oleh Pejabat Imigrasi dan/atau pejabat Kepolisian Negara Republik Indonesia yang bertugas."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-63-2024",
-        "gold_node_id": "pasal_I_angka_5_pasal_72_ayat_2",
-        "navigation_path": "Pasal I > Pasal I Angka 5 > Pasal 72 > Pasal 72 Ayat (2)",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Pemilik atau pengurus tempat penginapan wajib memberikan data mengenai Orang Asing yang menginap di tempat penginapannya jika diminta.",
-          "verdict": "supported",
-          "evidence": "Pemilik atau pengurus tempat penginapan wajib memberikan data mengenai Orang Asing yang menginap di tempat penginapannya jika diminta oleh Pejabat Imigrasi dan/atau pejabat Kepolisian Negara Republik Indonesia yang bertugas."
-        },
-        {
-          "text": "Sanksi kurungan maksimal 3 bulan atau denda maksimal Rp25.000.000 dikenakan jika kewajiban tersebut tidak dipenuhi.",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q024",
-      "category": "legal_indonesia",
-      "question": "Siapa saja yang berhak mendapatkan Izin Masuk Kembali dan bagaimana masa berlaku izin tersebut ditentukan bagi pemegang Izin Tinggal Tetap?",
-      "answer": "Diberikan kepada pemegang Izin Tinggal terbatas atau Tetap; bagi pemegang Izin Tinggal Tetap masa berlakunya sama dengan Izin Tinggal Tetap",
-      "contexts": [
-        "Izin Masuk Kembali diberikan kepada Orang Asing pemegang Izin Tinggal terbatas atau Izin Tinggal Tetap."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "uu-63-2024",
-        "gold_node_id": "pasal_I_angka_4_pasal_64_ayat_1",
-        "navigation_path": "Pasal I > Pasal I Angka 4 > Pasal 64 > Pasal 64 Ayat (1)",
-        "query_type": "multihop",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Izin Masuk Kembali diberikan kepada pemegang Izin Tinggal terbatas atau Izin Tinggal Tetap",
-          "verdict": "supported",
-          "evidence": "Izin Masuk Kembali diberikan kepada Orang Asing pemegang Izin Tinggal terbatas atau Izin Tinggal Tetap."
-        },
-        {
-          "text": "Bagi pemegang Izin Tinggal Tetap, masa berlakunya sama dengan Izin Tinggal Tetap",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q025",
-      "category": "legal_indonesia",
-      "question": "Berapa batas usia pensiun tertinggi bagi perwira tinggi bintang 3 (tiga) TNI berdasarkan PP Nomor 35 Tahun 2025?",
-      "answer": "paling tinggi 62 (enam puluh dua) tahun dan paling rendah 48 tahun",
-      "contexts": [
-        "perwira tinggi bintang 3 (tiga) paling tinggi 62 (enam puluh dua) tahun dan paling rendah 48 (empat puluh delapan) tahun;"
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All factual claims are directly supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-35-2025",
-        "gold_node_id": "pasal_I_angka_8_pasal_50_ayat_2_huruf_e",
-        "navigation_path": "Pasal I > Pasal I Angka 8 > Pasal 50 > Pasal 50 Ayat (2) > Pasal 50 Ayat (2) Huruf e",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All factual claims are directly supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The highest retirement age for perwira tinggi bintang 3 is 62 years",
-          "verdict": "supported",
-          "evidence": "perwira tinggi bintang 3 (tiga) paling tinggi 62 (enam puluh dua) tahun"
-        },
-        {
-          "text": "The lowest retirement age for perwira tinggi bintang 3 is 48 years",
-          "verdict": "supported",
-          "evidence": "paling rendah 48 (empat puluh delapan) tahun"
-        }
-      ]
-    },
-    {
-      "id": "q027",
-      "category": "legal_indonesia",
-      "question": "Apa definisi Kenaikan Pangkat Luar Biasa (KPLB) dan dalam kondisi apa seorang Prajurit Siswa dapat dianugerahi KPLB tersebut?",
-      "answer": "KPLB: kenaikan pangkat atas jasa melampaui panggilan tugas; Prajurit Siswa berhak jika berjasa dalam pertempuran.",
-      "contexts": [
-        "Kenaikan Pangkat Luar Biasa yang selanjutnya disingkat KPLB adalah kenaikan Pangkat yang diberikan kepada Prajurit dalam melaksanakan tugas secara langsung baik tugas tempur maupun tugas nontempur, dengan pertaruhan jiwa raga dan berjasa melampaui panggilan tugas tanpa memedulikan keselamatan jiwanya melakukan tindakan kepahlawanan demi bangsa dan negara yang walaupun tindakan itu tidak dilakukannya ia tidak akan dipersalahkan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-35-2025",
-        "gold_node_id": "pasal_I_angka_1_pasal_1_angka_31",
-        "navigation_path": "Pasal I > Pasal I Angka 1 > Pasal 1 > Pasal 1 Angka 31",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded",
-      "judge_predicted_claims": [
-        {
-          "text": "KPLB is a promotion for service that exceeds the call of duty",
-          "verdict": "supported",
-          "evidence": "kenaikan Pangkat ... diberikan kepada Prajurit ... berjasa melampaui panggilan tugas"
-        },
-        {
-          "text": "A Prajurit Siswa is entitled to KPLB if he/she serves heroically in battle",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q031",
-      "category": "legal_indonesia",
-      "question": "Paling lambat berapa tahun sertifikat hak milik atas tanah harus diberikan kepada transmigran sejak mereka ditempatkan di satuan permukiman?",
-      "answer": "harus diberikan paling lambat 5 (lima) tahun sejak penempatan",
-      "contexts": [
-        "Sertifikat hak milik atas tanah sebagaimana dimaksud pada ayat (7) harus diberikan paling lambat 5 (lima) tahun sejak penempatan pada SP yang bersangkutan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-37-2025",
-        "gold_node_id": "pasal_I_angka_13_pasal_107_ayat_8",
-        "navigation_path": "Pasal I > Pasal I Angka 13 > Pasal 107 > Pasal 107 Ayat (8)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Sertifikat hak milik atas tanah harus diberikan paling lambat 5 tahun sejak penempatan",
-          "verdict": "supported",
-          "evidence": "Sertifikat hak milik atas tanah sebagaimana dimaksud pada ayat (7) harus diberikan paling lambat 5 (lima) tahun sejak penempatan pada SP yang bersangkutan."
-        }
-      ]
-    },
-    {
-      "id": "q032",
-      "category": "legal_indonesia",
-      "question": "Apa yang dimaksud dengan Transmigrasi Swakarsa Mandiri (TSM) dan bagaimana ketentuan perumahan yang diperuntukkan bagi jenis Transmigran tersebut?",
-      "answer": "TSM: prakarsa Transmigran yg telah mampu; perumahan TSM di PPLT/PPKT melalui sistem kredit, tidak termasuk biaya tanah.",
-      "contexts": [
-        "Transmigrasi Swakarsa Mandiri yang selanjutnya disingkat TSM adalah jenis Transmigrasi yang merupakan prakarsa Transmigran yang bersangkutan atas arahan, layanan, dan bantuan pemerintah pusat, pemerintah daerah provinsi, dan/atau pemerintah daerah kabupaten/kota bagi penduduk yang telah memiliki kemampuan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: Some claims are unsupported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-37-2025",
-        "gold_node_id": "pasal_I_angka_1_pasal_1_angka_20",
-        "navigation_path": "Pasal I > Pasal I Angka 1 > Pasal 1 > Pasal 1 Angka 20",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.3333333333333333,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "Some claims are unsupported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "TSM is an initiative of Transmigrants who are already capable",
-          "verdict": "supported",
-          "evidence": "Transmigrasi Swakarsa Mandiri yang selanjutnya disingkat TSM adalah jenis Transmigrasi yang merupakan prakarsa Transmigran yang bersangkutan ... bagi penduduk yang telah memiliki kemampuan."
-        },
-        {
-          "text": "TSM housing is provided in PPLT/PPKT through a credit system",
-          "verdict": "unsupported",
-          "evidence": null
-        },
-        {
-          "text": "TSM housing does not include land costs",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q034",
-      "category": "legal_indonesia",
-      "question": "Sertifikat kepemilikan lahan buat transmigran di SP-Pugar itu paling telat kapan harus diserahkan setelah mereka ditempatkan?",
-      "answer": "Sertifikat hak milik atas tanah harus diberikan paling lambat 5 (lima) tahun sejak penempatan",
-      "contexts": [
-        "Sertifikat hak milik atas tanah sebagaimana dimaksud pada ayat (7) harus diberikan paling lambat 5 (lima) tahun sejak penempatan pada SP yang bersangkutan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-37-2025",
-        "gold_node_id": "pasal_I_angka_13_pasal_107_ayat_8",
-        "navigation_path": "Pasal I > Pasal I Angka 13 > Pasal 107 > Pasal 107 Ayat (8)",
-        "query_type": "paraphrased",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Sertifikat hak milik atas tanah harus diberikan paling lambat 5 (lima) tahun sejak penempatan",
-          "verdict": "supported",
-          "evidence": "Sertifikat hak milik atas tanah sebagaimana dimaksud pada ayat (7) harus diberikan paling lambat 5 (lima) tahun sejak penempatan pada SP yang bersangkutan."
-        }
-      ]
-    },
-    {
-      "id": "q036",
-      "category": "legal_indonesia",
-      "question": "Kalau izin pertambangan rakyat (IPR) seseorang sudah habis masa berlakunya tapi dia masih terus nambang, kena sanksi apa?",
-      "answer": "dikenai sanksi sesuai dengan ketentuan peraturan perundang-undangan",
-      "contexts": [
-        "IPR,\nsebagaimana dimaksud pada ayat (1), melakukan kegiatan penambangan tanpa izin setelah berakhirnya jangka waktu atau dicabutnya izin dikenai sanksi sesuai dengan ketentuan peraturan perundang-undangan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-39-2025",
-        "gold_node_id": "pasal_I_angka_40_pasal_188A_ayat_3_huruf_d",
-        "navigation_path": "Pasal I > Pasal I Angka 40 > Pasal 188A > Pasal 188A Ayat (3) > Pasal 188A Ayat (3) Huruf d",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "dikenai sanksi sesuai dengan ketentuan peraturan perundang-undangan",
-          "verdict": "supported",
-          "evidence": "dikenai sanksi sesuai dengan ketentuan peraturan perundang-undangan"
-        }
-      ]
-    },
-    {
-      "id": "q037",
-      "category": "legal_indonesia",
-      "question": "Apa yang dimaksud dengan Rencana Kerja dan Anggaran Biaya (RKAB), dan apa yang menjadi acuan bagi pemegang IUP serta IUPK dalam penyusunan program pengembangan dan pemberdayaan masyarakat tahunan dalam dokumen RKAB tersebut?",
-      "answer": "RKAB: rencana kerja & anggaran aspek pengusahaan, teknik, lingkungan; acuan bagi pemegang IUP/IUPK: rencana induk program PPM untuk penyusunan program tahunan dalam dokumen RKAB.",
-      "contexts": [
-        "Rencana Kerja dan Anggaran Biaya yang selanjutnya disebut RKAB adalah rencana kerja dan anggaran biaya pada kegiatan Usaha Pertambangan Mineral dan Batubara yang meliputi aspek pengusahaan, aspek teknik, dan aspek lingkungan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-39-2025",
-        "gold_node_id": "pasal_I_angka_1_pasal_1_angka_39",
-        "navigation_path": "Pasal I > Pasal I Angka 1 > Pasal 1 > Pasal 1 Angka 39",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "RKAB is a work plan and budget covering the aspects of business (pengusahaan), technical, and environmental aspects",
-          "verdict": "supported",
-          "evidence": "Rencana Kerja dan Anggaran Biaya yang selanjutnya disebut RKAB adalah rencana kerja dan anggaran biaya pada kegiatan Usaha Pertambangan Mineral dan Batubara yang meliputi aspek pengusahaan, aspek teknik, dan aspek lingkungan."
-        },
-        {
-          "text": "RKAB serves as a reference for holders of IUP/IUPK, providing the master plan of the PPM program for preparing annual programs in the RKAB document",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q039",
-      "category": "legal_indonesia",
-      "question": "Apa yang terjadi pada lahan bekas izin tambang yang sudah dicabut atau habis masa berlakunya, apakah pihak yang kemudian mengusahakannya punya tanggung jawab atas pemulihan lingkungan hingga tuntas?",
-      "answer": "Pelaksanaan reklamasi dan/atau pascatambang hingga mencapai tingkat keberhasilan 100% pada eks WIUP dan eks WIUPK menjadi kewajiban pihak yang mengusahakan kembali.",
-      "contexts": [
-        "Pelaksanaan reklamasi dan/atau pascatambang hingga mencapai tingkat keberhasilan 100% (seratus persen) pada eks WIUP dan eks WIUPK sebagaimana dimaksud pada ayat (1) menjadi kewajiban pihak yang mengusahakan kembali."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-39-2025",
-        "gold_node_id": "pasal_I_angka_30_pasal_146A_ayat_2",
-        "navigation_path": "Pasal I > Pasal I Angka 30 > Pasal 146A > Pasal 146A Ayat (2)",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Pelaksanaan reklamasi dan/atau pascatambang hingga mencapai tingkat keberhasilan 100% pada eks WIUP dan eks WIUPK menjadi kewajiban pihak yang mengusahakan kembali.",
-          "verdict": "supported",
-          "evidence": "Pelaksanaan reklamasi dan/atau pascatambang hingga mencapai tingkat keberhasilan 100% (seratus persen) pada eks WIUP dan eks WIUPK sebagaimana dimaksud pada ayat (1) menjadi kewajiban pihak yang mengusahakan kembali."
-        }
-      ]
-    },
-    {
-      "id": "q042",
-      "category": "legal_indonesia",
-      "question": "Berapa lama waktu yang diberikan kepada pemilik lahan untuk mengosongkan properti setelah tanahnya resmi dinyatakan sebagai lahan yang ditelantarkan?",
-      "answer": "paling lama 30 hari kalender sejak penetapan, wajib dikosongkan",
-      "contexts": [
-        "Tanah yang telah ditetapkan sebagai Tanah Telantar, dalam jangka waktu paling lama 30 (tiga puluh) hari kalender sejak penetapan, wajib dikosongkan oleh bekas Pemegang Hak, Pemegang Hak Pengelolaan, atau Pemegang Dasar Penguasaan Atas Tanah."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-48-2025",
-        "gold_node_id": "pasal_32_ayat_1",
-        "navigation_path": "BAB V - PENERTIBAN KAWASAN DAN TANAH TELANTAR > Bagian Kedua - Penertiban Tanah Telantar > Paragraf 4 - Penetapan Tanah Telantar > Pasal 32 > Pasal 32 Ayat (1)",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The maximum time given to landowners to vacate the property after it is declared abandoned is 30 calendar days from the designation.",
-          "verdict": "supported",
-          "evidence": "Tanah yang telah ditetapkan sebagai Tanah Telantar, dalam jangka waktu paling lama 30 (tiga puluh) hari kalender sejak penetapan, wajib dikosongkan oleh bekas Pemegang Hak, Pemegang Hak Pengelolaan, atau Pemegang Dasar Penguasaan Atas Tanah."
-        },
-        {
-          "text": "Landowners are required to vacate the property after it is declared abandoned.",
-          "verdict": "supported",
-          "evidence": "Tanah yang telah ditetapkan sebagai Tanah Telantar, dalam jangka waktu paling lama 30 (tiga puluh) hari kalender sejak penetapan, wajib dikosongkan oleh bekas Pemegang Hak, Pemegang Hak Pengelolaan, atau Pemegang Dasar Penguasaan Atas Tanah."
-        }
-      ]
-    },
-    {
-      "id": "q043",
-      "category": "legal_indonesia",
-      "question": "Kalau pihak yang pegang izin kawasan nggak juga bergerak setelah tiga kali ditegur tertulis, siapa yang berwenang memutuskan kawasan itu jadi kawasan terlantar?",
-      "answer": "Pimpinan Instansi menetapkan kawasan tersebut sebagai Kawasan Telantar",
-      "contexts": [
-        "Dalam hal Pemegang Izin/ Konsesi/ Perizinan Berusaha tidak melaksanakan peringatan tertulis ketiga sebagaimana dimaksud dalam Pasal 17 ayat (4), Pimpinan Instansi menetapkan kawasan tersebut sebagai Kawasan Telantar."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-48-2025",
-        "gold_node_id": "pasal_19_ayat_1",
-        "navigation_path": "BAB V - PENERTIBAN KAWASAN DAN TANAH TELANTAR > Bagian Kesatu - Penertiban Kawasan Telantar > Paragraf 4 - Penetapan Kawasan Telantar > Pasal 19 > Pasal 19 Ayat (1)",
-        "query_type": "paraphrased",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Pimpinan Instansi menetapkan kawasan tersebut sebagai Kawasan Telantar.",
-          "verdict": "supported",
-          "evidence": "Dalam hal Pemegang Izin/ Konsesi/ Perizinan Berusaha tidak melaksanakan peringatan tertulis ketiga sebagaimana dimaksud dalam Pasal 17 ayat (4), Pimpinan Instansi menetapkan kawasan tersebut sebagai Kawasan Telantar."
-        }
-      ]
-    },
-    {
-      "id": "q044",
-      "category": "legal_indonesia",
-      "question": "Kalau seseorang yang diduga melakukan tindak pidana adat ternyata terbukti tidak melakukannya setelah musyawarah, apa yang terjadi padanya?",
-      "answer": "Setiap Orang tersebut dibebaskan dari pemenuhan kewajiban adat.",
-      "contexts": [
-        "Setiap Orang yang diduga melakukan Tindak Pidana Adat dinyatakan tidak melakukan Tindak Pidana Adat,\nSetiap Orang tersebut dibebaskan dari pemenuhan kewajiban adat."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-55-2025",
-        "gold_node_id": "pasal_18_huruf_b",
-        "navigation_path": "BAB III - TATA CARA PENANGANAN DAN PENYELESAIAN TINDAK PIDANA ADAT > Pasal 18 > Pasal 18 Huruf b",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported.",
-      "judge_predicted_claims": [
-        {
-          "text": "The person is freed from the fulfillment of adat obligations.",
-          "verdict": "supported",
-          "evidence": "Setiap Orang tersebut dibebaskan dari pemenuhan kewajiban adat."
-        }
-      ]
-    },
-    {
-      "id": "q046",
-      "category": "legal_indonesia",
-      "question": "Jika seorang pelaku perseorangan terbukti melakukan Tindak Pidana Adat namun menolak melaksanakan hasil keputusan musyawarah, berapa nilai ganti rugi yang harus dibayarkan dan kepada siapa ganti rugi tersebut diberikan?",
-      "answer": "Ganti rugi setara pidana denda kategori II KUHP untuk perseorangan; diberikan kepada korban dan/atau Masyarakat Hukum Adat setempat.",
-      "contexts": [
-        "ganti rugi yang nilainya setara dengan pidana denda kategori II dalam KUHP, dalam hal Tindak Pidana Adat dilakukan oleh orang perseorangan; atau"
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is supported, but another is unsupported, so the answer is not fully g",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pp-55-2025",
-        "gold_node_id": "pasal_22_ayat_2_huruf_a",
-        "navigation_path": "BAB III - TATA CARA PENANGANAN DAN PENYELESAIAN TINDAK PIDANA ADAT > Pasal 22 > Pasal 22 Ayat (2) > Pasal 22 Ayat (2) Huruf a",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is supported, but another is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Ganti rugi setara pidana denda kategori II KUHP untuk perseorangan",
-          "verdict": "supported",
-          "evidence": "ganti rugi yang nilainya setara dengan pidana denda kategori II dalam KUHP, dalam hal Tindak Pidana Adat dilakukan oleh orang perseorangan"
-        },
-        {
-          "text": "diberikan kepada korban dan/atau Masyarakat Hukum Adat setempat",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q049",
-      "category": "legal_indonesia",
-      "question": "Siapa yang berwenang mengeluarkan lisensi bagi surveyor hidrografi berdasarkan Perpres Nomor 11 Tahun 2026?",
-      "answer": "Lisensi sebagaimana dimaksud pada ayat (2) dikeluarkan oleh Pushidros.",
-      "contexts": [
-        "Lisensi sebagaimana dimaksud pada ayat (2) dikeluarkan oleh Pushidros."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-11-2026",
-        "gold_node_id": "pasal_6_ayat_4",
-        "navigation_path": "BAB II - PENYELENGGARAAN SURVEI HIDROGRAFI > Pasal 6 > Pasal 6 Ayat (4)",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported.",
-      "judge_predicted_claims": [
-        {
-          "text": "Lisensi sebagaimana dimaksud pada ayat (2) dikeluarkan oleh Pushidros.",
-          "verdict": "supported",
-          "evidence": "Lisensi sebagaimana dimaksud pada ayat (2) dikeluarkan oleh Pushidros."
-        }
-      ]
-    },
-    {
-      "id": "q050",
-      "category": "legal_indonesia",
-      "question": "Kalau ada kapal yang merekam kedalaman laut saat lewat di perairan Indonesia terus mampir ke pelabuhan, data rekamannya itu boleh dipakai buat apa saja?",
-      "answer": "digunakan sebagai data pelengkap dalam Pemetaan Hidrografi.",
-      "contexts": [
-        "Hasil perekaman sebagaimana dimaksud pada ayat (3) digunakan sebagai data pelengkap dalam Pemetaan Hidrografi."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-11-2026",
-        "gold_node_id": "pasal_25_ayat_4",
-        "navigation_path": "BAB VI - KETENTUAN LAIN-LAIN > Pasal 25 > Pasal 25 Ayat (4)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The recorded data can be used as supplementary data in hydrographic mapping.",
-          "verdict": "supported",
-          "evidence": "Hasil perekaman sebagaimana dimaksud pada ayat (3) digunakan sebagai data pelengkap dalam Pemetaan Hidrografi."
-        }
-      ]
-    },
-    {
-      "id": "q051",
-      "category": "legal_indonesia",
-      "question": "Apa yang dimaksud dengan lisensi surveyor hidrografi dan siapa yang berwenang mengeluarkannya berdasarkan Perpres Nomor 11 Tahun 2026?",
-      "answer": "Lisensi = izin tertulis bagi surveyor bersertifikat/akademik dengan rekam jejak; dikeluarkan oleh Pushidros.",
-      "contexts": [
-        "Lisensi sebagaimana dimaksud pada ayat (1) merupakan izin tertulis untuk surveyor hidrografi yang telah memiliki sertifikat kompetensi atau kualifikasi akademik tertentu dan memiliki rekam jejak Survei Hidrografi sesuai dengan ketentuan peraturan perundang-undangan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-11-2026",
-        "gold_node_id": "pasal_6_ayat_2",
-        "navigation_path": "BAB II - PENYELENGGARAAN SURVEI HIDROGRAFI > Pasal 6 > Pasal 6 Ayat (2)",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Lisensi is a written permission for hydrographic surveyors who have a competency certificate or academic qualification and a track record.",
-          "verdict": "supported",
-          "evidence": "Lisensi sebagaimana dimaksud pada ayat (1) merupakan izin tertulis untuk surveyor hidrografi yang telah memiliki sertifikat kompetensi atau kualifikasi akademik tertentu dan memiliki rekam jejak Survei Hidrografi sesuai dengan ketentuan peraturan perundang-undangan."
-        },
-        {
-          "text": "Lisensi is issued by Pushidros.",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q053",
-      "category": "legal_indonesia",
-      "question": "Berapa besaran hak keuangan bulanan yang diterima oleh Tenaga Ahli Madya Dewan Pertahanan Nasional?",
-      "answer": "Rp27.600.000,00 (dua puluh tujuh juta enam ratus ribu rupiah)",
-      "contexts": [
-        "Tenaga Ahli Madya sebesar Rp27.600.000,00 (dua puluh tujuh juta enam ratus ribu rupiah);"
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-119-2025",
-        "gold_node_id": "pasal_3_ayat_2_huruf_c_angka_2",
-        "navigation_path": "Pasal 3 > Pasal 3 Ayat (2) > Pasal 3 Ayat (2) Huruf c > Pasal 3 Ayat (2) Huruf c Angka 2",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The monthly financial entitlement for Tenaga Ahli Madya is Rp27.600.000,00 (dua puluh tujuh juta enam ratus ribu rupiah).",
-          "verdict": "supported",
-          "evidence": "Tenaga Ahli Madya sebesar Rp27.600.000,00 (dua puluh tujuh juta enam ratus ribu rupiah);"
-        }
-      ]
-    },
-    {
-      "id": "q059",
-      "category": "legal_indonesia",
-      "question": "Anak-anak dari keluarga tidak mampu yang mau masuk Sekolah Rakyat, siapa yang berwenang menetapkan hasil penjangkauan calon siswanya?",
-      "answer": "ditetapkan oleh gubernur atau bupati/wali kota",
-      "contexts": [
-        "Hasil penjangkauan Peserta Didik sebagaimana dimaksud pada ayat (2) ditetapkan oleh gubernur atau bupati/wali kota."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-120-2025",
-        "gold_node_id": "pasal_8_ayat_3",
-        "navigation_path": "BAB III - TATA KELOLA > Bagian Kedua - Peserta Didik > Pasal 8 > Pasal 8 Ayat (3)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported.",
-      "judge_predicted_claims": [
-        {
-          "text": "Hasil penjangkauan ditetapkan oleh gubernur atau bupati/wali kota",
-          "verdict": "supported",
-          "evidence": "Hasil penjangkauan Peserta Didik sebagaimana dimaksud pada ayat (2) ditetapkan oleh gubernur atau bupati/wali kota."
-        }
-      ]
-    },
-    {
-      "id": "q061",
-      "category": "legal_indonesia",
-      "question": "Apakah warga yang ingin ikut serta dalam program Sekolah Rakyat berbasis asrama gratis harus berasal dari rumah tangga yang hidup dalam kondisi kemiskinan parah?",
-      "answer": "berasal dari keluarga miskin ekstrem dan miskin berdasarkan DTSEN",
-      "contexts": [
-        "Peserta Didik sebagaimana dimaksud dalam Pasal 6 huruf a berasal dari keluarga miskin ekstrem dan miskin berdasarkan DTSEN."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-120-2025",
-        "gold_node_id": "pasal_7_ayat_1",
-        "navigation_path": "BAB III - TATA KELOLA > Bagian Kedua - Peserta Didik > Pasal 7 > Pasal 7 Ayat (1)",
-        "query_type": "paraphrased",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Peserta harus berasal dari keluarga miskin ekstrem dan miskin berdasarkan DTSEN",
-          "verdict": "supported",
-          "evidence": "Peserta Didik sebagaimana dimaksud dalam Pasal 6 huruf a berasal dari keluarga miskin ekstrem dan miskin berdasarkan DTSEN."
-        }
-      ]
-    },
-    {
-      "id": "q062",
-      "category": "legal_indonesia",
-      "question": "Seberapa sering pengawasan dan penilaian berkala terhadap jalannya program Sekolah Rakyat wajib dilaksanakan dalam satu periode tahunan?",
-      "answer": "dilakukan paling sedikit 1 (satu) kali dalam 1 (satu) tahun dan sewaktu-waktu",
-      "contexts": [
-        "Pemantauan dan evaluasi dilakukan paling sedikit 1 (satu) kali dalam 1 (satu) tahun dan sewaktu-waktu sesuai dengan kebutuhan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Corrected: the answer drops a qualifier stated in the context. Judge (Token Harbor / DeepSeek) is correct.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-120-2025",
-        "gold_node_id": "pasal_27_ayat_3",
-        "navigation_path": "BAB VI - PEMANTAUAN DAN EVALUASI > Pasal 27 > Pasal 27 Ayat (3)",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Pengawasan dan penilaian berkala terhadap program Sekolah Rakyat harus dilakukan paling sedikit satu kali dalam satu tahun dan sewaktu-waktu",
-          "verdict": "supported",
-          "evidence": "Pemantauan dan evaluasi dilakukan paling sedikit 1 (satu) kali dalam 1 (satu) tahun dan sewaktu-waktu sesuai dengan kebutuhan."
-        }
-      ]
-    },
-    {
-      "id": "q065",
-      "category": "legal_indonesia",
-      "question": "Berapa besaran uang penghargaan yang diterima Hakim Ad Hoc pada akhir masa jabatan, dan apakah Hakim Ad Hoc yang diberhentikan dengan tidak hormat karena dipidana penjara atas tindak pidana berdasarkan putusan pengadilan yang telah berkekuatan hukum tetap tetap berhak atas uang penghargaan tersebut?",
-      "answer": "Uang penghargaan sebesar 2x tunjangan; tidak diberikan jika diberhentikan tidak hormat karena sanksi berat/pidana.",
-      "contexts": [
-        "Uang penghargaan diberikan sebesar 2 (dua) kali besaran tunjangan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-5-2026",
-        "gold_node_id": "pasal_12_ayat_2",
-        "navigation_path": "Pasal 12 > Pasal 12 Ayat (2)",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Uang penghargaan sebesar 2x tunjangan.",
-          "verdict": "supported",
-          "evidence": "Uang penghargaan diberikan sebesar 2 (dua) kali besaran tunjangan."
-        },
-        {
-          "text": "Tidak diberikan jika diberhentikan tidak hormat karena sanksi berat/pidana.",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q066",
-      "category": "legal_indonesia",
-      "question": "Apakah hakim sementara yang berasal dari prajurit militer masih berhak mendapatkan gaji dari kesatuannya setelah menerima tunjangan bulanan?",
-      "answer": "tidak berhak atas penghasilan sebagai prajurit TNI dari instansi tempat Hakim Ad Hoc berasal",
-      "contexts": [
-        "Hakim Ad Hoc yang berasal dari pegawai negeri sipil, prajurit Tentara Nasional Indonesia, dan anggota Kepolisian Negara Republik Indonesia yang menerima tunjangan sebagaimana dimaksud dalam Pasal 3 ayat (1), tidak berhak atas penghasilan sebagai pegawai negeri sipil, prajurit Tentara Nasional Indonesia, dan anggota Kepolisian Negara Republik Indonesia dari instansi tempat Hakim Ad Hoc tersebut berasal."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Judge is correct. The answer narrows the scope from three categories (PNS, TNI, Polri) to only TNI. This is a material change.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-5-2026",
-        "gold_node_id": "pasal_5",
-        "navigation_path": "Pasal 5",
-        "query_type": "paraphrased",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Hakim Ad Hoc yang berasal dari prajurit TNI tidak berhak atas penghasilan sebagai prajurit TNI dari instansi tempat Hakim Ad Hoc tersebut berasal",
-          "verdict": "supported",
-          "evidence": "Hakim Ad Hoc yang berasal dari pegawai negeri sipil, prajurit Tentara Nasional Indonesia, dan anggota Kepolisian Negara Republik Indonesia yang menerima tunjangan sebagaimana dimaksud dalam Pasal 3 ayat (1), tidak berhak atas penghasilan sebagai pegawai negeri sipil, prajurit Tentara Nasional Indonesia, dan anggota Kepolisian Negara Republik Indonesia dari instansi tempat Hakim Ad Hoc tersebut berasal."
-        }
-      ]
-    },
-    {
-      "id": "q068",
-      "category": "legal_indonesia",
-      "question": "Berapa jumlah maksimal anggota kelompok ahli yang dapat dibentuk di lingkungan BNPT?",
-      "answer": "terdiri atas paling banyak 10 (sepuluh) orang",
-      "contexts": [
-        "Kelompok ahli sebagaimana dimaksud pada ayat (1) terdiri atas paling banyak 10 (sepuluh) orang."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-9-2026",
-        "gold_node_id": "pasal_39_ayat_3",
-        "navigation_path": "BAB III - ORGANISASI > Bagian Ketiga Belas - Kelompok Ahli > Pasal 39 > Pasal 39 Ayat (3)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported.",
-      "judge_predicted_claims": [
-        {
-          "text": "The maximum number of members in a group of experts is 10 people.",
-          "verdict": "supported",
-          "evidence": "Kelompok ahli sebagaimana dimaksud pada ayat (1) terdiri atas paling banyak 10 (sepuluh) orang."
-        }
-      ]
-    },
-    {
-      "id": "q071",
-      "category": "legal_indonesia",
-      "question": "Apa tugas utama Deputi Bidang Koordinasi Antarpenegak Hukum dan Pemulihan Korban dan berapa jumlah maksimal direktorat yang dapat dibentuk di bawahnya?",
-      "answer": "Tugasnya merumuskan kebijakan dan koordinasi antarpenegak hukum serta pemulihan korban; terdiri atas paling banyak 3 direktorat.",
-      "contexts": [
-        "Deputi Bidang Koordinasi Antarpenegak Hukum dan Pemulihan Korban mempunyai tugas menyelenggarakan perumusan kebijakan dan koordinasi antarpenegak hukum dalam penanggulangan terorisme dan program pemulihan korban tindak pidana terorisme."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-9-2026",
-        "gold_node_id": "pasal_22",
-        "navigation_path": "BAB III - ORGANISASI > Bagian Keenam - Deputi Bidang Koordinasi Antarpenegak Hukum dan Pemulihan Korban > Pasal 22",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "The main task is to formulate policy and coordinate law enforcers and victim recovery.",
-          "verdict": "supported",
-          "evidence": "tugas menyelenggarakan perumusan kebijakan dan koordinasi antarpenegak hukum ... dan program pemulihan korban"
-        },
-        {
-          "text": "At most three directorates can be formed under it.",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q072",
-      "category": "legal_indonesia",
-      "question": "Kepada siapa Inspektorat BNPT bertanggung jawab dan apa tugas pokoknya dalam lingkungan BNPT?",
-      "answer": "Inspektorat berada di bawah Kepala melalui Sekretaris Utama; tugasnya menyelenggarakan pengawasan intern di lingkungan BNPT.",
-      "contexts": [
-        "Inspektorat berada di bawah dan bertanggung jawab kepada Kepala melalui Sekretaris Utama."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perpres-9-2026",
-        "gold_node_id": "pasal_29_ayat_1",
-        "navigation_path": "BAB III - ORGANISASI > Bagian Kedelapan - Inspektorat > Pasal 29 > Pasal 29 Ayat (1)",
-        "query_type": "multihop",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Inspektorat berada di bawah Kepala melalui Sekretaris Utama",
-          "verdict": "supported",
-          "evidence": "Inspektorat berada di bawah dan bertanggung jawab kepada Kepala melalui Sekretaris Utama."
-        },
-        {
-          "text": "tugasnya menyelenggarakan pengawasan intern di lingkungan BNPT",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q073",
-      "category": "legal_indonesia",
-      "question": "Berapa lama batas waktu yang diberikan kepada obyek yang diperiksa untuk menyelesaikan tindak lanjut rekomendasi hasil pemeriksaan sebelum diserahkan kepada Aparat Penegak Hukum?",
-      "answer": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari",
-      "contexts": [
-        "Sebelum diserahkan kepada APH sebagaimana dimaksud pada ayat (1), obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari untuk menyelesaikan tindak lanjut rekomendasi hasil Pemeriksaan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bali-44-2025",
-        "gold_node_id": "pasal_32_ayat_2",
-        "navigation_path": "BAB II - CARA PENYAMPAIAN PENGADUAN, JENIS, DAN MEKANISME PENGELOLAAN PENGADUAN MASYARAKAT > Bagian Ketiga - Mekanisme Penanganan Pengaduan > Pasal 32 > Pasal 32 Ayat (2)",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari",
-          "verdict": "supported",
-          "evidence": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari untuk menyelesaikan tindak lanjut rekomendasi hasil Pemeriksaan."
-        }
-      ]
-    },
-    {
-      "id": "q074",
-      "category": "legal_indonesia",
-      "question": "Kalau ada orang yang mau ngadu soal pelanggaran tapi nggak mau kasih tahu nama dan alamatnya, apakah pengaduannya masih bisa dilanjutkan ke tahap berikutnya?",
-      "answer": "Pengaduan dapat dilanjutkan ke tahap berikutnya",
-      "contexts": [
-        "Dalam hal Pengadu tidak memberikan nama dan alamat sebagaimana dimaksud pada ayat (1) huruf a, namun didukung informasi sebagaimana dimaksud pada ayat (1) huruf b, huruf c dan huruf d, Pengaduan dapat dilanjutkan ke tahap berikutnya."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Judge is correct. The answer omits the condition (must be supported by information b, c, d) stated in the context. This is an overclaim.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bali-44-2025",
-        "gold_node_id": "pasal_15_ayat_2",
-        "navigation_path": "BAB II - CARA PENYAMPAIAN PENGADUAN, JENIS, DAN MEKANISME PENGELOLAAN PENGADUAN MASYARAKAT > Bagian Ketiga - Mekanisme Penanganan Pengaduan > Pasal 15 > Pasal 15 Ayat (2)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Pengaduan dapat dilanjutkan ke tahap berikutnya",
-          "verdict": "supported",
-          "evidence": "Pengaduan dapat dilanjutkan ke tahap berikutnya."
-        }
-      ]
-    },
-    {
-      "id": "q075",
-      "category": "legal_indonesia",
-      "question": "Apa yang dimaksud dengan Pemeriksaan dan berapa lama batas waktu pelaksanaan Pemeriksaan khusus sejak surat tugas diterbitkan?",
-      "answer": "Pemeriksaan: proses sistemik evaluasi bukti objektif; dilakukan paling lama 45 hari sejak surat tugas diterbitkan.",
-      "contexts": [
-        "Pemeriksaan adalah suatu proses sistemik untuk memperoleh dan mengevaluasi bukti secara objektif mengenai kondisi, dengan tujuan untuk menetapkan tingkat kesesuaian antara kondisi dengan kriteria yang telah ditetapkan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is unsupported, so the answer is not grounded.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bali-44-2025",
-        "gold_node_id": "pasal_1_angka_27",
-        "navigation_path": "BAB I - KETENTUAN UMUM > Pasal 1 > Pasal 1 Angka 27",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is unsupported, so the answer is not grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Pemeriksaan adalah proses sistemik evaluasi bukti objektif",
-          "verdict": "supported",
-          "evidence": "Pemeriksaan adalah suatu proses sistemik untuk memperoleh dan mengevaluasi bukti secara objektif mengenai kondisi, dengan tujuan untuk menetapkan tingkat kesesuaian antara kondisi dengan kriteria yang telah ditetapkan."
-        },
-        {
-          "text": "Pemeriksaan dilakukan paling lama 45 hari sejak surat tugas diterbitkan",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q077",
-      "category": "legal_indonesia",
-      "question": "Berapa lama batas waktu yang diberikan kepada pihak yang diperiksa untuk menyelesaikan rekomendasi sebelum berkas hasil investigasi diserahkan kepada aparat penegak hukum?",
-      "answer": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari untuk menyelesaikan tindak lanjut rekomendasi hasil Pemeriksaan.",
-      "contexts": [
-        "Sebelum diserahkan kepada APH sebagaimana dimaksud pada ayat (1), obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari untuk menyelesaikan tindak lanjut rekomendasi hasil Pemeriksaan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bali-44-2025",
-        "gold_node_id": "pasal_32_ayat_2",
-        "navigation_path": "BAB II - CARA PENYAMPAIAN PENGADUAN, JENIS, DAN MEKANISME PENGELOLAAN PENGADUAN MASYARAKAT > Bagian Ketiga - Mekanisme Penanganan Pengaduan > Pasal 32 > Pasal 32 Ayat (2)",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari untuk menyelesaikan tindak lanjut rekomendasi hasil Pemeriksaan.",
-          "verdict": "supported",
-          "evidence": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari untuk menyelesaikan tindak lanjut rekomendasi hasil Pemeriksaan."
-        }
-      ]
-    },
-    {
-      "id": "q079",
-      "category": "legal_indonesia",
-      "question": "Siapa yang bertanggung jawab melakukan pembinaan dan pengawasan teknis terhadap penyelenggaraan pencegahan dan percepatan penurunan stunting di daerah?",
-      "answer": "Perangkat Daerah yang menyelenggarakan urusan pemerintahan di bidang pengendalian penduduk dan keluarga berencana.",
-      "contexts": [
-        "Pembinaan dan pengawasan teknis terhadap penyelenggaraan Pencegahan dan Percepatan Penurunan Stunting dilakukan oleh Perangkat Daerah yang menyelenggarakan urusan pemerintahan di bidang pengendalian penduduk dan keluarga berencana."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bengkulu-45-2025",
-        "gold_node_id": "pasal_9_ayat_2",
-        "navigation_path": "BAB V - PEMBINAAN DAN PENGAWASAN > Pasal 9 > Pasal 9 Ayat (2)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Perangkat Daerah yang menyelenggarakan urusan pemerintahan di bidang pengendalian penduduk dan keluarga berencana bertanggung jawab melakukan pembinaan dan pengawasan teknis terhadap penyelenggaraan pencegahan dan percepatan penurunan stunting di daerah.",
-          "verdict": "supported",
-          "evidence": "Pembinaan dan pengawasan teknis terhadap penyelenggaraan Pencegahan dan Percepatan Penurunan Stunting dilakukan oleh Perangkat Daerah yang menyelenggarakan urusan pemerintahan di bidang pengendalian penduduk dan keluarga berencana."
-        }
-      ]
-    },
-    {
-      "id": "q080",
-      "category": "legal_indonesia",
-      "question": "Siapa yang bertanggung jawab melakukan pemantauan dan evaluasi pencegahan stunting, dan perangkat daerah mana yang melakukan pembinaan serta pengawasan teknisnya?",
-      "answer": "Pemantauan dikoordinir Kepala Perangkat bid. Perencanaan Pembangunan; pembinaan teknis oleh Perangkat bid. pengendalian penduduk dan KB.",
-      "contexts": [
-        "Pemantauan Pengendalian, Evaluasi, dan Pelaporan Pencegahan dan Percepatan Penurunan Stunting sebagaimana dimaksud pada ayat (1), dilaksanakan oleh tim Pencegahan dan Percepatan Penurunan Stunting dengan koordinator adalah Kepala Perangkat Daerah yang menyelenggarakan urusan Pemerintahan di bidang Perencanaan pembangunan Daerah."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: One claim is supported, but another lacks supporting evidence, so the answer is ",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bengkulu-45-2025",
-        "gold_node_id": "pasal_8_ayat_2",
-        "navigation_path": "BAB IV - PEMANTAUAN, PENGENDALIAN, EVALUASI, DAN PELAPORAN > Pasal 8 > Pasal 8 Ayat (2)",
-        "query_type": "multihop",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": false,
-      "judge_predicted_score": 0.5,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "One claim is supported, but another lacks supporting evidence, so the answer is not fully grounded.",
-      "judge_predicted_claims": [
-        {
-          "text": "Monitoring is coordinated by the Head of the Regional Device of Development Planning.",
-          "verdict": "supported",
-          "evidence": "koordinator adalah Kepala Perangkat Daerah yang menyelenggarakan urusan Pemerintahan di bidang Perencanaan pembangunan Daerah"
-        },
-        {
-          "text": "Technical guidance is carried out by the Regional Device of Population Control and Family Planning.",
-          "verdict": "unsupported",
-          "evidence": null
-        }
-      ]
-    },
-    {
-      "id": "q081",
-      "category": "legal_indonesia",
-      "question": "Apa yang dimaksud dengan kondisi tubuh anak yang terhambat pertumbuhannya akibat kurang asupan nutrisi dalam jangka panjang dan sering terserang penyakit infeksi?",
-      "answer": "gangguan pertumbuhan dan perkembangan anak akibat kekurangan gizi kronis dan infeksi berulang",
-      "contexts": [
-        "Stunting adalah gangguan pertumbuhan dan perkembangan anak akibat kekurangan gizi kronis dan infeksi berulang, yang ditandai dengan panjang atau tinggi badannya berada di bawah standar yang ditetapkan oleh menteri yang menyelenggarakan urusan pemerintahan di bidang kesehatan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-bengkulu-45-2025",
-        "gold_node_id": "pasal_1_angka_7",
-        "navigation_path": "BAB I - KETENTUAN UMUM > Pasal 1 > Pasal 1 Angka 7",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Gangguan pertumbuhan dan perkembangan anak akibat kekurangan gizi kronis dan infeksi berulang",
-          "verdict": "supported",
-          "evidence": "Stunting adalah gangguan pertumbuhan dan perkembangan anak akibat kekurangan gizi kronis dan infeksi berulang, yang ditandai dengan panjang atau tinggi badannya berada di bawah standar yang ditetapkan oleh menteri yang menyelenggarakan urusan pemerintahan di bidang kesehatan."
-        }
-      ]
-    },
-    {
-      "id": "q083",
-      "category": "legal_indonesia",
-      "question": "Apa warna dasar foto pada tanda pengenal ASN yang menjabat sebagai pejabat administrator di lingkungan Pemerintah Provinsi DKI Jakarta?",
-      "answer": "biru untuk pejabat administrator",
-      "contexts": [
-        "biru untuk pejabat administrator;"
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-daerah-khusus-ibukota-jakarta-4-2026",
-        "gold_node_id": "pasal_20_ayat_4_huruf_c",
-        "navigation_path": "BAB III - ATRIBUT DAN KELENGKAPAN PAKAIAN DINAS > Bagian Kesatu - Jenis Atribut dan Kelengkapan Pakaian Dinas > Pasal 20 > Pasal 20 Ayat (4) > Pasal 20 Ayat (4) Huruf c",
-        "query_type": "factual",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "biru untuk pejabat administrator",
-          "verdict": "supported",
-          "evidence": "biru untuk pejabat administrator"
-        }
-      ]
-    },
-    {
-      "id": "q085",
-      "category": "legal_indonesia",
-      "question": "Seragam dinas apa yang boleh dipakai ASN saat menghadiri pengangkatan pejabat atau saat menerima penghargaan atas pengabdian?",
-      "answer": "PSL dipakai pada upacara kenegaraan, pelantikan jabatan struktural, penerimaan penghargaan Satyalancana",
-      "contexts": [
-        "Pakaian Sipil Lengkap yang selanjutnya disingkat PSL adalah Pakaian Dinas bagi ASN yang dipakai pada upacara kenegaraan atau resmi, berpergian resmi ke luar negeri, acara tertentu pada kegiatan pendidikan dan pelatihan, pelantikan jabatan struktural dan pelantikan pejabat fungsional serta penerimaan penghargaan Satyalancana Karya Satya."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Corrected: the answer drops a qualifier stated in the context. Judge (Token Harbor / DeepSeek) is correct.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-daerah-khusus-ibukota-jakarta-4-2026",
-        "gold_node_id": "pasal_1_angka_15",
-        "navigation_path": "BAB I - KETENTUAN UMUM > Pasal 1 > Pasal 1 Angka 15",
-        "query_type": "paraphrased",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All factual claims in the answer are directly supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "PSL is used on upacara kenegaraan",
-          "verdict": "supported",
-          "evidence": "dipakai pada upacara kenegaraan ..."
-        },
-        {
-          "text": "PSL is used on pelantikan jabatan struktural",
-          "verdict": "supported",
-          "evidence": "dipakai pada ... pelantikan jabatan struktural ..."
-        },
-        {
-          "text": "PSL is used on penerimaan penghargaan Satyalancana",
-          "verdict": "supported",
-          "evidence": "dipakai pada ... penerimaan penghargaan Satyalancana Karya Satya"
-        }
-      ]
-    },
-    {
-      "id": "q088",
-      "category": "legal_indonesia",
-      "question": "Kalau bangunan gedung kategori diwajibkan (mandatory) punya nilai IKE dan nilai konsumsi air yang boros, pemerintah bisa kasih hukuman apa ke pemilik atau pengelolanya?",
-      "answer": "disinsentif dikenakan kepada Pemilik dan/atau Pengelola Bangunan Gedung kategori diwajibkan (mandatory) yang memiliki nilai IKE dan nilai konsumsi air masuk dalam kategori boros",
-      "contexts": [
-        "Disinsentif sebagaimana dimaksud pada ayat (1) dikenakan kepada Pemilik dan/atau Pengelola Bangunan Gedung kategori diwajibkan (mandatory) yang memiliki nilai IKE dan nilai konsumsi air masuk dalam kategori boros."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-daerah-khusus-ibukota-jakarta-5-2026",
-        "gold_node_id": "pasal_16_ayat_2",
-        "navigation_path": "BAB V - INSENTIF DAN DISINSENTIF > Pasal 16 > Pasal 16 Ayat (2)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported.",
-      "judge_predicted_claims": [
-        {
-          "text": "Disinsentif is imposed on owners and/or managers of mandatory category buildings that have IKE values and water consumption values that are in the wasteful category",
-          "verdict": "supported",
-          "evidence": "Disinsentif sebagaimana dimaksud pada ayat (1) dikenakan kepada Pemilik dan/atau Pengelola Bangunan Gedung kategori diwajibkan (mandatory) yang memiliki nilai IKE dan nilai konsumsi air masuk dalam kategori boros."
-        }
-      ]
-    },
-    {
-      "id": "q090",
-      "category": "legal_indonesia",
-      "question": "Berapa lama tenggat penyerahan rancangan penghematan daya listrik dan air setelah menerima hasil evaluasi?",
-      "answer": "disampaikan paling lambat 1 (satu) bulan sejak diterimanya hasil pengkajian",
-      "contexts": [
-        "Rencana Efisiensi Energi dan/atau Efisiensi Air sebagaimana dimaksud pada ayat (1) disampaikan paling lambat 1 (satu) bulan sejak diterimanya hasil pengkajian."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "pergub-daerah-khusus-ibukota-jakarta-5-2026",
-        "gold_node_id": "pasal_14_ayat_2",
-        "navigation_path": "BAB IV - PELAPORAN DAN PENGKAJIAN > Bagian Ketiga - Tindak Lanjut Pengkajian > Pasal 14 > Pasal 14 Ayat (2)",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "Disampaikan paling lambat 1 (satu) bulan sejak diterimanya hasil pengkajian.",
-          "verdict": "supported",
-          "evidence": "Rencana Efisiensi Energi dan/atau Efisiensi Air sebagaimana dimaksud pada ayat (1) disampaikan paling lambat 1 (satu) bulan sejak diterimanya hasil pengkajian."
-        }
-      ]
-    },
-    {
-      "id": "q096",
-      "category": "legal_indonesia",
-      "question": "Kapan paling lambat laporan penerapan FCP untuk posisi akhir bulan Juni harus disampaikan?",
-      "answer": "paling lambat pada tanggal 15 bulan berikutnya setelah akhir bulan laporan",
-      "contexts": [
-        "Laporan penerapan FCP sebagaimana dimaksud dalam pasal 11 ayat (3) disampaikan setiap semester untuk posisi akhir bulan Juni dan akhir bulan Desember, paling lambat pada tanggal 15 bulan berikutnya setelah akhir bulan laporan."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perwali-bandung-12-2026",
-        "gold_node_id": "pasal_12",
-        "navigation_path": "BAB VIII - PENERAPAN RENCANA PENGENDALIAN KECURANGAN > Pasal 12",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "paling lambat pada tanggal 15 bulan berikutnya setelah akhir bulan laporan",
-          "verdict": "supported",
-          "evidence": "paling lambat pada tanggal 15 bulan berikutnya setelah akhir bulan laporan"
-        }
-      ]
-    },
-    {
-      "id": "q098",
-      "category": "legal_indonesia",
-      "question": "Apa yang dimaksud dengan tindakan tidak jujur yang bertujuan meraup keuntungan pribadi atau menimbulkan kerugian bagi pihak lain melalui penipuan atau cara-cara yang bertentangan dengan aturan?",
-      "answer": "perbuatan yang dilakukan secara tidak jujur dengan tujuan untuk memperoleh keuntungan atau mengakibatkan kerugian",
-      "contexts": [
-        "Kecurangan adalah perbuatan yang dilakukan secara tidak jujur dengan tujuan untuk memperoleh keuntungan atau mengakibatkan timbulnya kerugian dengan cara menipu, memperdaya atau cara-cara lainnya yang melanggar ketentuan peraturan perundang-undangan."
-      ],
-      "human_grounded": false,
-      "human_verdict": null,
-      "human_reason": "Corrected: the answer drops a qualifier stated in the context. Judge (Token Harbor / DeepSeek) is correct.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perwali-bandung-12-2026",
-        "gold_node_id": "pasal_1_angka_10",
-        "navigation_path": "BAB I - KETENTUAN UMUM > Pasal 1 > Pasal 1 Angka 10",
-        "query_type": "paraphrased",
-        "query_style": "formal"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All claims are supported by the context.",
-      "judge_predicted_claims": [
-        {
-          "text": "perbuatan yang dilakukan secara tidak jujur",
-          "verdict": "supported",
-          "evidence": "Kecurangan adalah perbuatan yang dilakukan secara tidak jujur dengan tujuan untuk memperoleh keuntungan atau mengakibatkan timbulnya kerugian dengan cara menipu, memperdaya atau cara-cara lainnya yang melanggar ketentuan peraturan perundang-undangan."
-        },
-        {
-          "text": "dengan tujuan untuk memperoleh keuntungan",
-          "verdict": "supported",
-          "evidence": "Kecurangan adalah perbuatan yang dilakukan secara tidak jujur dengan tujuan untuk memperoleh keuntungan atau mengakibatkan timbulnya kerugian dengan cara menipu, memperdaya atau cara-cara lainnya yang melanggar ketentuan peraturan perundang-undangan."
-        },
-        {
-          "text": "atau mengakibatkan kerugian",
-          "verdict": "supported",
-          "evidence": "Kecurangan adalah perbuatan yang dilakukan secara tidak jujur dengan tujuan untuk memperoleh keuntungan atau mengakibatkan timbulnya kerugian dengan cara menipu, memperdaya atau cara-cara lainnya yang melanggar ketentuan peraturan perundang-undangan."
-        }
-      ]
-    },
-    {
-      "id": "q101",
-      "category": "legal_indonesia",
-      "question": "Kalau mau minta layanan tera ulang di luar kantor UPTD-ML, siapa yang harus nanggung kebutuhan alat dan bahannya?",
-      "answer": "dibebankan kepada pihak produsen atau pemilik UTTP",
-      "contexts": [
-        "Segala kebutuhan alat serta bahan pelaksanaan Tera dan Tera Ulang di luar kantor UPTD-ML sebagaimana dimaksud dalam ayat (4) dibebankan kepada pihak produsen atau pemilik UTTP."
-      ],
-      "human_grounded": true,
-      "human_verdict": null,
-      "human_reason": "Reviewed and confirmed. Judge reason: All identified claims are supported by the provided context.",
-      "metadata": {
-        "source": "indonesian-legal-rag",
-        "gold_doc_id": "perwali-bandung-15-2026",
-        "gold_node_id": "pasal_5_ayat_5",
-        "navigation_path": "BAB III - PELAKSANAAN TERA DAN TERA ULANG > Pasal 5 > Pasal 5 Ayat (5)",
-        "query_type": "factual",
-        "query_style": "colloquial"
-      },
-      "judge_predicted_grounded": true,
-      "judge_predicted_score": 1.0,
-      "judge_predicted_abstained": false,
-      "judge_predicted_reason": "All identified claims are supported by the provided context.",
-      "judge_predicted_claims": [
-        {
-          "text": "The cost of tools and materials for re‑calibration (Tera Ulang) outside the UPTD‑ML office is borne by the producer or the owner of the UTTP.",
-          "verdict": "supported",
-          "evidence": "Segala kebutuhan alat serta bahan pelaksanaan Tera dan Tera Ulang di luar kantor UPTD-ML sebagaimana dimaksud dalam ayat (4) dibebankan kepada pihak produsen atau pemilik UTTP."
-        }
-      ]
-    },
     {
       "id": "q102",
       "category": "legal_indonesia",
@@ -1685,9 +10,9 @@
       "contexts": [
         "Pelayanan Tera dan Tera Ulang tidak dikenakan biaya retribusi."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-bandung-15-2026",
@@ -1716,9 +41,9 @@
       "contexts": [
         "Pembinaan sebagaimana dimaksud pada ayat (1) terdiri atas sosialisasi, supervisi, bimbingan teknis, dan asistensi."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All listed forms are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-batu-12-2026",
@@ -1762,9 +87,9 @@
       "contexts": [
         "Investasi jangka pendek sebagaimana dimaksud dalam Pasal 3 ayat (2) merupakan investasi yang dapat segera dicairkan dan dimaksudkan untuk dimiliki selama 12 (dua belas) bulan atau kurang."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claim(s) are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-batu-12-2026",
@@ -1793,9 +118,9 @@
       "contexts": [
         "deposito pada bank umum dengan jangka waktu 3 (tiga) sampai dengan 12 (dua belas) bulan dan/atau yang dapat diperpanjang secara otomatis; dan"
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-batu-12-2026",
@@ -1829,9 +154,9 @@
       "contexts": [
         "30% (tiga puluh persen) bagi pegawai ASN yang melakukan dan/atau terlibat kecurangan terhadap kehadiran."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-semarang-7-2026",
@@ -1860,9 +185,9 @@
       "contexts": [
         "PPPK sebagaimana dimaksud pada ayat (3) huruf c dikecualikan bagi PPPK Paruh Waktu."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims in the answer lack supporting evidence in the given contexts.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-semarang-7-2026",
@@ -1901,9 +226,9 @@
       "contexts": [
         "30% (tiga puluh persen) bagi pegawai ASN yang melakukan dan/atau terlibat kecurangan terhadap kehadiran."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-semarang-7-2026",
@@ -1937,9 +262,9 @@
       "contexts": [
         "CPNS diberikan TPP berdasarkan pertimbangan objektif lainnya sebesar 50% (lima puluh persen) dari besaran sesuai jabatan selama 1 (satu) tahun."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perwali-semarang-7-2026",
@@ -2004,9 +329,9 @@
       "contexts": [
         "Besaran penghasilan MBR di Daerah adalah penghasilan per bulan paling banyak untuk kategori tidak kawin sebesar Rp8.500.000 (delapan juta lima ratus ribu rupiah), kategori kawin sebesar Rp10.000.000 (sepuluh juta rupiah) dan kategori satu orang untuk peserta Tapera sebesar Rp10.000.000 (sepuluh juta rupiah)."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-banyuwangi-10-2026",
@@ -2040,9 +365,9 @@
       "contexts": [
         "Besaran penghasilan atas kegiatan usaha atau pekerjaan non formal dibuktikan dengan surat pernyataan besaran penghasilan bermeterai yang diketahui oleh Kepala Desa/Lurah."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-banyuwangi-10-2026",
@@ -2071,9 +396,9 @@
       "contexts": [
         "Pelaporan sebagaimana dimaksud dalam Pasal 6 ayat (1) huruf c dilaksanakan oleh Pencipta Arsip kepada Bupati melalui LKD."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-karawang-6-2026",
@@ -2102,9 +427,9 @@
       "contexts": [
         "Pelaporan sebagaimana dimaksud pada ayat (1), dilakukan paling sedikit 3 (tiga) tahun sekali setelah kegiatan pemberkasan selesai dilaksanakan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-karawang-6-2026",
@@ -2133,9 +458,9 @@
       "contexts": [
         "Pembiayaan untuk pelaksanaan tugas Koordinator Wilayah Pendidikan bersumber dari anggaran pendapatan dan belanja Daerah serta sumber lain yang sah sesuai dengan ketentuan peraturan perundang-undangan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-karawang-9-2026",
@@ -2164,9 +489,9 @@
       "contexts": [
         "Dana Penunjang Operasional Wakil Bupati sebagaimana dimaksud dalam Pasal 10 huruf b digunakan untuk koordinasi, pengamanan, dan kegiatan khusus lainnya serta penanggulangan kerawanan sosial masyarakat sebagaimana dimaksud dalam Pasal 7 huruf c dan huruf d, secara kumulatif ditetapkan paling banyak Rp22.500.000,00 (dua puluh dua juta lima ratus ribu rupiah) per bulan."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-kendal-6-2026",
@@ -2200,9 +525,9 @@
       "contexts": [
         "Dana Penunjang Operasional Bupati sebagaimana dimaksud dalam Pasal 10 huruf a digunakan untuk koordinasi, pengamanan, dan kegiatan khusus lainnya serta penanggulangan kerawanan sosial masyarakat sebagaimana dimaksud dalam Pasal 7 huruf a dan huruf b secara kumulatif ditetapkan paling banyak Rp52.500.000,00 (lima puluh dua juta lima ratus ribu rupiah) per bulan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-kendal-6-2026",
@@ -2231,9 +556,9 @@
       "contexts": [
         "Pemeriksaan kesehatan yang selanjutnya disebut Medical Check Up adalah suatu prosedur yang dilakukan untuk mengetahui status kesehatan individu saat ini dan sebagai usaha untuk memelihara kesehatan secara berkala."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-kendal-6-2026",
@@ -2267,9 +592,9 @@
       "contexts": [
         "Pegawai ASN yang melaksanakan tugas beban kerja normal minimal 112,5 (seratus dua belas koma lima) jam per bulan;"
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-majalengka-38-2026",
@@ -2303,9 +628,9 @@
       "contexts": [
         "Pegawai ASN yang dapat diberikan tugas tambahan sebagai Koordinator Tim Kerja adalah Pegawai ASN yang menduduki jabatan fungsional ahli muda pada Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu paling singkat selama 1 (satu) tahun Kalender;"
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: The answer contains factual claims that are not supported by the provided contex",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perbup-majalengka-38-2026",
@@ -2339,9 +664,9 @@
       "contexts": [
         "Kemudahan dan/atau restrukturisasi Pinjaman PEN Daerah sebagaimana dimaksud dalam Pasal 17 ayat (1), termasuk perpanjangan jangka waktu Pinjaman PEN Daerah dan/atau Pinjaman Daerah dalam rangka mendukung program pemulihan ekonomi nasional paling lama 15 (lima belas) tahun yang disepakati antara Pemda dengan PT Sarana Multi Infrastruktur (Persero)."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-102-2025",
@@ -2370,9 +695,9 @@
       "contexts": [
         "DBH tahun anggaran 2025 yang telah disalurkan kepada Daerah sebagaimana dimaksud dalam Pasal 2 ayat (2) namun belum direalisasikan penggunaannya, dapat digunakan untuk kegiatan terkait penanganan darurat, Rehabilitasi, dan Rekonstruksi pascabencana alam."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-102-2025",
@@ -2406,9 +731,9 @@
       "contexts": [
         "Kunjungan kepada Wajib Pajak yang selanjutnya disebut Kunjungan adalah kegiatan yang dilakukan dalam rangka Pengawasan oleh pegawai negeri sipil di lingkungan Direktorat Jenderal Pajak yang ditugaskan untuk mendatangi tempat tinggal, tempat kedudukan, tempat kegiatan usaha dan/atau pekerjaan bebas Wajib Pajak, and/atau tempat lain yang dianggap perlu dan memiliki kaitan dengan Wajib Pajak."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: Answer contains an unsupported claim.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-111-2025",
@@ -2442,9 +767,9 @@
       "contexts": [
         "Dalam rangka Pengawasan Wajib Pajak terdaftar sebagaimana dimaksud dalam Pasal 3 ayat (1) huruf a, Direktur Jenderal Pajak melakukan kegiatan penyampaian imbauan sebagaimana dimaksud dalam Pasal 4 ayat (1) huruf e dengan menerbitkan surat imbauan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-111-2025",
@@ -2478,9 +803,9 @@
       "contexts": [
         "Berdasarkan nota pembetulan sebagaimana dimaksud pada ayat (6) huruf a atau ayat (7), kepala Kantor yang mengawasi Pabrik, Tempat Penyimpanan, atau Tempat Usaha Importir menerbitkan dan menyampaikan SPKPC kepada Pengusaha Pabrik, Pengusaha Tempat Penyimpanan, atau Importir Barang Kena Cukai menggunakan contoh format sebagaimana tercantum dalam Lampiran huruf B yang merupakan bagian tidak terpisahkan dari Peraturan Menteri ini paling lama 10 (sepuluh) hari kerja setelah diterbitkan nota pembetulan sebagaimana dimaksud pada ayat (6) huruf a atau ayat (7)."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-113-2025",
@@ -2509,9 +834,9 @@
       "contexts": [
         "Tanda bukti penerimaan pengembalian pita cukai sebagaimana dimaksud pada ayat (8) huruf a dan bukti pembayaran biaya pengganti penyediaan pita cukai sebagaimana dimaksud pada ayat (9) dipergunakan sebagai dokumen dasar pengembalian cukai oleh Pengusaha Pabrik atau Importir Barang Kena Cukai."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are supported by the provided context",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-113-2025",
@@ -2545,9 +870,9 @@
       "contexts": [
         "Berdasarkan tanda bukti perusakan pita cukai sebagaimana dimaksud pada ayat (1) huruf a, Pengusaha Pabrik harus membayar biaya pengganti penyediaan pita cukai."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-113-2025",
@@ -2576,9 +901,9 @@
       "contexts": [
         "Dalam hal surat permohonan penyaluran dana untuk membayar angsuran pokok dan bunga/margin/bagi hasil sebagaimana dimaksud pada ayat (1) ditujukan untuk penyaluran DAU pada bulan Desember, Bank menyampaikan surat permohonan kepada KPA BUN Pengelola Dana Transfer Umum paling lambat pada tanggal 12 November."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-15-2026",
@@ -2607,9 +932,9 @@
       "contexts": [
         "masa tenggang (grace period) Pembiayaan selama 6 (enam) bulan atau paling lama 12 (dua belas) bulan untuk pembayaran angsuran pokok dan bunga/margin/bagi hasil Pembiayaan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-15-2026",
@@ -2648,9 +973,9 @@
       "contexts": [
         "Dalam hal surat permohonan penyaluran dana untuk membayar angsuran pokok dan bunga/margin/bagi hasil sebagaimana dimaksud pada ayat (1) ditujukan untuk penyaluran DAU pada bulan Desember, Bank menyampaikan surat permohonan kepada KPA BUN Pengelola Dana Transfer Umum paling lambat pada tanggal 12 November."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-15-2026",
@@ -2679,9 +1004,9 @@
       "contexts": [
         "Keputusan Menteri sebagaimana dimaksud pada ayat (9) berlaku selama 60 (enam puluh) hari sejak tanggal ditetapkan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-99-2025",
@@ -2710,9 +1035,9 @@
       "contexts": [
         "Jangka waktu pengimporan atas impor barang kiriman hadiah/hibah yang diberikan pembebasan bea masuk dan/atau cukai sebagaimana dimaksud pada ayat (9) paling lama 1 (satu) tahun terhitung sejak tanggal ditetapkannya Keputusan Menteri."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "pmk-99-2025",
@@ -2746,9 +1071,9 @@
       "contexts": [
         "Evaluasi pertanggungjawaban direksi atas pelaksanaan kebijakan Manajemen Risiko sebagaimana dimaksud pada ayat (1) huruf b dilakukan paling sedikit 1 (satu) kali dalam 6 (enam) bulan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-12-2025",
@@ -2777,9 +1102,9 @@
       "contexts": [
         "Evaluasi pertanggungjawaban direksi atas pelaksanaan kebijakan Manajemen Risiko sebagaimana dimaksud pada ayat (1) huruf b dilakukan paling sedikit 1 (satu) kali dalam 6 (enam) bulan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-12-2025",
@@ -2808,9 +1133,9 @@
       "contexts": [
         "Otoritas Jasa Keuangan memberikan persetujuan atau penolakan atas permohonan izin pembukaan sentra keuangan khusus sebagaimana dimaksud pada ayat (2), paling lama 10 (sepuluh) hari kerja setelah dokumen diterima secara lengkap."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-19-2025",
@@ -2839,9 +1164,9 @@
       "contexts": [
         "Sanksi administratif berupa denda administratif sebagaimana dimaksud pada ayat (1) huruf g dikenakan paling banyak Rp50.000.000,00 (lima puluh juta rupiah)."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-29-2025",
@@ -2870,9 +1195,9 @@
       "contexts": [
         "porsi piutang Pinjaman Perusahaan Pergadaian Syariah paling sedikit sebesar 51% (lima puluh satu persen) per penyaluran Pinjaman bersama."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-29-2025",
@@ -2901,9 +1226,9 @@
       "contexts": [
         "Sanksi administratif berupa denda administratif sebagaimana dimaksud pada ayat (1) huruf g dikenakan paling banyak Rp50.000.000,00 (lima puluh juta rupiah)."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claim(s) are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-29-2025",
@@ -2932,9 +1257,9 @@
       "contexts": [
         "Perusahaan Pergadaian Syariah hasil Pemisahan dengan cara pendirian Perusahaan Pergadaian Syariah baru sebagaimana dimaksud pada ayat (1) dapat melakukan pemanfaatan sumber daya milik Perusahaan Pergadaian yang sebelumnya menjadi induk dari UUS yang melakukan Pemisahan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-29-2025",
@@ -2963,9 +1288,9 @@
       "contexts": [
         "Konsumen sebagaimana dimaksud pada ayat (1) tidak berhak mendapatkan perolehan kembali harta kekayaan dan/atau ganti kerugian atas Gugatan dari pihak Otoritas Jasa Keuangan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claim(s) are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-38-2025",
@@ -2994,9 +1319,9 @@
       "contexts": [
         "Setiap hari keterlambatan pembayaran SABD dari jangka waktu sebagaimana dimaksud pada ayat (2) dikenakan bunga sebesar 2% (dua persen) per bulan dari jumlah SABD yang ditetapkan oleh Otoritas Jasa Keuangan, dan paling banyak 48% (empat puluh delapan persen) dari jumlah SABD yang ditetapkan oleh Otoritas Jasa Keuangan dengan ketentuan bagian dari bulan dihitung 1 (satu) bulan."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-39-2025",
@@ -3035,9 +1360,9 @@
       "contexts": [
         "Dalam hal Pihak yang dikenakan SABD mengajukan permohonan keberatan kepada Otoritas Jasa Keuangan, Pihak tersebut harus terlebih dahulu melakukan pelunasan SABD pada sistem informasi penerimaan Otoritas Jasa Keuangan."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-39-2025",
@@ -3071,9 +1396,9 @@
       "contexts": [
         "teguran tertulis atau peringatan tertulis;"
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: Not all claims are supported; one claim lacks supporting evidence.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-ojk-39-2025",
@@ -3107,9 +1432,9 @@
       "contexts": [
         "hanya dapat dibeli oleh BUS dan UUS di pasar perdana;"
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-13-2023",
@@ -3138,9 +1463,9 @@
       "contexts": [
         "Dalam hal peserta Operasi Moneter tidak memenuhi kewajiban sebagaimana dimaksud pada ayat (3), transaksi Operasi Moneter yang bersangkutan dinyatakan batal."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-13-2023",
@@ -3169,9 +1494,9 @@
       "contexts": [
         "Stabilitas Sistem Keuangan yang selanjutnya disingkat SSK adalah kondisi sistem keuangan yang berfungsi efektif dan efisien serta mampu bertahan dari gejolak yang bersumber dari dalam negeri dan luar negeri untuk berkontribusi pada pertumbuhan perekonomian nasional."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-13-2024",
@@ -3205,9 +1530,9 @@
       "contexts": [
         "Bank umum yang melanggar ketentuan pada ayat (1) dan ayat (2) dikenai sanksi administratif berupa teguran tertulis."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-13-2024",
@@ -3267,9 +1592,9 @@
       "contexts": [
         "Bank Indonesia merupakan satu-satunya pihak yang berwenang mengajukan permohonan pernyataan pailit dan/atau permohonan penundaan kewajiban pembayaran utang dari debitur yang merupakan penyedia jasa pembayaran dan penyelenggara infrastruktur sistem pembayaran, penyelenggara jasa pengolahan uang rupiah, perusahaan pialang pasar uang, penyedia sarana perdagangan, sarana kliring untuk transaksi derivatif suku bunga dan nilai tukar over-the-counter, atau lembaga lainnya yang diberikan izin dan/atau penetapan oleh Bank Indonesia sepanjang pembubaran dan/atau kepailitannya tidak diatur berbeda dengan ketentuan peraturan perundang-undangan lainnya."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-4-2024",
@@ -3298,9 +1623,9 @@
       "contexts": [
         "Stabilitas Sistem Keuangan yang selanjutnya disingkat SSK adalah kondisi sistem keuangan yang berfungsi efektif dan efisien serta mampu bertahan dari gejolak yang bersumber dari dalam negeri dan luar negeri untuk berkontribusi pada pertumbuhan perekonomian nasional."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: Not all claims are supported; one claim is unsupported.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-4-2024",
@@ -3334,9 +1659,9 @@
       "contexts": [
         "Petunjuk Teknis yang selanjutnya disebut Juknis adalah dokumen atau panduan berisi penjabaran rinci dan teknis yang merupakan implementasi atau operasionalisasi peraturan di Bank Indonesia."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is present but it is unsupported due to missing qualifier.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-7-2025",
@@ -3365,9 +1690,9 @@
       "contexts": [
         "Peraturan Anggota Dewan Gubernur Intern yang selanjutnya disebut PADG Intern adalah ketentuan hukum yang ditetapkan oleh Anggota Dewan Gubernur untuk mengatur pelaksanaan atau operasionalisasi kebijakan atau turunan kebijakan Bank Indonesia, yang memuat aturan intern Bank Indonesia sebagai peraturan pelaksanaan PBI dan/atau PDG."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-7-2025",
@@ -3401,9 +1726,9 @@
       "contexts": [
         "Petunjuk Teknis yang selanjutnya disebut Juknis adalah dokumen atau panduan berisi penjabaran rinci dan teknis yang merupakan implementasi atau operasionalisasi peraturan di Bank Indonesia."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-7-2025",
@@ -3432,9 +1757,9 @@
       "contexts": [
         "Kebijakan Insentif Likuiditas Makroprudensial yang selanjutnya disebut KLM adalah insentif yang diberikan Bank Indonesia kepada Bank melalui pengurangan giro Bank di Bank Indonesia dalam rangka kewajiban pemenuhan giro wajib minimum secara rata-rata."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: The single claim is unsupported due to missing qualifier.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-9-2025",
@@ -3463,9 +1788,9 @@
       "contexts": [
         "Bank yang melanggar ketentuan sebagaimana dimaksud pada ayat (1) dikenai sanksi administratif berupa teguran tertulis."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-9-2025",
@@ -3499,9 +1824,9 @@
       "contexts": [
         "Pembiayaan adalah penyediaan dana atau tagihan yang dapat dipersamakan dengan itu berdasarkan persetujuan atau kesepakatan antara BUS dan/atau UUS dan pihak lain yang mewajibkan pihak yang dibiayai dan/atau diberi fasilitas dana untuk mengembalikan dana tersebut setelah jangka waktu tertentu dengan imbalan ujrah, tanpa imbalan, atau bagi hasil, yang meliputi transaksi bagi hasil, transaksi sewa-menyewa, transaksi jual beli, transaksi pinjam-meminjam, dan transaksi sewa-menyewa jasa sesuai dengan prinsip syariah."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is supported while the other lacks supporting evidence, so the answer ",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bi-9-2025",
@@ -3535,9 +1860,9 @@
       "contexts": [
         "penyampaian laporan kepada Pusat JDIH Kemenkes paling sedikit 1 (satu) kali dalam setahun."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-10-2024",
@@ -3566,9 +1891,9 @@
       "contexts": [
         "Pusat JDIH Kemenkes sebagaimana dimaksud pada ayat (2) huruf a dilaksanakan oleh Biro Hukum."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: Only the first claim is supported; the others lack supporting evidence.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-10-2024",
@@ -3612,9 +1937,9 @@
       "contexts": [
         "Pusat JDIHN adalah Badan Pembinaan Hukum Nasional, Kementerian Hukum dan Hak Asasi Manusia yang bertugas melakukan pembinaan, pengembangan, dan monitoring bagi anggota JDIHN."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-10-2024",
@@ -3643,9 +1968,9 @@
       "contexts": [
         "penyampaian laporan kepada Pusat JDIH Kemenkes paling sedikit 1 (satu) kali dalam setahun."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-10-2024",
@@ -3674,9 +1999,9 @@
       "contexts": [
         "Pengusulan penyusunan sebagaimana dimaksud pada ayat (1) harus disampaikan kepada Menteri melalui surat tertulis yang ditandatangani oleh pimpinan unit pemrakarsa dengan tembusan kepada Sekretaris Jenderal."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-15-2024",
@@ -3705,9 +2030,9 @@
       "contexts": [
         "Setiap pejabat terkait yang dimintakan paraf persetujuan verbal rancangan Peraturan Perundang-undangan harus dapat memberikan paraf dalam jangka waktu paling lama 3 (tiga) hari kerja sejak verbal diterima."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-15-2024",
@@ -3736,9 +2061,9 @@
       "contexts": [
         "Dalam hal rancangan Permenkes sudah tidak memiliki permasalahan dari segi substansi dan teknis Peraturan Perundang-undangan, Biro menyiapkan surat Menteri kepada menteri yang menyelenggarakan urusan pemerintahan di bidang hukum dan hak asasi manusia untuk dilakukan pengharmonisasian, pembulatan, dan pemantapan konsepsi rancangan Permenkes."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-15-2024",
@@ -3798,9 +2123,9 @@
       "contexts": [
         "Kondisi force majeur sebagaimana dimaksud pada ayat (5) terdiri dari mengalami bencana, kerusuhan, kejadian luar biasa, dan/atau wabah penyakit menular."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-18-2024",
@@ -3834,9 +2159,9 @@
       "contexts": [
         "Pencantuman informasi asal bahan sebagaimana dimaksud pada ayat (2) untuk alat kesehatan yang berasal dari bahan yang diharamkan dan belum bersumber dari bahan halal berupa nama bahan dengan warna yang berbeda pada penandaan produk."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claim(s) are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-3-2024",
@@ -3865,9 +2190,9 @@
       "contexts": [
         "Pencantuman informasi asal bahan sebagaimana dimaksud pada ayat (2) untuk alat kesehatan yang bahannya halal dan cara pembuatannya belum halal berupa tulisan berbahan halal dan dalam upaya memenuhi proses halal yang dicantumkan pada penandaan produk."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-3-2024",
@@ -3896,9 +2221,9 @@
       "contexts": [
         "Alat kesehatan sebagaimana dimaksud dalam Pasal 1 dan Pasal 2 hanya bagi yang berasal dari hewan dan/atau mengandung unsur hewan."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenkes-3-2024",
@@ -3932,9 +2257,9 @@
       "contexts": [
         "Peraturan Menteri ini mulai berlaku pada tanggal 1 Januari 2025."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-13-2024",
@@ -3963,9 +2288,9 @@
       "contexts": [
         "Bantuan Pemerintah adalah bantuan yang tidak memenuhi kriteria bantuan sosial yang diberikan oleh Pemerintah kepada perseorangan, kelompok masyarakat, atau lembaga pemerintah/non pemerintah."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: The answer contains a factual claim that is not supported by the provided contex",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-13-2024",
@@ -3994,9 +2319,9 @@
       "contexts": [
         "Terhadap sanksi pencabutan NIB sebagaimana dimaksud pada ayat (4), Pelaku Usaha dapat mengajukan permohonan PBBR yang baru paling cepat 1 (satu) tahun setelah tanggal pencabutan NIB."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-14-2025",
@@ -4025,9 +2350,9 @@
       "contexts": [
         "Untuk mendapatkan akun SIAPkerja sebagaimana dimaksud pada ayat (1), pengguna SIAPkerja harus melakukan registrasi dengan mengisi nomor induk kependudukan dan data diri pada SIAPkerja."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-17-2024",
@@ -4056,9 +2381,9 @@
       "contexts": [
         "Interoperabilitas Data adalah kemampuan data untuk dibagipakaikan antarsistem elektronik yang saling berinteraksi."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-17-2024",
@@ -4092,9 +2417,9 @@
       "contexts": [
         "Monitoring dan evaluasi sebagaimana dimaksud pada ayat (1) dilakukan secara periodik setiap 6 (enam) bulan sekali."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claim(s) are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-17-2024",
@@ -4123,9 +2448,9 @@
       "contexts": [
         "Manfaat uang tunai diberikan setiap bulan sebesar 60% (enam puluh persen) dari Upah, untuk paling lama 6 (enam) bulan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-2-2025",
@@ -4159,9 +2484,9 @@
       "contexts": [
         "Inteligensi Pasar Kerja adalah hasil dari kemampuan analisis data dan statistik mengenai struktur, karakteristik, persediaan, dan kebutuhan Tenaga Kerja, serta kondisi antara yang memfasilitasi atau menghambat tercapainya keseimbangan Pasar Kerja."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-5-2024",
@@ -4195,9 +2520,9 @@
       "contexts": [
         "Sistem Informasi Ketenagakerjaan adalah suatu ekosistem digital yang menjadi platform bagi segala jenis layanan publik dan aktivitas bidang ketenagakerjaan baik di pusat maupun daerah."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permenaker-5-2024",
@@ -4231,9 +2556,9 @@
       "contexts": [
         "Dewan perwakilan rakyat daerah harus melakukan pembahasan LKPJ paling lambat 30 (tiga puluh) hari setelah LKPJ diterima."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-19-2024",
@@ -4262,9 +2587,9 @@
       "contexts": [
         "Ringkasan Laporan Penyelenggaraan Pemerintahan Daerah yang selanjutnya disingkat RLPPD adalah informasi yang disampaikan oleh pemerintah daerah kepada masyarakat yang memuat capaian kinerja penyelenggaraan pemerintahan daerah selama 1 (satu) tahun anggaran."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: Not all claims are supported; one claim lacks supporting evidence.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-19-2024",
@@ -4298,9 +2623,9 @@
       "contexts": [
         "Dalam hal Menteri berhalangan pengucapan sumpah/janji anggota Pansel Provinsi dipandu oleh pejabat yang ditunjuk oleh Menteri."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-2-2024",
@@ -4329,9 +2654,9 @@
       "contexts": [
         "Honorarium dan belanja penunjang kegiatan sebagaimana dimaksud pada ayat (1) dibebankan pada Anggaran Pendapatan Belanja Daerah Provinsi."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-2-2024",
@@ -4360,9 +2685,9 @@
       "contexts": [
         "Keputusan Gubernur sebagaimana dimaksud pada ayat (1), dan Keputusan Gubernur dan/atau Keputusan Bupati/Wali kota sebagaimana dimaksud pada ayat (2) paling lama ditetapkan 3 (tiga) minggu sejak dimulainya tahun anggaran."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-22-2024",
@@ -4391,9 +2716,9 @@
       "contexts": [
         "Keputusan Gubernur sebagaimana dimaksud pada ayat (1), dan Keputusan Gubernur dan/atau Keputusan Bupati/Wali kota sebagaimana dimaksud pada ayat (2) paling lama ditetapkan 3 (tiga) minggu sejak dimulainya tahun anggaran."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-22-2024",
@@ -4422,9 +2747,9 @@
       "contexts": [
         "Bimbingan teknis sebagaimana dimaksud dalam Pasal 14 huruf d dilakukan paling singkat 20 (dua puluh) jam pelajaran dan paling lama 30 (tiga puluh) jam pelajaran dalam satu kali kegiatan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-6-2024",
@@ -4458,9 +2783,9 @@
       "contexts": [
         "Nomor register sebagaimana dimaksud pada ayat (1) diterbitkan oleh BPSDM Kemendagri."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-6-2024",
@@ -4489,9 +2814,9 @@
       "contexts": [
         "bus nilai koefisien sama dengan 1,1 (satu koma satu);"
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-7-2025",
@@ -4520,9 +2845,9 @@
       "contexts": [
         "Nilai Jual Kendaraan Bermotor yang selanjutnya disingkat NJKB adalah harga pasaran umum atas suatu Kendaraan Bermotor."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-7-2025",
@@ -4556,9 +2881,9 @@
       "contexts": [
         "Alat Berat adalah alat yang diciptakan untuk membantu pekerjaan konstruksi dan pekerjaan teknik sipil lainnya yang sifatnya berat apabila dikerjakan oleh tenaga manusia, beroperasi menggunakan motor dengan atau tanpa roda, tidak melekat secara permanen serta beroperasi pada area tertentu, termasuk tetapi tidak terbatas pada area konstruksi, perkebunan, kehutanan, dan pertambangan."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "permendagri-7-2025",
@@ -4592,9 +2917,9 @@
       "contexts": [
         "Permohonan diajukan paling lama 90 (sembilan puluh) Hari sejak Pemohon mengetahui putusan Pengadilan yang telah berkekuatan hukum tetap."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-1-2022",
@@ -4623,9 +2948,9 @@
       "contexts": [
         "permohonan Kompensasi untuk Warga Negara Indonesia Korban tindak pidana terorisme yang terjadi di luar wilayah Negara Republik Indonesia diadili oleh Pengadilan Negeri Jakarta Pusat."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-1-2022",
@@ -4685,9 +3010,9 @@
       "contexts": [
         "Dalam hal di kemudian hari Termohon bersedia menerima isi penetapan sebagaimana dimaksud pada ayat (3), Panitera Pengadilan menyerahkan uang ganti kerugian sesuai dengan isi penetapan kepada Termohon."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are directly supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-2-2021",
@@ -4716,9 +3041,9 @@
       "contexts": [
         "Penitipan Ganti Kerugian adalah penyimpanan Ganti Kerugian berupa uang kepada pengadilan oleh Instansi yang memerlukan tanah dalam hal pihak yang berhak menolak besarnya Ganti Kerugian berdasarkan hasil Musyawarah Penetapan Ganti Kerugian tetapi tidak mengajukan Keberatan ke pengadilan, menolak putusan pengadilan yang telah memperoleh kekuatan hukum tetap, atau dalam keadaan tertentu yang ditetapkan berdasarkan peraturan perundang-undangan."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-2-2021",
@@ -4752,9 +3077,9 @@
       "contexts": [
         "Mahkamah Agung memutus perkara paling lambat 90 (sembilan puluh) Hari sejak penunjukan majelis hakim."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-2-2023",
@@ -4783,9 +3108,9 @@
       "contexts": [
         "Perintah Penangguhan Sementara sebagaimana dimaksud dalam Pasal 8 dilaksanakan untuk jangka waktu paling lama 10 (sepuluh) hari terhitung sejak Penetapan Penangguhan Sementara diterima oleh Pejabat Bea dan Cukai."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-6-2019",
@@ -4814,9 +3139,9 @@
       "contexts": [
         "Hakim memberikan penetapan Penangguhan Sementara paling lambat 2 (dua) hari setelah pendaftaran permohonan."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-6-2019",
@@ -4845,9 +3170,9 @@
       "contexts": [
         "Perpanjangan Perintah Penangguhan Sementara diajukan oleh Pemohon paling lambat 3 (tiga) Hari sebelum berakhirnya jangka waktu Penangguhan Sementara tahap pertama."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All identified claims are supported by the provided context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-6-2019",
@@ -4876,9 +3201,9 @@
       "contexts": [
         "Pengajuan permohonan Peninjauan Kembali berdasarkan alasan karena terdapat bukti tertulis baru yang penting dan bersifat menentukan, yang apabila diketahui pada tahap persidangan di Pengadilan Pajak akan menghasilkan putusan yang berbeda dilakukan dalam jangka waktu paling lambat 3 (tiga) bulan terhitung sejak ditemukan bukti tertulis baru yang hari dan tanggal ditemukannya harus dinyatakan di bawah sumpah dan disahkan oleh pejabat yang berwenang."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-7-2018",
@@ -4912,9 +3237,9 @@
       "contexts": [
         "Permohonan Peninjauan Kembali dapat dicabut sebelum diputus dan dalam hal sudah dicabut permohonan Peninjauan Kembali tersebut tidak dapat diajukan lagi."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported, so the answer is not fully grounded.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "perma-7-2018",
@@ -4948,9 +3273,9 @@
       "contexts": [
         "Balai Layanan Penghubung Identitas Digital berlokasi di Kota Jakarta, Provinsi Daerah Khusus Ibukota Jakarta."
       ],
-      "human_grounded": true,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: All factual claims are supported by the context.",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bssn-1-2025",
@@ -4979,9 +3304,9 @@
       "contexts": [
         "Pemberian penugasan kepada kelompok Jabatan Fungsional diatur oleh Kepala sesuai dengan kebutuhan dan beban kerja serta permasalahan yang dihadapi."
       ],
-      "human_grounded": false,
+      "human_grounded": null,
       "human_verdict": null,
-      "human_reason": "Accepted from assisted labeling. Judge reason: One claim is unsupported because it omits a qualifier present in the context, so",
+      "human_reason": "",
       "metadata": {
         "source": "indonesian-legal-rag",
         "gold_doc_id": "peraturan-bssn-1-2025",
