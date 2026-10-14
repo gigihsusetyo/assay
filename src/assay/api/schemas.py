@@ -92,3 +92,6 @@ class ExecuteResponse(BaseModel):
     total_latency_ms: int
     total_cost_usd: float
     status: str
+    judge_used: int = 0
+    relevance_used: int = 0
+    citation_used: int = 0

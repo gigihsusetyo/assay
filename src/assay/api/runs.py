@@ -159,4 +159,7 @@ def execute_run_endpoint(
         total_latency_ms=summary.total_latency_ms,
         total_cost_usd=summary.total_cost_usd,
         status=run.status if run else "unknown",
+        judge_used=summary.judge_used,
+        relevance_used=summary.relevance_used,
+        citation_used=summary.citation_used,
     )
