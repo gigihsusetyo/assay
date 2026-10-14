@@ -374,6 +374,62 @@ This is deliberate. A parser that guesses can turn a broken response into a fals
 **Tanggal:** 4 Oktober 2026
 **Diperbarui:** 8 Oktober 2026
 
+## Citation Accuracy: A Deterministic Metric with Optional LLM Layer
+
+On 14 October 2026, a third metric was added: citation accuracy.
+
+**The problem.** In domains that rely on citations (legal, academic,
+regulatory), an answer is only useful if its citations are correct. A
+grounded answer that cites the wrong article is worse than an answer
+that admits uncertainty.
+
+**The metric.** Citation accuracy extracts citations from the answer
+and checks two things:
+
+1. **Existence.** Does the citation appear in the retrieved contexts?
+   This is deterministic. Pattern-matching for "Pasal 5 ayat (2)",
+   "UU 16/2025", "PP 35/2025", and similar forms, with normalization
+   for long vs short forms.
+2. **Relevance.** Does the citation actually support the claim it is
+   attached to? This is optional, using LLM-as-judge.
+
+The MVP ships the deterministic layer. The LLM relevance layer is
+planned but not yet implemented.
+
+**Why deterministic first.** Existence checks are fast, free, and
+auditable. A citation either appears in the context or it does not.
+Relevance checks require semantic understanding, which is what the
+LLM judge is for. Splitting the two keeps the fast path fast.
+
+**Score.** `citation_accuracy = valid_citations / total_citations`.
+`None` if the answer has no citations. This makes the metric
+opt-in by nature: answers without citations simply do not get a
+score.
+
+**Example.**
+
+Answer: "Berdasarkan Pasal 5 ayat (2) UU 16/2025, batas usia adalah
+60 tahun."
+Context: "Pasal 5 ayat (2): berusia paling tinggi 60 tahun..."
+
+Result: one citation, exists in context, score = 1.0.
+
+Answer: "Berdasarkan Pasal 7, batas usia adalah 60 tahun."
+Context: "Pasal 5 ayat (2): berusia paling tinggi 60 tahun..."
+
+Result: one citation, does not exist in context, score = 0.0.
+
+**Why not LLM for everything.** An LLM-based existence check would
+cost money, add latency, and introduce nondeterminism. A regex-based
+check is exact. In domains with strict citation grammar (Indonesian
+legal), the deterministic layer catches most cases.
+
+**Why it matters for Assay.** The primary use case for citation
+accuracy is legal and regulatory RAG. A fintech compliance assistant
+that cites the wrong OJK regulation is dangerous. A support chatbot
+that cites the wrong article is unhelpful. Citation accuracy makes
+this visible in the CI gate.
+
 ## Konteks
 
 Assay mengukur kualitas RAG. MVP awal pakai metrics heuristic sederhana: token overlap antara jawaban dan konteks. Cepat, deterministic, gratis. Tapi dangkal. Jawaban yang benar secara semantic tapi pakai kata berbeda akan skor rendah. Jawaban yang copy token tapi salah secara semantic akan skor tinggi.

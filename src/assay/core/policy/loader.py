@@ -16,6 +16,7 @@ VALID_THRESHOLD_KEYS = {
     "groundedness",
     "context_recall",
     "answer_relevance",
+    "citation_accuracy",
     "p95_latency_ms",
     "avg_cost_usd",
 }

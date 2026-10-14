@@ -204,6 +204,13 @@ def compare_runs(
         [r.answer_relevance for r in current_results if r.answer_relevance is not None]
     )
 
+    baseline_citation = _avg(
+        [r.citation_accuracy for r in baseline_results if r.citation_accuracy is not None]
+    )
+    current_citation = _avg(
+        [r.citation_accuracy for r in current_results if r.citation_accuracy is not None]
+    )
+
     baseline_p95 = _percentile(
         [r.latency_ms for r in baseline_results if r.latency_ms is not None], 0.95
     )
@@ -228,6 +235,7 @@ def compare_runs(
         ("groundedness", baseline_groundedness, current_groundedness, True, "groundedness"),
         ("context_recall", baseline_recall, current_recall, True, "context_recall"),
         ("answer_relevance", baseline_relevance, current_relevance, True, "answer_relevance"),
+        ("citation_accuracy", baseline_citation, current_citation, True, "citation_accuracy"),
         ("p95_latency_ms", baseline_p95, current_p95, False, "p95_latency_ms"),
         ("avg_cost_usd", baseline_cost, current_cost, False, "avg_cost_usd"),
     ]

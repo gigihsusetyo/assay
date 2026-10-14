@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from assay.adapters.http_target import HTTPTargetAdapter, TargetError
 from assay.config import settings
+from assay.core.metrics.citation import citation_accuracy
 from assay.core.metrics.judge import (
     JudgeError,
     judge_answer_relevance,
@@ -30,6 +31,7 @@ class ExecutionSummary:
     total_cost_usd: float
     judge_used: int
     relevance_used: int
+    citation_used: int = 0
 
 
 def execute_run(
@@ -79,6 +81,7 @@ def execute_run(
     total_cost = 0.0
     judge_used = 0
     relevance_used = 0
+    citation_used = 0
 
     for q in questions:
         try:
@@ -123,6 +126,12 @@ def execute_run(
                         print(f"  Q{q.id}: relevance judge failed ({e})")
                     ar = None
 
+            # Citation accuracy: deterministic, always computed.
+            citation_result = citation_accuracy(response.answer, contexts)
+            citation_score = citation_result.score  # None if no citations
+            if citation_score is not None:
+                citation_used += 1
+
             r = context_recall(q.expected_context, contexts)
             result_repo.create(
                 run_id=run.id,
@@ -132,6 +141,7 @@ def execute_run(
                 groundedness=g,
                 context_recall=r,
                 answer_relevance=ar,
+                citation_accuracy=citation_score,
                 latency_ms=response.latency_ms,
                 cost_usd=response.cost_usd,
             )
@@ -165,4 +175,5 @@ def execute_run(
         total_cost_usd=total_cost,
         judge_used=judge_used,
         relevance_used=relevance_used,
+        citation_used=citation_used,
     )

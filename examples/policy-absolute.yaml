@@ -1,6 +1,7 @@
 version: 1
 thresholds:
   groundedness:
+  citation_accuracy: 5.0
     value: 0.05
     type: absolute
   context_recall:
