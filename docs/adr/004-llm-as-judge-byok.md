@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 4 October 2026
-**Updated:** 8 October 2026
+**Updated:** 14 October 2026
 
 ## Context
 
@@ -72,16 +72,18 @@ What is sacrificed:
 
 Because judge quality varies by model, it needs to be measured. This is what makes Assay different from other tools.
 
-The plan:
+What was built:
 
-1. Build a calibration set: 50 questions with human-labeled groundedness, drawn from 21 Indonesian legal documents.
-2. Build an adversarial suite: 20 cases covering number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, and hedging.
-3. Run the judge on both sets.
-4. Compute agreement with human labels using Cohen's kappa.
-5. Probe for bias: position bias, verbosity bias, self-preference bias.
-6. Report the results in the docs.
+1. A calibration set: 250 manually reviewed entries from 60+ Indonesian legal documents. Each entry has a human label for groundedness, assigned without seeing the judge prediction.
+2. An adversarial suite: 20 cases covering number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, and hedging.
+3. The judge is run on both sets.
+4. Agreement with human labels is measured with Cohen's kappa and a confusion matrix.
+5. Bias probes: position bias, verbosity bias, self-preference bias.
+6. Results are reported in this ADR and in the README.
 
 If the judge is not reliable, the user should not trust the groundedness scores. Better to know than to guess.
+
+The current result on the 250-entry calibration set is kappa 0.899, raw agreement 95.6%. See the "Prompt Refinement History and Known Limitations" section below for the detailed confusion matrix and known failure modes.
 
 ## Fallback Behavior
 
@@ -137,7 +139,7 @@ The fix: explicit rules were added to the prompt:
 
 After the fix, the flip rate dropped to **0%**. No position bias detected on the same probe.
 
-The judge validation still shows Cohen's kappa 1.000 on the 50-entry calibration set. The fix did not hurt accuracy.
+After the fix, the calibration set was expanded and re-validated. On the current 250-entry calibration set, the judge achieves kappa 0.899 with raw agreement 95.6%. The position bias fix did not hurt accuracy.
 
 Note: the position bias probe itself is small. Two entries is not enough to claim the bias is fully eliminated. It is evidence that the fix helped, not proof that the problem is gone. A larger probe is future work.
 
@@ -150,6 +152,8 @@ The suite is in `examples/adversarial_suite.json`. The runner is `scripts/run_ad
 The first run passed 85%. Three cases failed: quantifier shift, condition dropped, and multi-context. The prompt was fixed for logical deduction, and the code was fixed for evidence separators. After two more iterations, the suite passed 100%.
 
 The suite is small. 20 cases is not enough to claim robustness. But it catches the failure modes that matter most, and it can be expanded over time.
+
+On the current groundedness prompt (v4), the adversarial suite passes 17 of 20 cases (85%). The three failing cases are `condition_dropped`, `multi_context`, and `cross_lingual`. An attempt to fix them (v5) made the prompt too long and degraded the calibration set kappa; it was rolled back. See "Prompt Refinement History and Known Limitations" below.
 
 ## Prompt Refinement: Subset and Question Scope
 
@@ -220,6 +224,25 @@ prompt makes the model less focused on the earlier rules.
 The trade-off was clear: v4 sacrifices 3 adversarial edge cases to
 gain a 0.080 kappa improvement over v3. v5 sacrifices the kappa
 improvement to gain 3 adversarial cases. v4 is the better trade-off.
+
+### Calibration Set Distribution
+
+The 250-entry calibration set has the following human labels:
+
+| Human label | Count |
+|---|---|
+| Grounded (True) | 172 |
+| Not grounded (False) | 78 |
+| **Total** | **250** |
+
+Confusion matrix against the judge:
+
+| | Judge grounded | Judge not grounded |
+|---|---|---|
+| **Human grounded (172)** | 165 (TP) | 7 (FN) |
+| **Human not grounded (78)** | 4 (FP) | 74 (TN) |
+
+Kappa 0.899. Raw agreement 95.6%.
 
 ### Known Limitations of v4
 
@@ -308,6 +331,126 @@ The prompt lives in `judge.py` as `ANSWER_RELEVANCE_PROMPT`. The function is `ju
 
 This is the first step toward multi-dimensional evaluation. Groundedness alone is not enough to certify a RAG system. A system that always answers "I do not know" is perfectly grounded and completely useless. Answer relevance catches that.
 
+## Answer Relevance Validation (Preliminary)
+
+On 14 October 2026, a 249-entry relevance review set was labeled by a
+human, independently from the judge. This section reports the result
+and its limitations.
+
+### Numbers
+
+| Metric | Value |
+|---|---|
+| Entries | 249 |
+| Human relevant (True) | 247 |
+| Human relevant (False) | 2 |
+| Raw agreement | 98.0% |
+| Cohen's kappa | 0.277 |
+| True positives | 243 |
+| True negatives | 1 |
+| False positives | 1 |
+| False negatives | 4 |
+
+### Why Kappa Is Misleading Here
+
+Kappa 0.277 is POOR by the standard scale. But this number is
+misleading, and reporting it alone would be dishonest.
+
+The dataset is severely imbalanced: 247 of 249 entries (99.2%) are
+labeled relevant by the human. With a class distribution this
+extreme, chance agreement is already near 1.0. Kappa = (po - pe) /
+(1 - pe). With po = 0.98 and pe = 0.97, kappa collapses toward zero
+even though observed agreement is high. This is the well-known
+prevalence effect in Cohen's kappa.
+
+A trivial classifier that always says "relevant" would score 247/249
+= 99.2% raw agreement on this dataset — **higher than the judge's
+98.0%**. That baseline is the real signal. It says we cannot yet
+show the judge does better than a constant answer.
+
+### What the Dataset Does Not Support
+
+With only 2 human-labeled negative examples, specificity is
+estimated as 1/2 = 50%. The 95% Wilson confidence interval for this
+estimate is roughly 10% to 90%. No choice of summary metric (kappa,
+MCC, balanced accuracy, F1) fixes this. The data is not there.
+
+The judge's sensitivity (recall on the positive class) is 243/247 =
+98.4%, with a tight confidence interval. We can say something about
+how often the judge accepts an answer humans consider relevant. We
+cannot say much about how often it rejects an answer humans consider
+irrelevant.
+
+### Label Quality Concerns
+
+The relevance labels were assigned without a rationale field, so
+individual labels cannot be audited. On review, one inconsistency
+was found: q132 was labeled not relevant even though it follows the
+same structural pattern as roughly 50 other ungrounded-but-addressing
+entries that were labeled relevant (q456, q222, and others). This
+suggests the relevance labels were sometimes contaminated by
+groundedness judgments — a reviewer may have penalized relevance
+for a groundedness failure.
+
+### Five Disagreements
+
+| Entry | Human | Judge | Summary |
+|---|---|---|---|
+| q495 | True | False | Judge says the category name was not stated. Human says it was. |
+| q341 | True | False | Judge says the term was not provided. Human says it was. |
+| q368 | True | False | Judge says the answer addressed some but not all aspects. Human says it did. |
+| q014 | False | True | Judge says the answer provided information. Human says it did not. |
+| q280 | True | False | Judge says the answer addressed the wrong aspect. Human says it did. |
+
+Four of five disagreements are false negatives. The judge is stricter
+than the human reviewer, particularly on partial answers to
+multi-part questions.
+
+### Prompt vs Definition
+
+The current relevance prompt decomposes the question into atomic
+aspects and requires each aspect to be addressed. This conflates
+relevance with completeness. A partial answer to a multi-part
+question is relevant but incomplete, not irrelevant.
+
+The fix is conceptual before it is a prompt change. Relevance should
+ask: does the answer substantively address the question's intent?
+Completeness should ask: does the answer cover all material
+components? These are separate dimensions.
+
+### Next Steps
+
+1. **Separate relevance from completeness.** Add a completeness
+   metric as a distinct dimension. Update the relevance prompt to
+   stop requiring all sub-aspects.
+2. **Re-audit the 5 disagreements** with a written rationale per
+   label. Add inter-human agreement checks on a subset.
+3. **Build a balanced challenge set.** 50-100 deliberately
+   constructed negative examples, including hard negatives
+   (wrong article, wrong aspect, on-topic but wrong quantity),
+   not just trivially off-topic answers.
+4. **Report a metric bundle.** Raw agreement, kappa, confusion
+   matrix, class support, sensitivity and specificity with Wilson
+   confidence intervals, balanced accuracy, and optionally MCC.
+   Report production-weighted performance separately from
+   challenge-set performance.
+5. **Update the validator.** When the minority class has fewer than
+   30 entries, the validator should report `INSUFFICIENT DATA`
+   instead of a qualitative interpretation like "POOR".
+6. **Reconsider CI acceptance policy.** The current
+   `kappa < 0.6` threshold would fail the relevance metric by
+   construction on this dataset. Apply thresholds per-class
+   (specificity lower bound, sensitivity lower bound) rather than
+   on kappa alone.
+
+### Summary
+
+The relevance judge is not yet validated. It shows high agreement
+with humans on the dominant class, but the dataset cannot measure
+whether it discriminates irrelevant answers. This is documented
+rather than papered over. The next iteration of the calibration
+work will address it.
+
 ## Majority Vote
 
 On 7 October 2026, a majority vote option was added. When `ASSAY_JUDGE_VOTES` is greater than 1, the judge runs multiple times per question and the final decision is taken by majority vote.
@@ -327,7 +470,8 @@ Users who configure multiple providers can compare them. The script
 with each provider and reports agreement, Cohen's kappa, and error
 count.
 
-Example output:
+Example output (from an early 50-entry calibration set; numbers will
+differ on the current 250-entry set):
 
 ```
 Provider        Model                        Entries    Agree    Kappa  Errors
@@ -365,14 +509,6 @@ Not all models return clean JSON, even when asked. A tolerant parser is used:
 If no valid JSON is found, the judge fails closed. It raises `JudgeError` instead of guessing. The caller falls back to simple metrics and reports the failure.
 
 This is deliberate. A parser that guesses can turn a broken response into a false "grounded" result, which is worse than an honest error.
-
----
-
-# ADR-004: LLM-as-Judge dengan Bring Your Own Key
-
-**Status:** Diterima
-**Tanggal:** 4 Oktober 2026
-**Diperbarui:** 8 Oktober 2026
 
 ## Citation Accuracy: A Deterministic Metric with Optional LLM Layer
 
@@ -485,6 +621,14 @@ annoying. A RAG system that answers when it should refuse is dangerous.
 Without refusal correctness, neither failure mode is visible in the CI
 gate. This metric closes that gap.
 
+---
+
+# ADR-004: LLM-as-Judge dengan Bring Your Own Key
+
+**Status:** Diterima
+**Tanggal:** 4 Oktober 2026
+**Diperbarui:** 14 Oktober 2026
+
 ## Konteks
 
 Assay mengukur kualitas RAG. MVP awal pakai metrics heuristic sederhana: token overlap antara jawaban dan konteks. Cepat, deterministic, gratis. Tapi dangkal. Jawaban yang benar secara semantic tapi pakai kata berbeda akan skor rendah. Jawaban yang copy token tapi salah secara semantic akan skor tinggi.
@@ -553,16 +697,18 @@ Yang dikorbankan:
 
 Karena kualitas judge bervariasi, perlu diukur. Ini yang membedakan Assay dari tools lain.
 
-Rencananya:
+Yang dibangun:
 
-1. Bangun calibration set: 50 pertanyaan dengan label groundedness dari manusia, diambil dari 21 dokumen hukum Indonesia.
-2. Bangun adversarial suite: 20 kasus yang mencakup number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, dan hedging.
-3. Jalankan judge pada kedua set.
-4. Hitung agreement dengan human labels pakai Cohen's kappa.
+1. Calibration set: 250 entries yang direview manual dari 60+ dokumen hukum Indonesia. Setiap entry punya label groundedness dari manusia, ditetapkan tanpa melihat prediksi judge.
+2. Adversarial suite: 20 kasus yang mencakup number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, dan hedging.
+3. Judge dijalankan pada kedua set.
+4. Agreement dengan human labels diukur dengan Cohen's kappa dan confusion matrix.
 5. Probe bias: position bias, verbosity bias, self-preference bias.
-6. Laporkan hasilnya di dokumentasi.
+6. Hasilnya dilaporkan di ADR ini dan di README.
 
 Kalau judge tidak reliable, user tidak boleh percaya skor groundedness-nya. Lebih baik tahu daripada menebak.
+
+Hasil saat ini pada calibration set 250 entries: kappa 0.899, raw agreement 95.6%. Lihat section "Prompt Refinement History and Known Limitations" untuk confusion matrix detail dan failure mode yang diketahui.
 
 ## Fallback Behavior
 
@@ -618,7 +764,7 @@ Perbaikannya: aturan eksplisit ditambahkan ke prompt:
 
 Setelah perbaikan, flip rate turun ke **0%**. Tidak ada bias posisi terdeteksi pada probe yang sama.
 
-Validasi judge tetap menunjukkan Cohen's kappa 1.000 pada calibration set 50 entries. Perbaikan tidak merusak akurasi.
+Setelah perbaikan, calibration set diperluas dan divalidasi ulang. Pada calibration set 250 entries saat ini, judge mencapai kappa 0.899 dengan raw agreement 95.6%. Perbaikan bias posisi tidak merusak akurasi.
 
 Catatan: probe bias posisi itu sendiri kecil. Dua entries tidak cukup untuk klaim bahwa bias sepenuhnya hilang. Ini bukti bahwa perbaikan membantu, bukan bukti bahwa masalahnya selesai. Probe yang lebih besar adalah future work.
 
@@ -631,6 +777,8 @@ Suite ada di `examples/adversarial_suite.json`. Runner-nya `scripts/run_adversar
 Run pertama lulus 85%. Tiga kasus gagal: quantifier shift, condition dropped, dan multi-context. Prompt diperbaiki untuk inferensi logis, dan kode diperbaiki untuk separator evidence. Setelah dua iterasi lagi, suite lulus 100%.
 
 Suite ini kecil. 20 kasus tidak cukup untuk klaim robustness. Tapi dia menangkap failure mode yang paling penting, dan bisa diperluas seiring waktu.
+
+Pada prompt groundedness saat ini (v4), adversarial suite lulus 17 dari 20 kasus (85%). Tiga kasus yang gagal: `condition_dropped`, `multi_context`, dan `cross_lingual`. Upaya untuk memperbaikinya (v5) membuat prompt terlalu panjang dan menurunkan kappa calibration set; v5 di-rollback. Lihat section "Prompt Refinement History and Known Limitations" di atas.
 
 ## Answer Relevance: Metrik Terpisah
 
@@ -656,6 +804,127 @@ Prompt ada di `judge.py` sebagai `ANSWER_RELEVANCE_PROMPT`. Fungsinya `judge_ans
 
 Ini langkah pertama menuju evaluasi multi-dimensi. Groundedness saja tidak cukup untuk mensertifikasi sistem RAG. Sistem yang selalu menjawab "Saya tidak tahu" grounded sempurna dan sama sekali tidak berguna. Answer relevance menangkap itu.
 
+## Validasi Answer Relevance (Preliminary)
+
+Pada 14 Oktober 2026, satu set berisi 249 entry untuk review relevance
+dilabeli oleh manusia, secara independen dari judge. Section ini
+melaporkan hasilnya dan keterbatasannya.
+
+### Angka
+
+| Metrik | Nilai |
+|---|---|
+| Entries | 249 |
+| Human relevant (True) | 247 |
+| Human relevant (False) | 2 |
+| Raw agreement | 98.0% |
+| Cohen's kappa | 0.277 |
+| True positives | 243 |
+| True negatives | 1 |
+| False positives | 1 |
+| False negatives | 4 |
+
+### Kenapa Kappa Menyesatkan di Sini
+
+Kappa 0.277 masuk kategori POOR menurut skala standar. Tapi angka ini
+menyesatkan, dan melaporkannya sendiri akan tidak jujur.
+
+Dataset-nya sangat tidak seimbang: 247 dari 249 entry (99.2%) dilabeli
+relevan oleh manusia. Dengan distribusi kelas seekstrem ini, chance
+agreement sudah mendekati 1.0. Kappa = (po - pe) / (1 - pe). Dengan
+po = 0.98 dan pe = 0.97, kappa kolaps ke arah nol meskipun observed
+agreement tinggi. Ini adalah prevalence effect pada Cohen's kappa yang
+sudah dikenal luas.
+
+Classifier trivial yang selalu bilang "relevan" akan mendapat 247/249
+= 99.2% raw agreement pada dataset ini — **lebih tinggi dari 98.0%
+milik judge**. Baseline itu adalah sinyal yang sebenarnya. Ia
+mengatakan kita belum bisa menunjukkan judge melakukan lebih baik
+dari jawaban konstan.
+
+### Yang Tidak Bisa Didukung Dataset
+
+Dengan hanya 2 contoh negatif yang dilabeli manusia, specificity
+diestimasi sebagai 1/2 = 50%. Confidence interval Wilson 95% untuk
+estimasi ini kira-kira 10% sampai 90%. Tidak ada pilihan metrik
+ringkas (kappa, MCC, balanced accuracy, F1) yang bisa memperbaiki
+ini. Datanya tidak ada.
+
+Sensitivity judge (recall pada kelas positif) adalah 243/247 = 98.4%,
+dengan confidence interval yang sempit. Kita bisa bilang sesuatu
+tentang seberapa sering judge menerima jawaban yang dianggap relevan
+oleh manusia. Kita belum bisa bilang banyak tentang seberapa sering
+ia menolak jawaban yang dianggap tidak relevan oleh manusia.
+
+### Catatan Kualitas Label
+
+Label relevance tidak diberi field alasan, jadi label individual
+tidak bisa diaudit. Saat ditinjau, ditemukan satu inkonsistensi:
+q132 dilabeli tidak relevan meskipun mengikuti pola struktural yang
+sama dengan sekitar 50 entry ungrounded-tetapi-menjawab lainnya yang
+dilabeli relevan (q456, q222, dan lain-lain). Ini menunjukkan label
+relevance kadang terkontaminasi oleh penilaian groundedness — reviewer
+mungkin menghukum relevance karena kegagalan groundedness.
+
+### Lima Ketidaksepakatan
+
+| Entry | Human | Judge | Ringkasan |
+|---|---|---|---|
+| q495 | True | False | Judge bilang nama kategori tidak disebut. Human bilang disebut. |
+| q341 | True | False | Judge bilang istilah tidak diberikan. Human bilang diberikan. |
+| q368 | True | False | Judge bilang jawaban menjawab sebagian tapi tidak semua aspek. Human bilang menjawab. |
+| q014 | False | True | Judge bilang jawaban memberi informasi. Human bilang tidak. |
+| q280 | True | False | Judge bilang jawaban menjawab aspek yang salah. Human bilang menjawab. |
+
+Empat dari lima ketidaksepakatan adalah false negative. Judge lebih
+ketat dari reviewer manusia, terutama pada jawaban parsial untuk
+pertanyaan multi-bagian.
+
+### Prompt vs Definisi
+
+Prompt relevance saat ini mendekomposisi pertanyaan menjadi aspek
+atomik dan mengharuskan setiap aspek dijawab. Ini mencampur relevance
+dengan completeness. Jawaban parsial untuk pertanyaan multi-bagian
+itu relevan tapi tidak lengkap, bukan tidak relevan.
+
+Perbaikannya bersifat konseptual sebelum menjadi perubahan prompt.
+Relevance harus bertanya: apakah jawaban secara substantif menjawab
+maksud pertanyaan? Completeness harus bertanya: apakah jawaban
+mencakup semua komponen material? Ini dimensi yang terpisah.
+
+### Langkah Selanjutnya
+
+1. **Pisahkan relevance dari completeness.** Tambah metrik
+   completeness sebagai dimensi yang berbeda. Update prompt relevance
+   untuk berhenti mengharuskan semua sub-aspek.
+2. **Audit ulang 5 ketidaksepakatan** dengan alasan tertulis per
+   label. Tambah pemeriksaan inter-human agreement pada subset.
+3. **Bangun balanced challenge set.** 50-100 contoh negatif yang
+   dibangun sengaja, termasuk hard negatives (pasal salah, aspek
+   salah, on-topic tapi kuantitas salah), bukan hanya jawaban
+   off-topic yang mudah.
+4. **Laporkan metric bundle.** Raw agreement, kappa, confusion
+   matrix, class support, sensitivity dan specificity dengan Wilson
+   confidence interval, balanced accuracy, dan opsional MCC.
+   Laporkan performa production-weighted secara terpisah dari
+   performa challenge-set.
+5. **Update validator.** Ketika kelas minoritas punya kurang dari 30
+   entry, validator harus melaporkan `INSUFFICIENT DATA` daripada
+   interpretasi kualitatif seperti "POOR".
+6. **Pertimbangkan ulang CI acceptance policy.** Threshold
+   `kappa < 0.6` saat ini akan menggagalkan metrik relevance secara
+   konstruktif pada dataset ini. Terapkan threshold per-class
+   (lower bound specificity, lower bound sensitivity) daripada
+   hanya pada kappa.
+
+### Ringkasan
+
+Judge relevance belum tervalidasi. Ia menunjukkan agreement tinggi
+dengan manusia pada kelas dominan, tapi dataset tidak bisa mengukur
+apakah ia membedakan jawaban tidak relevan. Ini didokumentasikan
+daripada ditutupi. Iterasi berikutnya dari pekerjaan kalibrasi akan
+menanganinya.
+
 ## Majority Vote
 
 Pada 7 Oktober 2026, opsi majority vote ditambahkan. Ketika `ASSAY_JUDGE_VOTES` lebih besar dari 1, judge berjalan beberapa kali per pertanyaan dan keputusan akhir diambil lewat majority vote.
@@ -675,7 +944,8 @@ Script `scripts/compare_judges.py` menjalankan judge pada calibration
 set yang sama dengan setiap provider dan melaporkan agreement, Cohen's
 kappa, dan jumlah error.
 
-Contoh output:
+Contoh output (dari calibration set awal 50 entries; angka akan
+berbeda pada set 250 entries saat ini):
 
 ```
 Provider        Model                        Entries    Agree    Kappa  Errors
@@ -713,4 +983,91 @@ Tidak semua model return JSON bersih, meskipun diminta. Parser toleran digunakan
 Kalau tidak ada JSON valid, judge gagal tertutup. Dia raise `JudgeError`, bukan menebak. Caller fallback ke simple metrics dan laporkan kegagalan.
 
 Ini disengaja. Parser yang menebak bisa mengubah respons rusak menjadi hasil "grounded" palsu, yang lebih buruk dari error jujur.
-```
+
+## Citation Accuracy
+
+Pada 14 Oktober 2026, metrik ketiga ditambahkan: citation accuracy.
+
+**Masalahnya.** Di domain yang bergantung pada sitasi (hukum,
+akademik, regulasi), jawaban hanya berguna jika sitasinya benar.
+Jawaban yang grounded tapi menyitasi pasal yang salah lebih buruk
+dari jawaban yang mengaku tidak tahu.
+
+**Metriknya.** Citation accuracy mengekstrak sitasi dari jawaban dan
+memeriksa dua hal:
+
+1. **Keberadaan.** Apakah sitasi muncul di konteks yang diambil?
+   Ini deterministik. Pattern-matching untuk "Pasal 5 ayat (2)",
+   "UU 16/2025", "PP 35/2025", dan bentuk serupa, dengan normalisasi
+   untuk bentuk panjang vs pendek.
+2. **Relevansi.** Apakah sitasi benar-benar mendukung klaim yang
+   disertainya? Ini opsional, menggunakan LLM-as-judge.
+
+MVP mengirimkan lapisan deterministik. Lapisan relevansi LLM
+direncanakan tapi belum diimplementasikan.
+
+**Skor.** `citation_accuracy = valid_citations / total_citations`.
+`None` jika jawaban tidak punya sitasi. Ini membuat metrik secara
+alami opt-in: jawaban tanpa sitasi tidak mendapat skor.
+
+**Kenapa penting untuk Assay.** Use case utama citation accuracy
+adalah RAG legal dan regulasi. Asisten kepatuhan fintech yang
+menyitasi regulasi OJK yang salah itu berbahaya. Chatbot support
+yang menyitasi pasal yang salah itu tidak membantu. Citation
+accuracy membuat ini terlihat di CI gate.
+
+## Refusal Correctness
+
+Pada 14 Oktober 2026, metrik keempat ditambahkan: refusal correctness.
+
+**Masalahnya.** Groundedness, answer relevance, dan citation accuracy
+semuanya mengukur kualitas jawaban yang diproduksi. Tidak ada yang
+mengukur apakah jawaban seharusnya diproduksi sama sekali. Sistem
+RAG yang selalu menjawab — bahkan ketika konteks yang diambil tidak
+berisi jawaban — bisa perfectly grounded pada sebagian pertanyaan
+dan berhalusinasi pada yang lain. Failure mode itu tidak terlihat
+oleh metrik lain.
+
+**Metriknya.** Refusal correctness mengukur apakah sistem menolak
+saat seharusnya menolak, dan menjawab saat seharusnya menjawab.
+
+Notion "seharusnya" berasal dari dataset:
+
+- Pertanyaan dengan `expected_answer` (atau `expected_context` yang
+  tidak kosong) itu **answerable**.
+- Pertanyaan tanpa keduanya itu **unanswerable**.
+
+Deteksi refusal deterministik. Jawaban pendek yang cocok dengan
+salah satu dari sekumpulan kecil pola ("Saya tidak tahu", "Informasi
+tidak tersedia", "I don't know", "Not enough information", dan
+sebagainya) adalah refusal. Jawaban panjang yang hanya dimulai
+dengan frasa refusal bukan refusal, karena panjangnya menunjukkan
+jawaban berisi konten di luar refusal.
+
+**Truth table.**
+
+| Pertanyaan | Jawaban | Status | Benar |
+|---|---|---|---|
+| Answerable | Answer | answerable_answered | ya |
+| Answerable | Refusal | answerable_refused | tidak |
+| Unanswerable | Refusal | unanswerable_refused | ya |
+| Unanswerable | Answer | unanswerable_answered | tidak |
+
+**Skor.** `refusal_correctness = correct / applicable`. `None` jika
+tidak ada pertanyaan yang applicable.
+
+**Kenapa deterministik.** Pola refusal adalah sinyal yang kuat.
+User yang melihat "Saya tidak tahu" tahu sistem menolak. Deteksi
+berbasis LLM akan menambah biaya dan nondeterminisme untuk tugas
+yang regex tangani dengan baik.
+
+**Penanganan konjungsi kontras.** Frasa refusal yang diikuti "namun",
+"tetapi", "tapi", "however", atau "but" bukan refusal. Itu jawaban
+dengan hedge. Contoh: "Saya tidak tahu secara pasti, namun
+berdasarkan konteks, Pasal 5 menyatakan ..." adalah jawaban, bukan
+refusal. Detector memeriksa konjungsi kontras sebelum memutuskan.
+
+**Kenapa penting untuk Assay.** Sistem RAG yang terlalu sering
+menolak itu mengganggu. Sistem RAG yang menjawab saat seharusnya
+menolak itu berbahaya. Tanpa refusal correctness, tidak ada failure
+mode yang terlihat di CI gate. Metrik ini menutup gap itu.

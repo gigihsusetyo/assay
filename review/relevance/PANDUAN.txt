@@ -1,0 +1,97 @@
+════════════════════════════════════════════════════════════════════
+PANDUAN REVIEW ANSWER RELEVANCE — ASSAY
+════════════════════════════════════════════════════════════════════
+
+Tujuan: memberi label RELEVANT / NOT RELEVANT pada setiap entry,
+TANPA melihat prediksi judge. Label ini untuk memvalidasi LLM judge
+answer relevance.
+
+════════════════════════════════════════════════════════════════════
+PERTANYAAN INTI
+════════════════════════════════════════════════════════════════════
+
+Apakah ANSWER menjawab QUESTION?
+
+Bukan: apakah jawaban benar? Bukan: apakah jawaban didukung konteks?
+Hanya: apakah jawaban merespons pertanyaan?
+
+════════════════════════════════════════════════════════════════════
+CARA MENGISI
+════════════════════════════════════════════════════════════════════
+
+Di setiap entry, ada baris:
+
+  HUMAN:          <-- isi: RELEVANT / NOT RELEVANT / SKIP / FLAG
+
+Ganti jadi salah satu dari:
+
+  HUMAN: RELEVANT       → jawaban menjawab pertanyaan
+  HUMAN: NOT RELEVANT   → jawaban tidak menjawab pertanyaan
+  HUMAN: SKIP           → lewati entry ini
+  HUMAN: FLAG           → tandai untuk review ulang
+
+════════════════════════════════════════════════════════════════════
+ATURAN
+════════════════════════════════════════════════════════════════════
+
+RELEVANT (true):
+
+  - Jawaban menjawab pertanyaan, meskipun:
+    * Faktanya salah.
+    * Tidak didukung konteks.
+    * Tidak lengkap (kalau pertanyaan simple).
+  - Jawaban menyebut topik yang ditanyakan.
+
+NOT RELEVANT (false):
+
+  - Jawaban tentang topik lain (off-topic).
+  - Jawaban menghindari pertanyaan.
+  - Jawaban menjawab pertanyaan yang berbeda.
+  - Jawaban hanya berisi refusal ("Saya tidak tahu").
+  - Jawaban parsial untuk pertanyaan multi-aspect (tidak semua
+    aspek dijawab).
+
+════════════════════════════════════════════════════════════════════
+EDGE CASE
+════════════════════════════════════════════════════════════════════
+
+1. Pertanyaan multi-aspect.
+   Contoh: "Berapa rate limit dan bagaimana cara menaikkannya?"
+   - Jawaban "Rate limit 100 per menit." → NOT RELEVANT (aspek ke-2
+     tidak dijawab).
+   - Jawaban "Rate limit 100 per menit. Untuk menaikkan, hubungi
+     support." → RELEVANT.
+
+2. Refusal.
+   "Saya tidak tahu." → NOT RELEVANT (kecuali pertanyaan minta refuse).
+   "Saya tidak tahu, tapi menurut Pasal 5..." → RELEVANT (ada isi).
+
+3. Pertanyaan luas.
+   "Tell me about Assay." → RELEVANT jika jawaban memberi info tentang
+   Assay, meskipun tidak lengkap.
+
+4. Pertanyaan ya/tidak.
+   "Apakah X boleh?" → RELEVANT jika jawaban memberi jawaban ya/tidak.
+
+════════════════════════════════════════════════════════════════════
+TIPS
+════════════════════════════════════════════════════════════════════
+
+- Jangan lihat konteks. Fokus Q vs A saja.
+- Konsisten. Terapkan aturan yang sama ke semua entry.
+- Kalau ragu, pakai FLAG.
+- Istirahat setiap 20-30 entry.
+
+════════════════════════════════════════════════════════════════════
+SETELAH SELESAI
+════════════════════════════════════════════════════════════════════
+
+Simpan file .txt. Lalu jalankan:
+
+  python scripts/review_parse_relevance.py
+
+Script akan baca semua batch_*.txt, ekstrak HUMAN, dan bikin:
+
+  examples/relevance_set_reviewed.json
+
+════════════════════════════════════════════════════════════════════

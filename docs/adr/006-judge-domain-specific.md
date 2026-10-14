@@ -136,8 +136,25 @@ plugin. The calibration is the trust layer.
    contexts. From your own RAG system.
 
 2. **Calibrate the judge.** Manually label 100-250 entries. Measure
-   kappa. If kappa is below the threshold (0.6 by default), fix the
-   prompt or the model. If kappa is acceptable, proceed.
+   kappa and report the confusion matrix. If kappa is below the
+   threshold (0.6 by default), fix the prompt or the model. If kappa
+   is acceptable, proceed.
+
+   **Watch for class imbalance.** When one class dominates (e.g.,
+   99% positive), kappa collapses toward zero even when raw agreement
+   is high. This is the prevalence effect. In that case, kappa alone
+   is not informative. Report instead:
+
+   - Raw agreement, next to the majority-class baseline.
+   - Sensitivity and specificity, each with a confidence interval.
+   - Balanced accuracy or MCC.
+
+   If the minority class has fewer than ~30 entries, the per-class
+   estimate is too noisy to act on. Mark the calibration as
+   **preliminary** and treat that metric as advisory, not blocking,
+   until a balanced challenge set is built. See ADR-004 for an
+   example (answer relevance: 247 positives, 2 negatives, kappa
+   0.277 but 98% raw agreement).
 
 3. **Gate the RAG.** Pin a baseline. On every change, run Assay.
    If quality regresses beyond policy, fail the build.

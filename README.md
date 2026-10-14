@@ -379,6 +379,28 @@ may address them in the future.
 
 ---
 
+### Answer Relevance Validation (Preliminary)
+
+On the 249-entry relevance review set (Indonesian legal), the judge
+achieves **98.0% raw agreement** with human labels. Cohen's kappa is
+**0.277** — POOR by the standard scale.
+
+This is misleading if read alone. The dataset is **99.2% positive**
+(247 relevant, 2 not relevant). A trivial always-relevant classifier
+would score **99.2% raw agreement** — higher than the judge's 98.0%.
+
+With only 2 negative examples, specificity is estimated at 1/2 = 50%,
+with a 95% Wilson interval of roughly 10% to 90%. **The dataset
+cannot measure whether the judge discriminates irrelevant answers.**
+No choice of metric (kappa, MCC, balanced accuracy, F1) fixes that.
+
+**We do not yet claim that the answer relevance judge is validated.**
+Until a balanced challenge set is built (50-100 deliberately
+constructed negative examples), relevance is treated as **advisory**,
+not a blocking gate. See ADR-004 for the full analysis and next steps.
+
+---
+
 ## Provider Configuration
 
 Assay does not provide an LLM. You bring your own (BYOK). Any OpenAI-compatible API works. Configure one or more providers:

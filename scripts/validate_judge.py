@@ -15,11 +15,54 @@ Output:
 
 import argparse
 import json
-import sys
+import math
 import time
 from pathlib import Path
 
 from assay.core.metrics.judge import JudgeError, judge_groundedness
+
+# ---------------------------------------------------------------------------
+# Statistics
+# ---------------------------------------------------------------------------
+
+
+def wilson_ci(successes: int, total: int, z: float = 1.96) -> tuple[float, float]:
+    """Wilson score interval for a binomial proportion."""
+    if total == 0:
+        return 0.0, 1.0
+    p = successes / total
+    denom = 1 + z * z / total
+    centre = (p + z * z / (2 * total)) / denom
+    margin = (
+        z * math.sqrt((p * (1 - p) + z * z / (4 * total)) / total) / denom
+    )
+    return max(0.0, centre - margin), min(1.0, centre + margin)
+
+
+def balanced_accuracy(tp: int, tn: int, fp: int, fn: int) -> float | None:
+    """Average of sensitivity and specificity. None if a class is empty."""
+    pos = tp + fn
+    neg = tn + fp
+    if pos == 0 or neg == 0:
+        return None
+    return ((tp / pos) + (tn / neg)) / 2
+
+
+def mcc(tp: int, tn: int, fp: int, fn: int) -> float:
+    """Matthews correlation coefficient."""
+    numerator = (tp * tn) - (fp * fn)
+    denom_sq = (tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)
+    if denom_sq == 0:
+        return 0.0
+    return numerator / math.sqrt(denom_sq)
+
+
+def majority_baseline(tp: int, tn: int, fp: int, fn: int) -> float:
+    """Raw agreement of a classifier that always predicts the majority class."""
+    total = tp + tn + fp + fn
+    if total == 0:
+        return 0.0
+    return max(tp + fn, tn + fp) / total
 
 
 def cohen_kappa(tp: int, tn: int, fp: int, fn: int) -> float:
@@ -51,6 +94,13 @@ def main() -> None:
         "--no-progress",
         action="store_true",
         help="Disable per-entry progress output.",
+    )
+    parser.add_argument(
+        "--min-minority",
+        type=int,
+        default=30,
+        help="Minimum size for the minority class before reporting per-class "
+        "metrics. Below this, the class is reported as INSUFFICIENT DATA.",
     )
     args = parser.parse_args()
 
@@ -118,6 +168,7 @@ def main() -> None:
         if human != judge:
             disagreements.append({
                 "index": i + 1,
+                "id": entry.get("id", "?"),
                 "human": human,
                 "judge": judge,
                 "reason": result.reason[:100],
@@ -129,13 +180,43 @@ def main() -> None:
 
     agreement = (tp + tn) / total
     kappa = cohen_kappa(tp, tn, fp, fn)
+    baseline = majority_baseline(tp, tn, fp, fn)
+
+    pos = tp + fn
+    neg = tn + fp
+
+    sensitivity = tp / pos if pos > 0 else None
+    specificity = tn / neg if neg > 0 else None
+
+    sens_ci = wilson_ci(tp, pos) if pos > 0 else None
+    spec_ci = wilson_ci(tn, neg) if neg > 0 else None
+
+    bal_acc = balanced_accuracy(tp, tn, fp, fn)
+    mcc_value = mcc(tp, tn, fp, fn)
+
+    insufficient_pos = pos < args.min_minority
+    insufficient_neg = neg < args.min_minority
 
     print("=" * 60)
-    print("Judge Validation Report")
+    print("Groundedness Judge Validation Report")
     print("=" * 60)
     print()
     print(f"Entries evaluated: {total}")
     print(f"Skipped:           {skipped}")
+    print()
+    print("Class distribution (human labels):")
+    print(f"  Positive (grounded):     {pos}")
+    print(f"  Negative (not grounded): {neg}")
+    if insufficient_pos:
+        print(
+            f"  NOTE: positive class has fewer than {args.min_minority} "
+            "entries. Metrics that depend on this class are unreliable."
+        )
+    if insufficient_neg:
+        print(
+            f"  NOTE: negative class has fewer than {args.min_minority} "
+            "entries. Metrics that depend on this class are unreliable."
+        )
     print()
     print("Confusion Matrix:")
     print(f"  True Positive  (human=true,  judge=true):  {tp}")
@@ -143,24 +224,62 @@ def main() -> None:
     print(f"  False Positive (human=false, judge=true):  {fp}")
     print(f"  False Negative (human=true,  judge=false): {fn}")
     print()
-    print(f"Raw agreement: {agreement * 100:.1f}%")
-    print(f"Cohen's kappa: {kappa:.3f}")
-    print()
-    if kappa < 0.4:
-        print("Interpretation: POOR. Judge is not reliable.")
-    elif kappa < 0.6:
-        print("Interpretation: MODERATE. Judge needs improvement.")
-    elif kappa < 0.8:
-        print("Interpretation: GOOD. Judge is reliable.")
+    print("Metric bundle:")
+    print(f"  Raw agreement:              {agreement * 100:.1f}%")
+    print(f"  Majority-class baseline:    {baseline * 100:.1f}%")
+    print(f"  Cohen's kappa:              {kappa:.3f}")
+    if bal_acc is not None:
+        print(f"  Balanced accuracy:          {bal_acc * 100:.1f}%")
     else:
-        print("Interpretation: EXCELLENT. Judge is highly reliable.")
+        print("  Balanced accuracy:          N/A (one class is empty)")
+    print(f"  MCC:                        {mcc_value:.3f}")
+    print()
+
+    print("Per-class recall:")
+    if sensitivity is not None and sens_ci is not None:
+        lo, hi = sens_ci
+        label = "INSUFFICIENT DATA" if insufficient_pos else "ok"
+        print(
+            f"  Sensitivity (recall on grounded):     "
+            f"{sensitivity * 100:.1f}%  (95% Wilson CI: {lo * 100:.1f}% - {hi * 100:.1f}%)  [{label}]"
+        )
+    else:
+        print("  Sensitivity: N/A")
+    if specificity is not None and spec_ci is not None:
+        lo, hi = spec_ci
+        label = "INSUFFICIENT DATA" if insufficient_neg else "ok"
+        print(
+            f"  Specificity (recall on not grounded): "
+            f"{specificity * 100:.1f}%  (95% Wilson CI: {lo * 100:.1f}% - {hi * 100:.1f}%)  [{label}]"
+        )
+    else:
+        print("  Specificity: N/A")
+    print()
+
+    print("Interpretation:")
+    if insufficient_pos or insufficient_neg:
+        print(
+            "  INSUFFICIENT DATA. One class has fewer than "
+            f"{args.min_minority} entries. The per-class metrics above "
+            "cannot be used to claim reliable discrimination."
+        )
+    else:
+        if kappa < 0.4:
+            print("  Kappa: POOR. Judge is not reliable.")
+        elif kappa < 0.6:
+            print("  Kappa: MODERATE. Judge needs improvement.")
+        elif kappa < 0.8:
+            print("  Kappa: GOOD. Judge is reliable.")
+        else:
+            print("  Kappa: EXCELLENT. Judge is highly reliable.")
     print()
 
     if disagreements:
-        print("Disagreements:")
+        print(f"Disagreements ({len(disagreements)}):")
         for d in disagreements:
-            print(f"  Entry {d['index']}: human={d['human']}, judge={d['judge']}")
-            print(f"    Judge reason: {d['reason']}")
+            print(f"  Entry {d['index']} ({d['id']}): human={d['human']}, judge={d['judge']}")
+            if d["reason"]:
+                print(f"    reason: {d['reason']}")
         print()
     else:
         print("No disagreements. Judge matches human labels perfectly.")

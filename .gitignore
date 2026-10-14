@@ -79,3 +79,6 @@ review/archive/
 # Intermediate calibration set versions (regenerate with convert_legal_dataset.py)
 examples/calibration_set_v5.json
 examples/calibration_set_v5_backup.json
+
+# Relevance review batch files (intermediate)
+review/relevance/batch_*.txt
