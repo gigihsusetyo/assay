@@ -76,6 +76,12 @@ class RunResponse(BaseModel):
 
 
 # Execute schemas
+class ExecuteRequest(BaseModel):
+    """Request body for run execution."""
+
+    use_judge: bool = False
+
+
 class ExecuteResponse(BaseModel):
     """Response body for run execution."""
 

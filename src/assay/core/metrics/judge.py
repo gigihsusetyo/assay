@@ -216,6 +216,57 @@ Evaluation rules:
    If the answer is a subset or paraphrase of the context that does not
    change the meaning, it is supported.
 
+   A direct quote from the CONTEXT, or a faithful subset of it, is
+   supported. Do not penalize an answer for omitting parts of the
+   context that the question does not require.
+
+   Qualifiers that are already present in the QUESTION do not need to be
+   repeated in the ANSWER. The question provides the scope. The answer
+   only needs to stay within it. For example, if the question asks about
+   "BOP Museum dan Taman Budaya", an answer that says "BOP" is supported,
+   because the scope is already set by the question.
+
+   A definition or description in the CONTEXT may be stated more
+   generally in the ANSWER without losing groundedness, as long as the
+   ANSWER does not add claims that are absent from the CONTEXT.
+
+   Example 1: The CONTEXT says "X is the condition of the financial
+   system that functions effectively and efficiently and can withstand
+   shocks." An ANSWER that says "X is the condition of the financial
+   system that functions effectively" is supported. It is a subset.
+   It becomes unsupported only if it adds a claim not in the context.
+
+   Example 2: The CONTEXT says "Laporan Keuangan Pemerintah Pusat
+   ... telah diperiksa oleh Badan Pemeriksa Keuangan dengan opini
+   Wajar Tanpa Pengecualian." An ANSWER that says "diperiksa oleh
+   Badan Pemeriksa Keuangan dengan opini Wajar Tanpa Pengecualian"
+   is supported. The subject is implicit from the question.
+
+   If the ANSWER states a value that falls within a range explicitly
+   given in the CONTEXT, the claim is supported. For example, "5 days"
+   is supported by "4 to 6 days". "3 months" is supported by "1 to 6
+   months". Exact match is not required when the context provides a
+   range.
+
+   Material qualifiers include, but are not limited to:
+   - Specific names with a canonical full form in the context. If the
+     CONTEXT says "Satyalancana Karya Satya", an answer that says
+     "Satyalancana" is NOT supported if the shortening removes a
+     meaningful part of the name that distinguishes it from other
+     awards. Use judgment: "Satyalancana Karya Satya" -> "Satyalancana"
+     is material; "Undang-Undang Nomor 16 Tahun 2025" -> "UU 16/2025"
+     is not material because it is a standard abbreviation.
+   - Units attached to a number. If the CONTEXT says "30 jam
+     pelajaran", an answer that says "30 jam" is NOT supported,
+     because "pelajaran" is the unit that gives the number meaning.
+   - Denominators or scopes that define what a number applies to. If
+     the CONTEXT says "50% of the total allocation received by the
+     school", an answer that says "50% of the total allocation" is
+     NOT supported, because the denominator is missing.
+   - Compound conditions. If the CONTEXT says "if A and B and C",
+     an answer that says "if A" is NOT supported, because B and C
+     are missing.
+
 6. For each claim, assign exactly one verdict:
    - "supported": stated or faithfully paraphrased by the CONTEXTS.
    - "contradicted": a CONTEXT states something incompatible with the

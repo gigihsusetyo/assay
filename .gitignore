@@ -71,3 +71,11 @@ reports/
 .env.gemini
 .env.backup
 .env.*
+
+# Review batch files (intermediate, regenerate with review_split_txt.py)
+review/batch_*.txt
+review/archive/
+
+# Intermediate calibration set versions (regenerate with convert_legal_dataset.py)
+examples/calibration_set_v5.json
+examples/calibration_set_v5_backup.json

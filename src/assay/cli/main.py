@@ -35,9 +35,46 @@ def version() -> None:
 
 
 @app.command()
-def health() -> None:
+def health(
+    url: str = typer.Option(
+        None,
+        "--url",
+        "-u",
+        help="Assay API base URL. Defaults to ASSAY_API_URL env var or http://localhost:8000.",
+    ),
+) -> None:
     """Check if the Assay API is reachable."""
-    console.print("[yellow]Not implemented yet.[/yellow]")
+    import os
+
+    import httpx
+
+    base = url or os.environ.get("ASSAY_API_URL", "http://localhost:8000")
+    endpoint = base.rstrip("/") + "/health"
+
+    try:
+        with httpx.Client(timeout=5.0) as client:
+            response = client.get(endpoint)
+            response.raise_for_status()
+            data = response.json()
+    except httpx.HTTPStatusError as e:
+        console.print(
+            f"[red]API returned {e.response.status_code}:[/red] {e.response.text}"
+        )
+        raise typer.Exit(code=1) from e
+    except httpx.RequestError as e:
+        console.print(f"[red]Cannot reach API at {endpoint}:[/red] {e}")
+        raise typer.Exit(code=1) from e
+    except ValueError as e:
+        console.print(f"[red]Invalid JSON response:[/red] {e}")
+        raise typer.Exit(code=1) from e
+
+    status = data.get("status", "unknown")
+    version = data.get("version", "unknown")
+    if status == "ok":
+        console.print(f"[green]API OK[/green] (version {version}) at {endpoint}")
+    else:
+        console.print(f"[yellow]API status:[/yellow] {status} (version {version})")
+        raise typer.Exit(code=1)
 
 
 # Dataset commands

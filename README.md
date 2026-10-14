@@ -283,14 +283,14 @@ No single metric certifies a RAG system. The combination does.
 
 Assay validates the LLM judge before trusting it.
 
-- **Calibration set**: 50 human-labeled entries from 21 Indonesian legal documents.
-- **Adversarial suite**: 20 cases across 20 categories (number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, hedging).
+- **Calibration set**: 250 manually reviewed entries from 60+ Indonesian legal documents.
+- **Adversarial suite**: 20 cases across 20 categories (number mutation, negation, modality, quantifier, condition dropped, refusal, multi-context, conflicting contexts, prompt injection, entity swap, paraphrase, cross-lingual, hedging). 17/20 pass on the current prompt.
 - **Bias probes**: position bias, verbosity bias, self-preference bias.
 
 Run validation:
 
 ```bash
-python scripts/validate_judge.py examples/calibration_set.json
+python scripts/validate_judge.py examples/calibration_set_reviewed.json
 ```
 
 Run adversarial suite:
@@ -300,6 +300,76 @@ python scripts/run_adversarial_suite.py examples/adversarial_suite.json
 ```
 
 If the judge is not reliable, do not trust its scores. Better to know than to guess.
+
+---
+
+## Judge Reliability
+
+The judge is not assumed to be correct. It is measured.
+
+On the 250-entry calibration set (Indonesian legal domain, manually
+reviewed without seeing the judge prediction), the current prompt
+achieves:
+
+| Metric | Value |
+|---|---|
+| Cohen's kappa | **0.899** |
+| Raw agreement | 95.6% |
+| True positives | 165 |
+| True negatives | 74 |
+| False positives | 4 |
+| False negatives | 7 |
+
+Kappa 0.899 is **EXCELLENT** on the standard interpretation scale.
+The judge is reliable for this domain. It is not perfect: 11 of 250
+entries (4.4%) are still misclassified, and 3 adversarial edge cases
+fail. These are documented in ADR-004.
+
+### The Framework Is Universal. The Judge Is Domain-Specific.
+
+Assay ships with a legal Indonesia calibration set as a **reference**.
+It is not a universal calibration. A judge calibrated for legal
+Indonesia may not be reliable for medical, financial, or technical
+content, where the material qualifiers are different.
+
+**For your own domain, calibrate the judge yourself.** The toolkit is
+included:
+
+```bash
+# 1. Split your calibration set into review batches
+python scripts/review_split_txt.py --input examples/calibration_set.json
+
+# 2. Review each batch in a text editor, fill in the HUMAN field
+#    (see review/PANDUAN.txt for the rules)
+
+# 3. Parse reviewed batches into a JSON calibration set
+python scripts/review_parse_txt.py
+
+# 4. Validate the judge
+python scripts/validate_judge.py examples/calibration_set_reviewed.json
+```
+
+If kappa is below 0.6, the judge is not reliable for your domain.
+Fix the prompt, change the model, or expand the calibration set before
+using Assay as a CI gate.
+
+See ADR-006 for the full rationale.
+
+### Known Limitations
+
+At kappa 0.899, 11 of 250 calibration entries are still misclassified,
+and 3 of 20 adversarial cases fail:
+
+- **Cross-lingual**: The judge does not always recognize a translation
+  as a paraphrase (e.g., Indonesian context, English answer).
+- **Multi-context**: The judge does not always combine facts from two
+  contexts to support a claim.
+- **Condition dropped**: The judge returns "unsupported" instead of
+  "contradicted" when an exception is dropped.
+
+These are edge cases, not the common case. The trade-off is documented
+in ADR-004. A stronger model or a split prompt (core + domain overlay)
+may address them in the future.
 
 ---
 

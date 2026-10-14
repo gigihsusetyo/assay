@@ -15,6 +15,8 @@ Output:
 
 import argparse
 import json
+import sys
+import time
 from pathlib import Path
 
 from assay.core.metrics.judge import JudgeError, judge_groundedness
@@ -39,6 +41,17 @@ def cohen_kappa(tp: int, tn: int, fp: int, fn: int) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("calibration_set", help="Calibration set JSON file")
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Only evaluate the first N entries (for quick testing).",
+    )
+    parser.add_argument(
+        "--no-progress",
+        action="store_true",
+        help="Disable per-entry progress output.",
+    )
     args = parser.parse_args()
 
     path = Path(args.calibration_set)
@@ -52,9 +65,15 @@ def main() -> None:
     if not entries:
         raise SystemExit("Calibration set has no entries")
 
+    if args.limit is not None:
+        entries = entries[: args.limit]
+
     tp = tn = fp = fn = 0
     skipped = 0
     disagreements = []
+
+    total = len(entries)
+    start_time = time.monotonic()
 
     for i, entry in enumerate(entries):
         human = entry.get("human_grounded")
@@ -63,16 +82,29 @@ def main() -> None:
             continue
 
         try:
+            entry_start = time.monotonic()
             result = judge_groundedness(
                 question=entry["question"],
                 answer=entry["answer"],
                 contexts=entry["contexts"],
             )
             judge = result.grounded
+            entry_elapsed = time.monotonic() - entry_start
         except JudgeError as e:
-            print(f"Entry {i + 1}: judge failed ({e})")
+            print(f"Entry {i + 1}: judge failed ({e})", flush=True)
             skipped += 1
             continue
+
+        if not args.no_progress:
+            elapsed = time.monotonic() - start_time
+            avg = elapsed / (i + 1)
+            remaining = avg * (total - i - 1)
+            print(
+                f"[{i + 1}/{total}] {entry.get('id', '?')}: "
+                f"human={human} judge={judge} "
+                f"({entry_elapsed:.1f}s, avg {avg:.1f}s, ~{remaining:.0f}s left)",
+                flush=True,
+            )
 
         if human and judge:
             tp += 1

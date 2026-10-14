@@ -1,0 +1,136 @@
+
+════════════════════════════════════════════════════════════════════
+PANDUAN REVIEW MANUAL CALIBRATION SET — ASSAY
+════════════════════════════════════════════════════════════════════
+
+Tujuan: memberi label GROUNDED / NOT GROUNDED pada setiap entry,
+TANPA melihat prediksi judge. Label ini akan jadi fondasi validasi
+LLM judge Assay.
+
+Kenapa manual? Karena assisted labeling (label dari judge) membuat
+validasi jadi circular — kita mengukur judge dengan label yang dibuat
+oleh judge itu sendiri. Ini tidak valid. Kita butuh label independen
+dari manusia.
+
+════════════════════════════════════════════════════════════════════
+CARA MENGISI
+════════════════════════════════════════════════════════════════════
+
+Di setiap entry, ada baris:
+
+  HUMAN:          <-- isi: GROUNDED / NOT GROUNDED / SKIP / FLAG
+
+Ganti jadi salah satu dari:
+
+  HUMAN: GROUNDED        → jawaban didukung konteks
+  HUMAN: NOT GROUNDED    → jawaban TIDAK didukung konteks
+  HUMAN: SKIP            → lewati entry ini (tidak yakin, jangan dipakai)
+  HUMAN: FLAG            → tandai untuk review ulang nanti
+
+Opsional, isi NOTE untuk alasan singkat:
+
+  NOTE: qualifier material hilang (tahun)
+
+Setelah selesai, simpan file. Jangan ubah struktur file (ENTRY, ID,
+QUESTION, ANSWER, CONTEXTS, dsb) — hanya isi baris HUMAN dan NOTE.
+
+════════════════════════════════════════════════════════════════════
+ATURAN: KAPAN GROUNDED, KAPAN TIDAK
+════════════════════════════════════════════════════════════════════
+
+Definisi singkat:
+
+  GROUNDED = semua klaim faktual di jawaban didukung konteks.
+
+  NOT GROUNDED = ada minimal satu klaim faktual yang:
+                  - tidak didukung konteks, ATAU
+                  - bertentangan dengan konteks, ATAU
+                  - ambigu (konteks saling bertentangan).
+
+Yang TIDAK perlu dinilai:
+
+  - Apakah jawaban berguna, lengkap, atau bagus tulisannya.
+  - Apakah jawaban relevan dengan pertanyaan (itu metrik lain).
+  - Apakah retrieval bagus (itu context recall).
+  - Pengetahuan dunia di luar konteks. HANYA konteks yang jadi bukti.
+
+════════════════════════════════════════════════════════════════════
+ATURAN KHUSUS: QUALIFIER
+════════════════════════════════════════════════════════════════════
+
+Qualifier adalah kata/frasa yang membatasi makna klaim.
+
+Qualifier MATERIAL — kalau hilang, makna berubah → NOT GROUNDED:
+
+  - Kondisi: "dengan syarat Y", "kecuali Z", "hanya jika".
+  - Scope: "beberapa" vs "semua", "hanya", "paling banyak".
+  - Waktu/versi: "aturan 2024" vs "aturan 2025".
+  - Nama spesifik: "Satyalancana Karya Satya" dipendekkan jadi
+    "Satyalancana" → NOT GROUNDED.
+  - Angka: "100" vs "1000" → NOT GROUNDED.
+
+Qualifier NON-MATERIAL — kalau hilang, makna inti tetap → GROUNDED:
+
+  - Sinonim: "implementasi atau operasionalisasi" → "implementasi".
+  - Detail mekanisme yang tidak mengubah klaim inti.
+  - Tambahan ilustratif: "termasuk X, Y, Z".
+
+════════════════════════════════════════════════════════════════════
+ATURAN KHUSUS: SUBSET & KUTIPAN
+════════════════════════════════════════════════════════════════════
+
+Kalau jawaban adalah kutipan langsung dari konteks, atau subset
+setia yang tidak mengubah makna → GROUNDED.
+
+Jangan hukum jawaban karena tidak mengulang bagian konteks yang
+tidak diminta pertanyaan.
+
+════════════════════════════════════════════════════════════════════
+ATURAN KHUSUS: QUALIFIER YANG SUDAH ADA DI PERTANYAAN
+════════════════════════════════════════════════════════════════════
+
+Kalau pertanyaan sudah menyebut scope/qualifier, jawaban tidak perlu
+mengulang. Pertanyaan menetapkan scope; jawaban cukup berada di dalamnya.
+
+Contoh: Pertanyaan tentang "BOP Museum dan Taman Budaya". Jawaban
+"BOP" → GROUNDED, karena scope sudah ditetapkan pertanyaan.
+
+════════════════════════════════════════════════════════════════════
+ATURAN KHUSUS: REFUSAL (PENOLAKAN)
+════════════════════════════════════════════════════════════════════
+
+Penolakan murni seperti "Saya tidak tahu" tidak mengandung klaim
+faktual → dianggap GROUNDED (abstained).
+
+Penolakan yang menyelipkan fakta → tetap dinilai faktanya.
+
+════════════════════════════════════════════════════════════════════
+TIPS
+════════════════════════════════════════════════════════════════════
+
+- Konsisten. Terapkan aturan yang sama ke semua entry.
+- Jangan mengintip prediksi judge. File ini sengaja tidak menampilkan.
+- Istirahat. 100 entry sekaligus itu berat. Bagi jadi sesi 20-30 entry.
+- Kalau ragu, pakai FLAG. Lebih baik flag daripada menebak.
+- Kalau ada kasus yang tidak yakin, tulis di NOTE dan tanyakan.
+
+════════════════════════════════════════════════════════════════════
+SETELAH SELESAI
+════════════════════════════════════════════════════════════════════
+
+Simpan file .txt yang sudah diisi. Lalu jalankan:
+
+  python scripts/review_parse_txt.py
+
+Script akan baca semua batch_*.txt, ekstrak HUMAN, dan bikin:
+
+  examples/calibration_set_reviewed.json
+
+Lalu validasi:
+
+  python scripts/validate_judge.py examples/calibration_set_reviewed.json
+
+Kappa yang muncul di sini VALID — diukur terhadap label manusia
+yang independen.
+
+════════════════════════════════════════════════════════════════════

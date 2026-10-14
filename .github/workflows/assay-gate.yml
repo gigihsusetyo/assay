@@ -40,7 +40,16 @@ jobs:
             --answer "Go to settings, select SSO, and enter provider details." \
             --context "SSO configuration is available in settings."
           assay run create --dataset 1 --name baseline-run --target http://localhost:9000/query
-          assay run execute 1 --verbose
+          BASELINE_RUN_ID=$(python3 -c "
+          from assay.db.base import SessionLocal
+          from assay.db.repositories.run import RunRepository
+          session = SessionLocal()
+          run = RunRepository(session).get_by_name('baseline-run')
+          print(run.id)
+          session.close()
+          ")
+          echo "BASELINE_RUN_ID=$BASELINE_RUN_ID" >> $GITHUB_ENV
+          assay run execute $BASELINE_RUN_ID --verbose
           echo "Baseline run done"
 
       - name: Create baseline
@@ -60,9 +69,18 @@ jobs:
       - name: Run current evaluation
         run: |
           assay run create --dataset 1 --name current-run --target http://localhost:9000/query
-          assay run execute 2 --verbose
+          CURRENT_RUN_ID=$(python3 -c "
+          from assay.db.base import SessionLocal
+          from assay.db.repositories.run import RunRepository
+          session = SessionLocal()
+          run = RunRepository(session).get_by_name('current-run')
+          print(run.id)
+          session.close()
+          ")
+          echo "CURRENT_RUN_ID=$CURRENT_RUN_ID" >> $GITHUB_ENV
+          assay run execute $CURRENT_RUN_ID --verbose
 
       - name: Run gate
         run: |
-          assay gate --baseline ci-baseline --run 2 --policy examples/policy.yaml
+          assay gate --baseline ci-baseline --run $CURRENT_RUN_ID --policy examples/policy.yaml
         continue-on-error: false

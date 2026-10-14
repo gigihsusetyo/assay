@@ -3,7 +3,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from assay.api.schemas import ExecuteResponse, RunCreate, RunResponse
+from assay.api.schemas import ExecuteRequest, ExecuteResponse, RunCreate, RunResponse
 from assay.core.executor import execute_run
 from assay.db.base import get_db
 from assay.db.repositories.dataset import DatasetRepository
@@ -121,9 +121,15 @@ def complete_run(
 @router.post("/{run_id}/execute", response_model=ExecuteResponse)
 def execute_run_endpoint(
     run_id: int,
+    payload: ExecuteRequest | None = None,
     db: Session = Depends(get_db),
 ) -> ExecuteResponse:
-    """Execute a run: call the target for each question and store results."""
+    """Execute a run: call the target for each question and store results.
+
+    Body is optional. Send `{"use_judge": true}` to enable LLM-as-judge
+    for groundedness and answer relevance. If the judge is not
+    configured, simple heuristics are used instead.
+    """
     repo = RunRepository(db)
     run = repo.get(run_id)
     if run is None:
@@ -132,8 +138,10 @@ def execute_run_endpoint(
             detail=f"Run {run_id} not found",
         )
 
+    use_judge = payload.use_judge if payload is not None else False
+
     try:
-        summary = execute_run(db, run_id, verbose=False)
+        summary = execute_run(db, run_id, verbose=False, use_judge=use_judge)
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

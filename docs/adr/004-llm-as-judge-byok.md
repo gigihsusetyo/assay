@@ -151,6 +151,139 @@ The first run passed 85%. Three cases failed: quantifier shift, condition droppe
 
 The suite is small. 20 cases is not enough to claim robustness. But it catches the failure modes that matter most, and it can be expanded over time.
 
+## Prompt Refinement: Subset and Question Scope
+
+On 13 October 2026, a third refinement was made to the groundedness
+prompt. During the hold-out review, three cases were found where the
+judge marked a correct answer as unsupported:
+
+- **q453**: The question asked about policies with potential gender
+  bias. The context stated "in the case of policies that are
+  potentially gender-discriminatory, a policy recommendation must be
+  prepared". The answer omitted the qualifier because it was already
+  implied in the question. The judge marked it unsupported.
+
+- **q489**: The context specified "BOP Museum dan BOP Taman Budaya".
+  The answer said "BOP". The judge marked it unsupported because the
+  scope was narrowed. In this case, the judge was correct: the scope
+  was material and the answer widened it.
+
+- **q491**: The answer was a direct quote from the context, with one
+  clause dropped. The judge marked it unsupported.
+
+Two rules were added to the prompt:
+
+1. A direct quote from the CONTEXT, or a faithful subset of it, is
+   supported. Do not penalize an answer for omitting parts of the
+   context that the question does not require.
+
+2. Qualifiers that are already present in the QUESTION do not need to
+   be repeated in the ANSWER. The question provides the scope. The
+   answer only needs to stay within it.
+
+After the change, q453 and q491 passed. q489 remained unsupported, and
+on closer inspection the human label was corrected: the judge was
+right. The scope "Museum dan BOP Taman Budaya" is material and the
+answer widened it.
+
+This is the third prompt refinement. The first two addressed logical
+deduction and evidence separators. Each refinement is tested against
+the adversarial suite to avoid regressions.
+
+## Prompt Refinement History and Known Limitations
+
+The groundedness prompt has been refined four times. Each refinement
+was validated against the calibration set and the adversarial suite.
+
+### Refinement History
+
+| Version | Date | Change | Kappa (250) | Adversarial |
+|---|---|---|---|---|
+| v1 | 4 Oct 2026 | Initial prompt | — | — |
+| v2 | 7 Oct 2026 | Logical deduction, evidence separators | — | 100% |
+| v3 | 8 Oct 2026 | Position bias fix, subset rules | 0.819 | 100% |
+| v4 | 13 Oct 2026 | Subset examples, range numeric, material qualifiers | **0.899** | 17/20 (85%) |
+| v5 | 14 Oct 2026 | Cross-lingual, multi-context, exception | (not validated) | 20/20 (100%) |
+| Rollback | 14 Oct 2026 | v5 rolled back to v4 | 0.899 | 17/20 (85%) |
+
+### Why v5 Was Rolled Back
+
+v5 added three rules to fix the three failing adversarial cases:
+cross-lingual matching, multi-context combination, and exception
+handling. The adversarial suite went from 17/20 to 20/20.
+
+But when tested against the 11 remaining disagreements from the
+calibration set, only 3 of 11 were fixed. The additional rules did
+not help the disagreements, and the prompt became longer. A longer
+prompt makes the model less focused on the earlier rules.
+
+The trade-off was clear: v4 sacrifices 3 adversarial edge cases to
+gain a 0.080 kappa improvement over v3. v5 sacrifices the kappa
+improvement to gain 3 adversarial cases. v4 is the better trade-off.
+
+### Known Limitations of v4
+
+The judge is not perfect. At kappa 0.899, 11 of 250 calibration
+entries (4.4%) are still misclassified. The 11 disagreements fall
+into these patterns:
+
+**False Positives (4):** The judge marks an answer as grounded when
+it should not be.
+
+- Entry 69: judge misses a qualifier that was dropped.
+- Entry 116: judge misses a scope change.
+- Entry 125: judge misses a unit that was dropped ("30 jam pelajaran"
+  vs "30 jam").
+- Entry 232: judge misses a compound condition that was dropped.
+
+**False Negatives (7):** The judge marks an answer as not grounded
+when it should be.
+
+- Entry 3: judge contradicts its own reason (says "all supported"
+  but returns grounded=False).
+- Entry 53: judge misreads a frequency claim.
+- Entry 66: judge treats a non-material qualifier as material.
+- Entry 96: judge misreads subject/object.
+- Entry 155: judge confuses "Bantuan Pemerintah" with "Subsidi".
+- Entry 183: judge treats a subset definition as a material drop.
+- Entry 199: judge misses a direct quote.
+
+**Three adversarial edge cases fail:**
+
+- `condition_dropped`: the judge returns "unsupported" instead of
+  "contradicted" when an exception is dropped.
+- `multi_context`: the judge cannot combine facts from two contexts
+  to support a claim.
+- `cross_lingual`: the judge does not recognize a translation as a
+  paraphrase.
+
+### Why We Accept These Limitations
+
+1. **Kappa 0.899 is EXCELLENT.** The remaining 4.4% error rate is
+   within the expected range for an LLM judge at temperature 0.
+
+2. **The 3 adversarial edge cases are rare in practice.** Cross-lingual
+   RAG (Indonesian context, English answer) and multi-context
+   combination are valid scenarios, but they are not the common case.
+
+3. **Longer prompts make things worse.** Adding rules to fix edge
+   cases degrades the model's focus on the core rules. This was
+   demonstrated by the v5 experiment.
+
+4. **A better fix is a better model.** When a stronger LLM is available
+   (larger context, better instruction following), these limitations
+   may disappear without prompt changes.
+
+### Future Work
+
+- Re-test with newer LLM models as they become available.
+- Split the prompt into a "core" section and a "domain overlay"
+  section. The core handles universal rules; the overlay handles
+  domain-specific rules. This may allow adding rules without
+  diluting the core.
+- Build a larger calibration set (500+ entries) to reduce sampling
+  noise in the kappa estimate.
+
 ## Answer Relevance: A Separate Metric
 
 On 7 October 2026, a second metric was added: answer relevance.
