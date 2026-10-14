@@ -29,6 +29,18 @@ app.include_router(datasets_router)
 app.include_router(runs_router)
 
 
+@app.get("/")
+async def root() -> dict[str, str]:
+    """Root endpoint: API information."""
+    return {
+        "name": "Assay",
+        "description": "The release gate for RAG systems",
+        "version": "0.1.0",
+        "docs": "/docs",
+        "health": "/health",
+    }
+
+
 @app.get("/health")
 async def health() -> dict[str, str]:
     """Health check endpoint."""

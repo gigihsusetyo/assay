@@ -14,3 +14,14 @@ def test_health_returns_ok() -> None:
     data = response.json()
     assert data["status"] == "ok"
     assert data["version"] == "0.1.0"
+
+def test_root_returns_api_info() -> None:
+    """Root endpoint returns API information."""
+    response = client.get("/")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "Assay"
+    assert data["version"] == "0.1.0"
+    assert data["docs"] == "/docs"
+    assert data["health"] == "/health"
+
