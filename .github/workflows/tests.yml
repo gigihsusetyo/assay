@@ -29,3 +29,13 @@ jobs:
 
       - name: Run tests
         run: pytest tests/ -v
+
+      - name: Deploy to Render
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            echo "RENDER_DEPLOY_HOOK secret is not set. Skipping deploy."
+            exit 0
+          fi
+          curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+          echo "Triggered Render deploy."
