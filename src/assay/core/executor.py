@@ -13,6 +13,7 @@ from assay.core.metrics.judge import (
     judge_answer_relevance,
     judge_groundedness,
 )
+from assay.core.metrics.refusal import evaluate_refusal
 from assay.core.metrics.simple import context_recall, groundedness
 from assay.db.models import RunStatus
 from assay.db.repositories.dataset import QuestionRepository
@@ -32,6 +33,8 @@ class ExecutionSummary:
     judge_used: int
     relevance_used: int
     citation_used: int = 0
+    refusal_evaluated: int = 0
+    refusal_correct: int = 0
 
 
 def execute_run(
@@ -82,6 +85,8 @@ def execute_run(
     judge_used = 0
     relevance_used = 0
     citation_used = 0
+    refusal_evaluated = 0
+    refusal_correct = 0
 
     for q in questions:
         try:
@@ -132,6 +137,21 @@ def execute_run(
             if citation_score is not None:
                 citation_used += 1
 
+            # Refusal correctness: deterministic, always computed.
+            refusal_result = evaluate_refusal(
+                answer=response.answer,
+                expected_answer=q.expected_answer,
+                expected_context=q.expected_context,
+            )
+            refusal_score: float | None = None
+            refusal_status: str | None = None
+            if refusal_result.correct is not None:
+                refusal_score = 1.0 if refusal_result.correct else 0.0
+                refusal_evaluated += 1
+                if refusal_result.correct:
+                    refusal_correct += 1
+            refusal_status = refusal_result.status.value
+
             r = context_recall(q.expected_context, contexts)
             result_repo.create(
                 run_id=run.id,
@@ -142,6 +162,8 @@ def execute_run(
                 context_recall=r,
                 answer_relevance=ar,
                 citation_accuracy=citation_score,
+                refusal_correctness=refusal_score,
+                refusal_status=refusal_status,
                 latency_ms=response.latency_ms,
                 cost_usd=response.cost_usd,
             )
@@ -176,4 +198,6 @@ def execute_run(
         judge_used=judge_used,
         relevance_used=relevance_used,
         citation_used=citation_used,
+        refusal_evaluated=refusal_evaluated,
+        refusal_correct=refusal_correct,
     )

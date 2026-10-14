@@ -2,6 +2,7 @@ version: 1
 thresholds:
   groundedness: 5.0
   context_recall: 5.0
+  refusal_correctness: 5.0
   citation_accuracy: 5.0
   answer_relevance: 5.0
   p95_latency_ms: 20.0

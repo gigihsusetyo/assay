@@ -430,6 +430,61 @@ that cites the wrong OJK regulation is dangerous. A support chatbot
 that cites the wrong article is unhelpful. Citation accuracy makes
 this visible in the CI gate.
 
+## Refusal Correctness: A Deterministic Metric
+
+On 14 October 2026, a fourth metric was added: refusal correctness.
+
+**The problem.** Groundedness, answer relevance, and citation accuracy
+all measure the quality of an answer that was produced. None of them
+measure whether an answer should have been produced at all. A RAG
+system that always answers — even when the retrieved contexts do not
+contain the answer — can be perfectly grounded on some questions and
+hallucinate on others. That failure mode is invisible to the other
+metrics.
+
+**The metric.** Refusal correctness measures whether the system
+refuses when it should refuse, and answers when it should answer.
+
+The notion of "should" comes from the dataset:
+
+- A question with an `expected_answer` (or a non-empty
+  `expected_context`) is **answerable**.
+- A question without either is **unanswerable**.
+
+The detection of refusal is deterministic. A short answer that matches
+one of a small set of patterns ("Saya tidak tahu", "Informasi tidak
+tersedia", "I don't know", "Not enough information", and so on) is a
+refusal. A long answer that merely starts with a refusal phrase is
+not, because the length indicates the answer contains content beyond
+the refusal.
+
+**Truth table.**
+
+| Question | Answer | Status | Correct |
+|---|---|---|---|
+| Answerable | Answer | answerable_answered | yes |
+| Answerable | Refusal | answerable_refused | no |
+| Unanswerable | Refusal | unanswerable_refused | yes |
+| Unanswerable | Answer | unanswerable_answered | no |
+
+**Score.** `refusal_correctness = correct / applicable`. `None` if no
+questions are applicable (e.g., all results have errors).
+
+**Why deterministic.** Refusal patterns are strong signals. A user who
+sees "Saya tidak tahu" knows the system refused. An LLM-based detection
+would add cost and nondeterminism for a task that regex handles well.
+
+**Contrast conjunction handling.** A refusal phrase followed by "namun",
+"tetapi", "tapi", "however", or "but" is not a refusal. It is an answer
+with a hedge. Example: "Saya tidak tahu secara pasti, namun berdasarkan
+konteks, Pasal 5 menyatakan ..." is an answer, not a refusal. The
+detector checks for contrast conjunctions before deciding.
+
+**Why it matters for Assay.** A RAG system that refuses too often is
+annoying. A RAG system that answers when it should refuse is dangerous.
+Without refusal correctness, neither failure mode is visible in the CI
+gate. This metric closes that gap.
+
 ## Konteks
 
 Assay mengukur kualitas RAG. MVP awal pakai metrics heuristic sederhana: token overlap antara jawaban dan konteks. Cepat, deterministic, gratis. Tapi dangkal. Jawaban yang benar secara semantic tapi pakai kata berbeda akan skor rendah. Jawaban yang copy token tapi salah secara semantic akan skor tinggi.

@@ -95,3 +95,5 @@ class ExecuteResponse(BaseModel):
     judge_used: int = 0
     relevance_used: int = 0
     citation_used: int = 0
+    refusal_evaluated: int = 0
+    refusal_correct: int = 0

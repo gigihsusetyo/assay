@@ -1,6 +1,7 @@
 version: 1
 thresholds:
   groundedness:
+  refusal_correctness: 5.0
   citation_accuracy: 5.0
     value: 0.001
     type: absolute

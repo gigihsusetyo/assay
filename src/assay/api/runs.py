@@ -162,4 +162,6 @@ def execute_run_endpoint(
         judge_used=summary.judge_used,
         relevance_used=summary.relevance_used,
         citation_used=summary.citation_used,
+        refusal_evaluated=summary.refusal_evaluated,
+        refusal_correct=summary.refusal_correct,
     )

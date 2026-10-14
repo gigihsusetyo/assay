@@ -121,6 +121,8 @@ class Result(Base):
     context_recall: Mapped[float | None] = mapped_column(Float, nullable=True)
     answer_relevance: Mapped[float | None] = mapped_column(Float, nullable=True)
     citation_accuracy: Mapped[float | None] = mapped_column(Float, nullable=True)
+    refusal_correctness: Mapped[float | None] = mapped_column(Float, nullable=True)
+    refusal_status: Mapped[str | None] = mapped_column(String(50), nullable=True)
     latency_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
     cost_usd: Mapped[float | None] = mapped_column(Float, nullable=True)
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)

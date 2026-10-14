@@ -24,7 +24,7 @@ Assay is that way.
 
 1. Takes a dataset of questions with expected answers and contexts.
 2. Calls your RAG endpoint for each question.
-3. Computes quality metrics (groundedness, answer relevance, context recall, citation accuracy) and operational metrics (latency, cost).
+3. Computes quality metrics (groundedness, answer relevance, context recall, citation accuracy, refusal correctness) and operational metrics (latency, cost).
 4. Compares the results against a baseline.
 5. Fails with a non-zero exit code if quality regresses beyond a threshold.
 
@@ -87,6 +87,7 @@ What works today:
 - Compute groundedness and context recall with simple heuristics.
 - Use LLM-as-judge for groundedness and answer relevance (BYOK).
 - Compute citation accuracy for legal and regulatory answers.
+- Compute refusal correctness (deterministic).
 - Multi-provider fallback for resilience.
 - Compare providers on the same calibration set.
 - Validate the judge against human labels (Cohen's kappa).
@@ -98,7 +99,6 @@ What works today:
 What is not done yet:
 
 - Integration with Ragas or DeepEval.
-- Refusal correctness metric.
 - Real Kubernetes deployment.
 
 ---
@@ -221,6 +221,7 @@ thresholds:
   answer_relevance: 5.0
   context_recall: 5.0
   citation_accuracy: 5.0
+  refusal_correctness: 5.0
   p95_latency_ms: 20.0
   avg_cost_usd: 20.0
 ```
@@ -253,6 +254,8 @@ thresholds:
 **Context recall** measures how much of the expected context was retrieved. It is deterministic.
 
 **Citation accuracy** measures whether the citations in the answer (Pasal 5, UU 16/2025, etc.) actually exist in the retrieved contexts. It is deterministic. In legal and regulatory domains, an answer with the wrong citation is worse than an answer that admits uncertainty.
+
+**Refusal correctness** measures whether the system refuses when it should refuse, and answers when it should answer. A question with an expected answer is answerable; a question without is not. It is deterministic. A RAG system that always answers — even when the contexts do not contain the answer — is dangerous without this metric.
 
 For the MVP, simple heuristic metrics are also available. These are token overlap based. They are fast, deterministic, and free, but shallow. They catch obvious drift, not semantic errors.
 
@@ -470,7 +473,7 @@ SQLite is the default for local development. PostgreSQL is the target for produc
 Golden datasets, baselines, regression policies, CLI, CI gate, JSON output, PR comments, judge validation, adversarial suite, multi-provider fallback.
 
 **Phase 2 — Quality and Scale:**
-Refusal correctness metric. Ragas integration. Multi-domain calibration. Hold-out test set. Timeout handling. Consistency test.
+Ragas integration. Multi-domain calibration. Hold-out test set. Timeout handling. Consistency test.
 
 **Phase 3 — Deployment and Observability:**
 Kubernetes deployment with k3s. OpenTelemetry traces. Historical regressions. Alerts. Dashboards.
