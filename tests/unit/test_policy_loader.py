@@ -184,7 +184,7 @@ def test_policy_all_valid_keys(tmp_path: Path) -> None:
         "p95_latency_ms",
         "avg_cost_usd",
     }
-    for key, spec in result.items():
+    for spec in result.values():
         assert spec["type"] == "relative"
         assert isinstance(spec["value"], float)
 

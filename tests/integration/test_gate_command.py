@@ -38,8 +38,8 @@ def _seed_pass_scenario(test_engine):
     """Seed a baseline and a current run that both pass."""
     from sqlalchemy.orm import sessionmaker
 
-    SL = sessionmaker(bind=test_engine, autocommit=False, autoflush=False)
-    session = SL()
+    sl = sessionmaker(bind=test_engine, autocommit=False, autoflush=False)
+    session = sl()
     try:
         ds_repo = DatasetRepository(session)
         q_repo = QuestionRepository(session)
@@ -74,8 +74,8 @@ def _seed_fail_scenario(test_engine):
     """Seed a baseline and a current run where groundedness regresses."""
     from sqlalchemy.orm import sessionmaker
 
-    SL = sessionmaker(bind=test_engine, autocommit=False, autoflush=False)
-    session = SL()
+    sl = sessionmaker(bind=test_engine, autocommit=False, autoflush=False)
+    session = sl()
     try:
         ds_repo = DatasetRepository(session)
         q_repo = QuestionRepository(session)

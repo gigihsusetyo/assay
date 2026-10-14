@@ -10,7 +10,6 @@ from assay.db.models import RunStatus
 from assay.db.repositories.dataset import DatasetRepository, QuestionRepository
 from assay.db.repositories.run import ResultRepository, RunRepository
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
