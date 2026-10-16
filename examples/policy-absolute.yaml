@@ -1,11 +1,21 @@
 version: 1
 thresholds:
   groundedness:
-  refusal_correctness: 5.0
-  citation_accuracy: 5.0
+    value: 0.05
+    type: absolute
+  answer_relevance:
+    value: 0.05
+    type: absolute
+  answer_completeness:
     value: 0.05
     type: absolute
   context_recall:
+    value: 0.05
+    type: absolute
+  citation_accuracy:
+    value: 0.05
+    type: absolute
+  refusal_correctness:
     value: 0.05
     type: absolute
   p95_latency_ms:

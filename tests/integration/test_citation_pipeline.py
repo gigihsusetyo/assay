@@ -111,3 +111,34 @@ def test_executor_citation_partial(test_session, monkeypatch) -> None:
     res_repo = ResultRepository(test_session)
     results = res_repo.list_by_run(run.id)
     assert results[0].citation_accuracy == 0.5
+
+def test_executor_completeness_none_without_judge(test_session, monkeypatch) -> None:
+    """Without judge, completeness is not computed (None)."""
+    ds_repo = DatasetRepository(test_session)
+    q_repo = QuestionRepository(test_session)
+    run_repo = RunRepository(test_session)
+
+    ds = ds_repo.create(name="completeness-ds-1")
+    q_repo.create(dataset_id=ds.id, question="Q?", expected_context="C")
+    run = run_repo.create(
+        dataset_id=ds.id, name="completeness-run-1", target_url="http://mock"
+    )
+
+    responses = [
+        TargetResponse(
+            answer="Berdasarkan Pasal 5, ...",
+            retrieved_contexts=[{"text": "Pasal 5: ..."}],
+            latency_ms=1000,
+            cost_usd=0.0,
+            metadata={},
+        )
+    ]
+    _patch_adapter(monkeypatch, responses)
+
+    summary = execute_run(test_session, run.id, verbose=False, use_judge=False)
+
+    assert summary.completeness_used == 0
+
+    res_repo = ResultRepository(test_session)
+    results = res_repo.list_by_run(run.id)
+    assert results[0].answer_completeness is None

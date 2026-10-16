@@ -161,6 +161,7 @@ def execute_run_endpoint(
         status=run.status if run else "unknown",
         judge_used=summary.judge_used,
         relevance_used=summary.relevance_used,
+        completeness_used=summary.completeness_used,
         citation_used=summary.citation_used,
         refusal_evaluated=summary.refusal_evaluated,
         refusal_correct=summary.refusal_correct,

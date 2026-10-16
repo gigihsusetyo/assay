@@ -120,6 +120,7 @@ class Result(Base):
     groundedness: Mapped[float | None] = mapped_column(Float, nullable=True)
     context_recall: Mapped[float | None] = mapped_column(Float, nullable=True)
     answer_relevance: Mapped[float | None] = mapped_column(Float, nullable=True)
+    answer_completeness: Mapped[float | None] = mapped_column(Float, nullable=True)
     citation_accuracy: Mapped[float | None] = mapped_column(Float, nullable=True)
     refusal_correctness: Mapped[float | None] = mapped_column(Float, nullable=True)
     refusal_status: Mapped[str | None] = mapped_column(String(50), nullable=True)

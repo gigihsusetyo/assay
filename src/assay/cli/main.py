@@ -560,6 +560,7 @@ def result_list(
             "Groundedness",
             "Recall",
             "Relevance",
+            "Completeness",
             "Citation",
             "Refusal",
             "Latency (ms)",
@@ -570,12 +571,13 @@ def result_list(
             g = f"{r.groundedness:.2f}" if r.groundedness is not None else "-"
             rc = f"{r.context_recall:.2f}" if r.context_recall is not None else "-"
             ar = f"{r.answer_relevance:.2f}" if r.answer_relevance is not None else "-"
+            ac = f"{r.answer_completeness:.2f}" if r.answer_completeness is not None else "-"
             ca = f"{r.citation_accuracy:.2f}" if r.citation_accuracy is not None else "-"
             rf = f"{r.refusal_correctness:.2f}" if r.refusal_correctness is not None else "-"
             lat = str(r.latency_ms) if r.latency_ms is not None else "-"
             cost = f"{r.cost_usd:.4f}" if r.cost_usd is not None else "-"
             err = "yes" if r.error_message else ""
-            table.add_row(str(r.question_id), g, rc, ar, ca, rf, lat, cost, err)
+            table.add_row(str(r.question_id), g, rc, ar, ac, ca, rf, lat, cost, err)
         console.print(table)
         console.print(f"[dim]Showing {min(len(results), limit)} of {len(results)} results.[/dim]")
     finally:

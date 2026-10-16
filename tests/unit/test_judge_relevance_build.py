@@ -11,6 +11,7 @@ from assay.core.metrics.judge import JudgeError, _build_relevance_result
 
 def test_relevance_all_addressed() -> None:
     parsed = {
+        "relevant": True,
         "aspects": [
             {"aspect": "the capital", "addressed": True, "reason": "Stated."},
         ],
@@ -18,6 +19,7 @@ def test_relevance_all_addressed() -> None:
     }
     result = _build_relevance_result(parsed, raw="{}")
     assert result.relevant is True
+    assert result.completeness_score == 1.0
     assert result.score == 1.0
     assert len(result.aspects) == 1
     assert result.aspects[0].addressed is True
@@ -25,6 +27,7 @@ def test_relevance_all_addressed() -> None:
 
 def test_relevance_two_aspects_both_addressed() -> None:
     parsed = {
+        "relevant": True,
         "aspects": [
             {"aspect": "rate limit", "addressed": True, "reason": "Stated."},
             {"aspect": "how to increase it", "addressed": True, "reason": "Explained."},
@@ -33,6 +36,7 @@ def test_relevance_two_aspects_both_addressed() -> None:
     }
     result = _build_relevance_result(parsed, raw="{}")
     assert result.relevant is True
+    assert result.completeness_score == 1.0
     assert result.score == 1.0
 
 
@@ -42,7 +46,9 @@ def test_relevance_two_aspects_both_addressed() -> None:
 
 
 def test_relevance_partial() -> None:
+    """Partial answer: relevant (topic addressed) but incomplete (0.5)."""
     parsed = {
+        "relevant": True,
         "aspects": [
             {"aspect": "rate limit", "addressed": True, "reason": "Stated."},
             {"aspect": "how to increase it", "addressed": False, "reason": "Ignored."},
@@ -50,12 +56,14 @@ def test_relevance_partial() -> None:
         "reason": "Partial.",
     }
     result = _build_relevance_result(parsed, raw="{}")
-    assert result.relevant is False
+    assert result.relevant is True
+    assert result.completeness_score == 0.5
     assert result.score == 0.5
 
 
 def test_relevance_none_addressed() -> None:
     parsed = {
+        "relevant": False,
         "aspects": [
             {"aspect": "rate limit", "addressed": False, "reason": "Ignored."},
         ],
@@ -63,6 +71,7 @@ def test_relevance_none_addressed() -> None:
     }
     result = _build_relevance_result(parsed, raw="{}")
     assert result.relevant is False
+    assert result.completeness_score == 0.0
     assert result.score == 0.0
 
 
@@ -73,7 +82,9 @@ def test_relevance_missing_addressed_field_defaults_false() -> None:
     }
     result = _build_relevance_result(parsed, raw="{}")
     assert result.aspects[0].addressed is False
+    # No top-level "relevant" -> infer: 0 addressed -> False
     assert result.relevant is False
+    assert result.completeness_score == 0.0
 
 
 # ---------------------------------------------------------------------------
@@ -95,6 +106,7 @@ def test_relevance_aspects_not_a_list_raises() -> None:
 
 def test_relevance_skips_non_dict_aspects() -> None:
     parsed = {
+        "relevant": True,
         "aspects": [
             "not a dict",
             {"aspect": "valid", "addressed": True, "reason": "ok"},
@@ -114,6 +126,7 @@ def test_relevance_missing_aspects_key_raises() -> None:
 
 def test_relevance_raw_response_preserved() -> None:
     parsed = {
+        "relevant": True,
         "aspects": [{"aspect": "x", "addressed": True, "reason": "ok"}],
         "reason": "ok",
     }
@@ -122,7 +135,9 @@ def test_relevance_raw_response_preserved() -> None:
 
 
 def test_relevance_score_fraction() -> None:
+    """3 of 4 addressed: relevant=True, completeness=0.75."""
     parsed = {
+        "relevant": True,
         "aspects": [
             {"aspect": "a", "addressed": True, "reason": ""},
             {"aspect": "b", "addressed": True, "reason": ""},
@@ -132,5 +147,6 @@ def test_relevance_score_fraction() -> None:
         "reason": "3 of 4.",
     }
     result = _build_relevance_result(parsed, raw="{}")
-    assert result.relevant is False
+    assert result.relevant is True
+    assert result.completeness_score == 0.75
     assert result.score == 0.75

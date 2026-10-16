@@ -204,6 +204,13 @@ def compare_runs(
         [r.answer_relevance for r in current_results if r.answer_relevance is not None]
     )
 
+    baseline_completeness = _avg(
+        [r.answer_completeness for r in baseline_results if r.answer_completeness is not None]
+    )
+    current_completeness = _avg(
+        [r.answer_completeness for r in current_results if r.answer_completeness is not None]
+    )
+
     baseline_citation = _avg(
         [r.citation_accuracy for r in baseline_results if r.citation_accuracy is not None]
     )
@@ -242,6 +249,7 @@ def compare_runs(
         ("groundedness", baseline_groundedness, current_groundedness, True, "groundedness"),
         ("context_recall", baseline_recall, current_recall, True, "context_recall"),
         ("answer_relevance", baseline_relevance, current_relevance, True, "answer_relevance"),
+        ("answer_completeness", baseline_completeness, current_completeness, True, "answer_completeness"),
         ("citation_accuracy", baseline_citation, current_citation, True, "citation_accuracy"),
         ("refusal_correctness", baseline_refusal, current_refusal, True, "refusal_correctness"),
         ("p95_latency_ms", baseline_p95, current_p95, False, "p95_latency_ms"),

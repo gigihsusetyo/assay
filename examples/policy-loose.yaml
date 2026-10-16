@@ -1,8 +1,10 @@
 version: 1
 thresholds:
-  groundedness:
-  refusal_correctness: 5.0
-  citation_accuracy: 5.0 20.0
+  groundedness: 20.0
+  answer_relevance: 20.0
+  answer_completeness: 20.0
   context_recall: 20.0
+  citation_accuracy: 20.0
+  refusal_correctness: 20.0
   p95_latency_ms: 50.0
   avg_cost_usd: 50.0

@@ -32,6 +32,7 @@ class ExecutionSummary:
     total_cost_usd: float
     judge_used: int
     relevance_used: int
+    completeness_used: int = 0
     citation_used: int = 0
     refusal_evaluated: int = 0
     refusal_correct: int = 0
@@ -84,6 +85,7 @@ def execute_run(
     total_cost = 0.0
     judge_used = 0
     relevance_used = 0
+    completeness_used = 0
     citation_used = 0
     refusal_evaluated = 0
     refusal_correct = 0
@@ -117,19 +119,26 @@ def execute_run(
             else:
                 g = groundedness(response.answer, contexts)
 
-            # Answer relevance: only with judge
+            # Answer relevance + completeness: only with judge
             ar: float | None = None
+            ac: float | None = None
             if judge_active:
                 try:
                     rr = judge_answer_relevance(q.question, response.answer)
-                    ar = rr.score
+                    ar = 1.0 if rr.relevant else 0.0
+                    ac = rr.completeness_score
                     relevance_used += 1
+                    completeness_used += 1
                     if verbose:
-                        print(f"  Q{q.id}: answer relevance={ar:.2f}")
+                        print(
+                            f"  Q{q.id}: relevant={rr.relevant}, "
+                            f"completeness={ac:.2f}"
+                        )
                 except JudgeError as e:
                     if verbose:
                         print(f"  Q{q.id}: relevance judge failed ({e})")
                     ar = None
+                    ac = None
 
             # Citation accuracy: deterministic, always computed.
             citation_result = citation_accuracy(response.answer, contexts)
@@ -161,6 +170,7 @@ def execute_run(
                 groundedness=g,
                 context_recall=r,
                 answer_relevance=ar,
+                answer_completeness=ac,
                 citation_accuracy=citation_score,
                 refusal_correctness=refusal_score,
                 refusal_status=refusal_status,
@@ -197,6 +207,7 @@ def execute_run(
         total_cost_usd=total_cost,
         judge_used=judge_used,
         relevance_used=relevance_used,
+        completeness_used=completeness_used,
         citation_used=citation_used,
         refusal_evaluated=refusal_evaluated,
         refusal_correct=refusal_correct,
