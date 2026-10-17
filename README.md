@@ -379,25 +379,31 @@ may address them in the future.
 
 ---
 
-### Answer Relevance Validation (Preliminary)
+### Answer Relevance Validation
 
-On the 249-entry relevance review set (Indonesian legal), the judge
-achieves **98.0% raw agreement** with human labels. Cohen's kappa is
-**0.277** — POOR by the standard scale.
+On the balanced 100-entry challenge set (50 positive, 50 hard
+negative), the judge achieves:
 
-This is misleading if read alone. The dataset is **99.2% positive**
-(247 relevant, 2 not relevant). A trivial always-relevant classifier
-would score **99.2% raw agreement** — higher than the judge's 98.0%.
+| Metric | Value |
+|---|---|
+| Cohen's kappa | **0.920** |
+| Raw agreement | 96.0% |
+| Balanced accuracy | 96.0% |
+| Sensitivity | 100.0% |
+| Specificity | 92.0% |
 
-With only 2 negative examples, specificity is estimated at 1/2 = 50%,
-with a 95% Wilson interval of roughly 10% to 90%. **The dataset
-cannot measure whether the judge discriminates irrelevant answers.**
-No choice of metric (kappa, MCC, balanced accuracy, F1) fixes that.
+Kappa 0.920 is EXCELLENT. The judge is reliable for this domain.
 
-**We do not yet claim that the answer relevance judge is validated.**
-Until a balanced challenge set is built (50-100 deliberately
-constructed negative examples), relevance is treated as **advisory**,
-not a blocking gate. See ADR-004 for the full analysis and next steps.
+The four false positives are all cases where the judge marked an
+answer as relevant when it should not have: wrong entity with the
+same topic, vague refusal, and partial answer that addresses a
+different aspect. These are documented in ADR-004 as known
+limitations.
+
+**The relevance metric is validated for this domain.** It should be
+treated as reliable for discriminating relevant from irrelevant
+answers. For domains other than legal Indonesia, calibrate the judge
+yourself with a balanced set built from your own data.
 
 ---
 

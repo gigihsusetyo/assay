@@ -29,6 +29,8 @@ from pathlib import Path
 
 from assay.core.metrics.judge import JudgeError, judge_answer_relevance
 
+PROGRESS_FILE = Path(".relevance_progress.json")
+
 # ---------------------------------------------------------------------------
 # Statistics
 # ---------------------------------------------------------------------------
@@ -122,6 +124,11 @@ def main() -> None:
         help="Minimum size for the minority class before reporting per-class "
         "metrics. Below this, the class is reported as INSUFFICIENT DATA.",
     )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume from .relevance_progress.json if it exists.",
+    )
     args = parser.parse_args()
 
     path = Path(args.calibration_set)
@@ -138,6 +145,13 @@ def main() -> None:
     if args.limit is not None:
         entries = entries[: args.limit]
 
+    # Load progress
+    progress = {}
+    if args.resume and PROGRESS_FILE.exists():
+        with PROGRESS_FILE.open(encoding="utf-8") as f:
+            progress = json.load(f)
+        print(f"Resuming from {PROGRESS_FILE}: {len(progress)} entries cached.")
+
     tp = tn = fp = fn = 0
     skipped = 0
     disagreements = []
@@ -146,9 +160,28 @@ def main() -> None:
     start_time = time.monotonic()
 
     for i, entry in enumerate(entries):
+        eid = entry.get("id", f"entry_{i}")
         human = entry.get("human_relevant")
         if human is None:
             skipped += 1
+            continue
+
+        # Cek cache
+        if eid in progress:
+            cached = progress[eid]
+            judge = cached["judge"]
+            # Update confusion matrix
+            if human and judge:
+                tp += 1
+            elif not human and not judge:
+                tn += 1
+            elif not human and judge:
+                fp += 1
+            elif human and not judge:
+                fn += 1
+
+            if human != judge:
+                disagreements.append(cached["disagreement"])
             continue
 
         try:
@@ -185,13 +218,21 @@ def main() -> None:
             fn += 1
 
         if human != judge:
-            disagreements.append({
+            disagreement = {
                 "index": i + 1,
-                "id": entry.get("id", "?"),
+                "id": eid,
                 "human": human,
                 "judge": judge,
                 "reason": result.reason[:120] if result.reason else "",
-            })
+            }
+            disagreements.append(disagreement)
+            progress[eid] = {"judge": judge, "disagreement": disagreement}
+        else:
+            progress[eid] = {"judge": judge, "disagreement": None}
+
+        # Simpan progress setiap entry
+        with PROGRESS_FILE.open("w", encoding="utf-8") as f:
+            json.dump(progress, f)
 
     evaluated = tp + tn + fp + fn
     if evaluated == 0:

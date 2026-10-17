@@ -4351,7 +4351,7 @@
         }
       ],
       "human_relevant": true,
-      "human_relevance_reason": "Manual review: <-- opsional"
+      "human_relevance_reason": "Audited. Human label correct. The answer names 'Kantor Bahasa' as the category for UPT with score < 0.562. The judge missed this because it focused on the quote form rather than the answer content. Kept as True."
     },
     {
       "id": "q196",
@@ -5837,7 +5837,7 @@
         }
       ],
       "human_relevant": true,
-      "human_relevance_reason": "Manual review: <-- opsional"
+      "human_relevance_reason": "Audited. Human label correct. The question asks 'disebut apa?' (what is it called). The answer gives the full definition, which implicitly names the concept (Obat). Not mentioning the word 'Obat' does not make it irrelevant. Kept as True."
     },
     {
       "id": "q368",
@@ -5875,7 +5875,7 @@
         }
       ],
       "human_relevant": true,
-      "human_relevance_reason": "Manual review: <-- opsional"
+      "human_relevance_reason": "Audited. Human label correct. The answer addresses both aspects: who authorizes (Kapolri) and operational provisions (Pasal 34A/34B). The second aspect is vague (just a pasal reference), which is a completeness issue, not relevance. Kept as True."
     },
     {
       "id": "q053",
@@ -8088,8 +8088,8 @@
           "evidence": "Prajurit dapat menduduki jabatan pada kementerian/lembaga yang membidangi koordinator bidang politik dan keamanan negara, pertahanan negara termasuk dewan pertahanan nasional, kesekretariatan negara yang menangani urusan kesekretariatan presiden dan kesekretariatan militer presiden, intelijen negara, siber dan/ atau sandi negara, lembaga ketahanan nasional, pencarian dan pertolongan, narkotika nasional, pengelola perbatasan, penanggulangan bencana, penanggulangan terorisme, keamanan laut, Kejaksaan Republik Indonesia, dan Mahkamah Agung."
         }
       ],
-      "human_relevant": false,
-      "human_relevance_reason": "Manual review: <-- opsional"
+      "human_relevant": true,
+      "human_relevance_reason": "Corrected after audit. The answer addresses the topic (which government institutions TNI personnel can occupy). It gives a partial list, but relevance is about topic, not completeness. Completeness is a separate metric."
     },
     {
       "id": "q109",
@@ -8647,7 +8647,7 @@
         }
       ],
       "human_relevant": true,
-      "human_relevance_reason": "Manual review: <-- opsional"
+      "human_relevance_reason": "Audited. Human label correct. The answer names the court (Pengadilan Negeri Jakarta Pusat) directly. The judge was confused by the word 'diadili' vs 'santunan', but the answer is on-topic. Kept as True."
     },
     {
       "id": "q314",

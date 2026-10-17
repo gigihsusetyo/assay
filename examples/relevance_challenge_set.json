@@ -1,0 +1,906 @@
+{
+  "version": "1.0.0",
+  "description": "Balanced relevance challenge set. 50 positive (real legal QA) + 50 hard negative (ChatGPT-generated).",
+  "entries": [
+    {
+      "id": "ch_neg_026",
+      "question": "Berapa hari kerja yang diberikan kepada pelaku usaha perfilman untuk memenuhi perizinan setelah teguran tertulis pertama?",
+      "answer": "Maaf, saya tidak dapat menjawab pertanyaan tersebut.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menolak memberikan informasi dan tidak menyebutkan jumlah hari kerja yang diminta.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_026"
+    },
+    {
+      "id": "ch_pos_005",
+      "question": "Paling lambat berapa tahun sertifikat hak milik atas tanah harus diberikan kepada transmigran sejak mereka ditempatkan di satuan permukiman?",
+      "answer": "harus diberikan paling lambat 5 (lima) tahun sejak penempatan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q031"
+    },
+    {
+      "id": "ch_neg_038",
+      "question": "Apa kewajiban pengusaha pabrik setelah menerima konfirmasi bahwa pita cukainya rusak?",
+      "answer": "Setiap pemberi kerja wajib mendaftarkan pekerjanya sebagai peserta program jaminan sosial ketenagakerjaan sesuai dengan ketentuan yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan membahas kewajiban pengusaha pabrik dalam administrasi cukai, sedangkan jawaban membahas kepesertaan jaminan sosial ketenagakerjaan.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_038"
+    },
+    {
+      "id": "ch_pos_016",
+      "question": "Berapa batas maksimal hukuman finansial yang bisa dijatuhkan untuk sanksi sebagaimana dimaksud pada Pasal 62 ayat (1) huruf g?",
+      "answer": "denda administratif dikenakan paling banyak Rp50.000.000,00 (lima puluh juta rupiah)",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q176"
+    },
+    {
+      "id": "ch_neg_015",
+      "question": "Siapa yang berwenang menetapkan kebijakan penggunaan pita cukai dan mengatur pelaksanaannya bagi pengusaha pabrik?",
+      "answer": "Gubernur menetapkan kebijakan pembinaan industri daerah berdasarkan potensi ekonomi dan prioritas pembangunan wilayah provinsi.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menyebut Gubernur dan kebijakan industri daerah, bukan pejabat pusat yang berwenang atas kebijakan pita cukai.",
+      "category": "Wrong Entity",
+      "source_id": "ch_015"
+    },
+    {
+      "id": "ch_neg_025",
+      "question": "Siapa satu-satunya pihak yang berwenang mengajukan permohonan pernyataan pailit terhadap penyelenggara infrastruktur sistem pembayaran di Indonesia?",
+      "answer": "Tidak ada informasi yang dapat diberikan mengenai pihak yang berwenang mengajukan permohonan pailit.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban tidak menyebut pihak yang diminta dan hanya menyatakan ketidaktersediaan informasi.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_025"
+    },
+    {
+      "id": "ch_pos_037",
+      "question": "Kalau ada kapal yang merekam kedalaman laut saat lewat di perairan Indonesia terus mampir ke pelabuhan, data rekamannya itu boleh dipakai buat apa saja?",
+      "answer": "digunakan sebagai data pelengkap dalam Pemetaan Hidrografi.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q050"
+    },
+    {
+      "id": "ch_pos_023",
+      "question": "Bagaimana cara membuktikan besarnya pemasukan seseorang yang bekerja secara mandiri atau di sektor informal untuk keperluan verifikasi status ekonomi rendah?",
+      "answer": "surat pernyataan besaran penghasilan bermeterai yang diketahui oleh Kepala Desa/Lurah",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q121"
+    },
+    {
+      "id": "ch_pos_009",
+      "question": "Apa yang dimaksud dengan lisensi surveyor hidrografi dan siapa yang berwenang mengeluarkannya berdasarkan Perpres Nomor 11 Tahun 2026?",
+      "answer": "Lisensi = izin tertulis bagi surveyor bersertifikat/akademik dengan rekam jejak; dikeluarkan oleh Pushidros.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q051"
+    },
+    {
+      "id": "ch_neg_017",
+      "question": "Siapa pejabat yang berwenang mengeluarkan keputusan administratif terkait pelaksanaan perizinan usaha perfilman di tingkat pusat?",
+      "answer": "Bupati menetapkan keputusan administratif mengenai pelayanan perizinan usaha yang menjadi kewenangan pemerintah kabupaten sesuai dengan ketentuan yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan secara khusus menanyakan kewenangan tingkat pusat, tetapi jawaban menjelaskan kewenangan Bupati pada tingkat kabupaten.",
+      "category": "Wrong Entity",
+      "source_id": "ch_017"
+    },
+    {
+      "id": "ch_neg_028",
+      "question": "Siapa pejabat yang menetapkan pemberian penugasan bagi kelompok jabatan fungsional di Balai Layanan Penghubung Identitas Digital?",
+      "answer": "Peraturan yang relevan tidak mengatur hal tersebut.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menyatakan bahwa hal tersebut tidak diatur, tanpa mengidentifikasi pejabat yang berwenang sebagaimana diminta.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_028"
+    },
+    {
+      "id": "ch_pos_040",
+      "question": "Siapa yang bertanggung jawab mengumpulkan dan mengelola data yang dipilah berdasarkan jenis kelamin dan umur di Kabupaten Kudus?",
+      "answer": "Perangkat Daerah yang menyelenggarakan urusan pemerintahan bidang komunikasi dan informatika",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q450"
+    },
+    {
+      "id": "ch_neg_042",
+      "question": "Berapa nominal penyertaan modal yang disetorkan pada tahun anggaran 2014 dan kepada perusahaan mana modal tersebut disetorkan oleh Pemerintah Daerah Kabupaten Pulang Pisau?",
+      "answer": "Perubahan bentuk badan hukum suatu perusahaan dilaksanakan berdasarkan keputusan organ perusahaan yang berwenang serta pemenuhan persyaratan administrasi sesuai dengan ketentuan yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta nilai penyertaan modal dan nama perusahaan penerima, sedangkan jawaban membahas perubahan bentuk badan hukum tanpa menjawab nilai ataupun identitas perusahaan.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_042"
+    },
+    {
+      "id": "ch_pos_015",
+      "question": "Apakah kampus asing yang hendak beroperasi di zona ekonomi spesial wajib mendapatkan legalitas usaha berdasarkan tingkat bahaya kegiatannya?",
+      "answer": "wajib memperoleh Perizinan Berusaha Berbasis Risiko",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q467"
+    },
+    {
+      "id": "ch_pos_047",
+      "question": "Siapa yang berwenang melakukan pengawasan terhadap penyelenggaraan Sistem Informasi Perdagangan setelah Menteri mendelegasikan kewenangannya?",
+      "answer": "Menteri mendelegasikan kewenangan kepada Inspektur Jenderal Kementerian Perdagangan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q391"
+    },
+    {
+      "id": "ch_pos_041",
+      "question": "Berapa besaran hak keuangan bulanan yang diterima oleh Tenaga Ahli Madya Dewan Pertahanan Nasional?",
+      "answer": "Rp27.600.000,00 (dua puluh tujuh juta enam ratus ribu rupiah)",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q053"
+    },
+    {
+      "id": "ch_pos_033",
+      "question": "Apa tugas Wakil Dekan Bidang Akademik dan Kelembagaan serta apa tugas Wakil Dekan Bidang Kemahasiswaan dan Kerja Sama dalam struktur fakultas UIN Raden Intan Lampung?",
+      "answer": "Wakil Dekan Akademik membantu pendidikan, penelitian, pengabdian, kelembagaan; Wakil Dekan Kemahasiswaan membantu kemahasiswaan, alumni, kerja sama.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q389"
+    },
+    {
+      "id": "ch_pos_042",
+      "question": "Apa kewajiban pemilik tempat penginapan terkait data Orang Asing dan sanksi pidana apa yang dikenakan jika kewajiban tersebut tidak dipenuhi?",
+      "answer": "Wajib berikan data OA jika diminta; sanksi kurungan maks 3 bulan atau denda maks Rp25.000.000",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q021"
+    },
+    {
+      "id": "ch_neg_046",
+      "question": "Apa jenis sanksi yang dikenakan terlebih dahulu kepada pelaku usaha perfilman tanpa izin dan apa kewajiban yang harus dipenuhi untuk memperbaiki pelanggaran tersebut?",
+      "answer": "Penyelenggara kegiatan perfilman wajib menyampaikan data jumlah film yang diproduksi serta informasi mengenai jadwal dan lokasi pemutaran film kepada instansi yang berwenang.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta sanksi pertama dan kewajiban untuk memperbaiki pelanggaran perizinan, sedangkan jawaban membahas pelaporan produksi dan pemutaran film.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_046"
+    },
+    {
+      "id": "ch_pos_022",
+      "question": "Dalam PMK Nomor 113 Tahun 2025 tentang Pengembalian Cukai, berapa lama batas waktu kepala Kantor yang mengawasi Pabrik untuk menerbitkan dan menyampaikan SPKPC kepada Pengusaha Pabrik setelah diterbitkannya nota pembetulan?",
+      "answer": "paling lama 10 (sepuluh) hari kerja setelah diterbitkan nota pembetulan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q150"
+    },
+    {
+      "id": "ch_pos_020",
+      "question": "Apa saja karakteristik fisik yang dimiliki Kota Manado, mencakup bentang alam datar, pegunungan, hingga kawasan pesisir dan gugusan pulau?",
+      "answer": "dataran rendah, pegunungan, pesisir dan kepulauan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q004"
+    },
+    {
+      "id": "ch_neg_024",
+      "question": "Siapa yang berwenang mengatur pemberian penugasan kepada kelompok jabatan fungsional di Balai Layanan Penghubung Identitas Digital?",
+      "answer": "Ketentuan mengenai hal tersebut tidak diketahui.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban merupakan abstensi tanpa mengidentifikasi pejabat yang berwenang mengatur penugasan kelompok jabatan fungsional.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_024"
+    },
+    {
+      "id": "ch_neg_012",
+      "question": "Siapa pejabat yang berwenang mengatur pemberian penugasan kepada kelompok jabatan fungsional di Balai Layanan Penghubung Identitas Digital?",
+      "answer": "Menteri yang menyelenggarakan urusan pemerintahan di bidang komunikasi dan informatika menetapkan kebijakan umum penyelenggaraan identitas digital sesuai kewenangannya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menyebut Menteri yang menangani kebijakan umum, bukan Kepala Balai yang berwenang mengatur pemberian penugasan dalam unit tersebut.",
+      "category": "Wrong Entity",
+      "source_id": "ch_012"
+    },
+    {
+      "id": "ch_pos_003",
+      "question": "Siapa yang berwenang melaksanakan RPPLH dan kepada siapa hasil monitoring pelaksanaannya dilaporkan secara berjenjang?",
+      "answer": "Wali Kota melalui Perangkat Daerah melaksanakan RPPLH; hasil monitoring dilaporkan Wali Kota kepada Gubernur.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q461"
+    },
+    {
+      "id": "ch_pos_029",
+      "question": "Berapa lama minimal usia suatu kecamatan sebelum bisa dipecah atau digabung di wilayah kepulauan Jakarta?",
+      "answer": "paling singkat 5 (lima) tahun untuk setiap Kecamatan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q447"
+    },
+    {
+      "id": "ch_neg_016",
+      "question": "Siapa yang berwenang menetapkan peraturan mengenai tata cara pengelolaan dan pertanggungjawaban penyertaan modal Pemerintah Daerah Kabupaten Pulang Pisau?",
+      "answer": "Menteri Keuangan menetapkan kebijakan pengelolaan keuangan negara sesuai dengan kewenangan yang diberikan oleh peraturan perundang-undangan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menyebut Menteri Keuangan dan pengelolaan keuangan negara secara umum, bukan pejabat atau organ Pemerintah Daerah yang berwenang atas pengelolaan penyertaan modal daerah yang ditanyakan.",
+      "category": "Wrong Entity",
+      "source_id": "ch_016"
+    },
+    {
+      "id": "ch_pos_006",
+      "question": "Kalau ada orang yang mau ngadu soal pelanggaran tapi nggak mau kasih tahu nama dan alamatnya, apakah pengaduannya masih bisa dilanjutkan ke tahap berikutnya?",
+      "answer": "Pengaduan dapat dilanjutkan ke tahap berikutnya",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q074"
+    },
+    {
+      "id": "ch_neg_039",
+      "question": "Siapa pihak yang dapat mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran di Indonesia?",
+      "answer": "Setiap orang yang mengoperasikan kendaraan bermotor di jalan wajib memiliki surat izin mengemudi yang sesuai dengan jenis kendaraan yang digunakan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas persyaratan mengemudi kendaraan bermotor, yang tidak berkaitan dengan kewenangan pengajuan permohonan pailit.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_039"
+    },
+    {
+      "id": "ch_pos_048",
+      "question": "Seberapa sering monitoring dan evaluasi pelaksanaan pengelolaan JDIH Kementerian BUMN wajib dilaksanakan?",
+      "answer": "paling sedikit 1 (satu) tahun sekali",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q429"
+    },
+    {
+      "id": "ch_pos_050",
+      "question": "Kalau draf peraturan menteri kesehatan udah nggak ada masalah soal isi maupun teknis penulisannya, siapa yang nyiapin surat ke kementerian hukum buat proses harmonisasi?",
+      "answer": "Biro menyiapkan surat Menteri kepada menteri...untuk dilakukan pengharmonisasian, pembulatan, dan pemantapan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q219"
+    },
+    {
+      "id": "ch_neg_001",
+      "question": "Kalau pelaku usaha perfilman tidak memiliki izin usaha perfilman, apa sanksi pertama yang dikenakan dan berapa lama waktu untuk memenuhi perizinannya?",
+      "answer": "Film yang diedarkan kepada masyarakat wajib memenuhi ketentuan penggolongan usia penonton sesuai dengan klasifikasi film yang telah ditetapkan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas penggolongan usia penonton film, bukan sanksi pertama dan jangka waktu pemenuhan izin usaha perfilman.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_001"
+    },
+    {
+      "id": "ch_neg_022",
+      "question": "Berapa jumlah penyertaan modal yang disetorkan oleh Pemerintah Daerah Kabupaten Pulang Pisau kepada PT. JAMKRIDA KALTENG pada tahun anggaran 2014?",
+      "answer": "Informasi mengenai nilai penyertaan modal tersebut tidak tersedia.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menyatakan informasi tidak tersedia tanpa memberikan nilai nominal yang secara langsung diminta.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_022"
+    },
+    {
+      "id": "ch_pos_034",
+      "question": "Siapa yang berwenang menetapkan pembentukan dan operasional Satres PPA dan PPO, dan bagaimana ketentuan operasional bagi Polres yang satuan tersebut sudah terbentuk?",
+      "answer": "Pembentukan berdasarkan Keputusan Kapolri atas usulan Kapolda; Polres yang sudah terbentuk operasionalnya sesuai Pasal 34A dan 34B.",
+      "human_relevant": true,
+      "human_relevance_reason": "Audited. Human label correct. The answer addresses both aspects: who authorizes (Kapolri) and operational provisions (Pasal 34A/34B). The second aspect is vague (just a pasal reference), which is a completeness issue, not relevance. Kept as True.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q368"
+    },
+    {
+      "id": "ch_neg_044",
+      "question": "Siapa yang berwenang memberikan penugasan kepada kelompok jabatan fungsional dan apa dasar pertimbangan pemberian penugasan tersebut?",
+      "answer": "Pengangkatan dalam jabatan dilakukan dengan memperhatikan kualifikasi pendidikan, kompetensi teknis, integritas, dan persyaratan administratif sesuai ketentuan kepegawaian.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan menanyakan pejabat pemberi penugasan beserta dasar pertimbangannya, sedangkan jawaban membahas persyaratan pengangkatan dalam jabatan dan tidak menjawab kewenangan maupun dasar penugasan yang diminta.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_044"
+    },
+    {
+      "id": "ch_pos_021",
+      "question": "Seberapa sering pemantauan dan penilaian berkala terhadap penyelenggaraan ekosistem digital ketenagakerjaan nasional dilaksanakan?",
+      "answer": "dilakukan secara periodik setiap 6 (enam) bulan sekali",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q244"
+    },
+    {
+      "id": "ch_pos_039",
+      "question": "Kalau perusahaan pergadaian syariah mau kerja sama pinjaman bersama dengan lembaga konvensional, berapa persen minimal porsi piutang yang harus dipegang perusahaan pergadaian syariah itu per penyaluran?",
+      "answer": "paling sedikit sebesar 51% (lima puluh satu persen) per penyaluran Pinjaman bersama",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q175"
+    },
+    {
+      "id": "ch_pos_035",
+      "question": "Seberapa sering pengawasan dan penilaian berkala terhadap jalannya program Sekolah Rakyat wajib dilaksanakan dalam satu periode tahunan?",
+      "answer": "dilakukan paling sedikit 1 (satu) kali dalam 1 (satu) tahun dan sewaktu-waktu",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q062"
+    },
+    {
+      "id": "ch_pos_038",
+      "question": "Berapa nilai koefisien bobot untuk kendaraan jenis bus dalam penghitungan dasar pengenaan Pajak Kendaraan Bermotor?",
+      "answer": "bus nilai koefisien sama dengan 1,1 (satu koma satu)",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q273"
+    },
+    {
+      "id": "ch_neg_027",
+      "question": "Berapa nilai nominal penyertaan modal yang telah disetorkan kepada PT. JAMKRIDA KALTENG pada tahun anggaran 2014?",
+      "answer": "Data nominal yang dimaksud tidak dapat ditemukan dalam informasi ini.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban hanya menyatakan bahwa data tidak ditemukan dan tidak menjawab nilai nominal penyertaan modal.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_027"
+    },
+    {
+      "id": "ch_neg_009",
+      "question": "Menurut ketentuan organisasi Balai Layanan Penghubung Identitas Digital, siapa yang mengatur pemberian penugasan kepada kelompok jabatan fungsional?",
+      "answer": "Susunan organisasi Balai terdiri atas unsur pimpinan, unit tata usaha, dan kelompok jabatan fungsional yang melaksanakan tugas sesuai dengan bidang keahliannya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban mendeskripsikan susunan organisasi, tetapi tidak menyebutkan pejabat yang berwenang mengatur pemberian penugasan.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_009"
+    },
+    {
+      "id": "ch_pos_049",
+      "question": "Apa yang dimaksud dengan Pemeriksaan dan berapa lama batas waktu pelaksanaan Pemeriksaan khusus sejak surat tugas diterbitkan?",
+      "answer": "Pemeriksaan: proses sistemik evaluasi bukti objektif; dilakukan paling lama 45 hari sejak surat tugas diterbitkan.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q075"
+    },
+    {
+      "id": "ch_neg_018",
+      "question": "Lembaga apakah yang secara khusus berwenang mengajukan permohonan pailit atas penyelenggara infrastruktur sistem pembayaran berdasarkan ketentuan Bank Indonesia?",
+      "answer": "Kementerian Hukum menyelenggarakan urusan pemerintahan di bidang hukum, termasuk pelayanan administrasi badan hukum sesuai dengan kewenangannya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban mengidentifikasi Kementerian Hukum, bukan Bank Indonesia sebagai pihak yang ditanyakan dalam konteks permohonan pailit penyelenggara infrastruktur sistem pembayaran.",
+      "category": "Wrong Entity",
+      "source_id": "ch_018"
+    },
+    {
+      "id": "ch_neg_020",
+      "question": "Siapa pejabat yang berwenang menetapkan kebijakan pelaksanaan ketentuan cukai dan penggantian pita cukai yang rusak?",
+      "answer": "Wali Kota menetapkan kebijakan penyelenggaraan pelayanan publik dan pembinaan kegiatan usaha di wilayah kota sesuai kewenangannya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas kewenangan Wali Kota di tingkat pemerintahan daerah, bukan kewenangan pejabat pusat yang menangani kebijakan cukai.",
+      "category": "Wrong Entity",
+      "source_id": "ch_020"
+    },
+    {
+      "id": "ch_neg_011",
+      "question": "Siapa yang menetapkan kebijakan nasional mengenai perizinan usaha perfilman berdasarkan ketentuan yang berlaku?",
+      "answer": "Gubernur menetapkan kebijakan daerah mengenai pembinaan dan pengembangan kegiatan perfilman di wilayah provinsi sesuai dengan kewenangannya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan menanyakan pihak yang menetapkan kebijakan nasional, sedangkan jawaban menyebut Gubernur dan kewenangan tingkat provinsi.",
+      "category": "Wrong Entity",
+      "source_id": "ch_011"
+    },
+    {
+      "id": "ch_pos_043",
+      "question": "Berapa batas usia pensiun tertinggi bagi perwira tinggi bintang 3 (tiga) TNI berdasarkan PP Nomor 35 Tahun 2025?",
+      "answer": "paling tinggi 62 (enam puluh dua) tahun dan paling rendah 48 tahun",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q025"
+    },
+    {
+      "id": "ch_neg_023",
+      "question": "Apakah pengusaha pabrik wajib membayar biaya pengganti atas pita cukai yang rusak setelah memperoleh konfirmasi perusakan?",
+      "answer": "Informasi tersebut tidak dapat ditentukan berdasarkan data yang tersedia.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menghindari pertanyaan faktual tentang kewajiban pembayaran dan tidak memberikan jawaban ya atau tidak maupun dasar kewajibannya.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_023"
+    },
+    {
+      "id": "ch_pos_045",
+      "question": "Berapa lama jangka waktu pengimporan yang diberikan setelah Keputusan Menteri ditetapkan, dan dalam jangka waktu berapa hari penerima fasilitas wajib menyampaikan laporan realisasi impor setelah periode tersebut berakhir?",
+      "answer": "Jangka waktu impor: paling lama 1 tahun sejak Keputusan Menteri; laporan realisasi: paling lama 30 hari setelah berakhir.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q163"
+    },
+    {
+      "id": "ch_pos_028",
+      "question": "Kalau Perum mau dinyatakan pailit, siapa yang harus kasih persetujuan dulu sebelum Direksi Perum bisa mengajukan permohonan ke pengadilan negeri?",
+      "answer": "berdasarkan persetujuan kepala BP BUMN",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q007"
+    },
+    {
+      "id": "ch_pos_019",
+      "question": "Berapa jumlah anggota KNKI yang berasal dari unsur pakar dan apa kompetensi yang harus mereka kuasai?",
+      "answer": "4 orang dari pakar; memahami dan menguasai sistem penjaminan mutu bidang pendidikan, pelatihan, dan pengalaman kerja.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q475"
+    },
+    {
+      "id": "ch_pos_030",
+      "question": "Apa warna dasar foto pada tanda pengenal ASN yang menjabat sebagai pejabat administrator di lingkungan Pemerintah Provinsi DKI Jakarta?",
+      "answer": "biru untuk pejabat administrator",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q083"
+    },
+    {
+      "id": "ch_pos_017",
+      "question": "Dividen yang jadi hak pemda dari keuntungan usaha selama setahun itu harus dikemanain?",
+      "answer": "disetorkan ke Kas Daerah serta dialokasikan dalam APBD",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q458"
+    },
+    {
+      "id": "ch_neg_004",
+      "question": "Siapa yang berwenang memberikan penugasan kepada kelompok jabatan fungsional di Balai Layanan Penghubung Identitas Digital?",
+      "answer": "Pengangkatan pejabat fungsional dilaksanakan berdasarkan persyaratan kualifikasi, kompetensi, dan ketentuan mengenai jabatan fungsional yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menjelaskan persyaratan pengangkatan pejabat fungsional, bukan pihak yang berwenang memberikan penugasan kepada kelompok jabatan fungsional.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_004"
+    },
+    {
+      "id": "ch_pos_001",
+      "question": "Apakah perubahan struktur dan mekanisme kerja unit teknis penghubung identitas digital memerlukan restu tertulis dari kementerian yang mengurusi tata kelola aparatur pemerintah?",
+      "answer": "setelah mendapat persetujuan tertulis dari menteri yang menyelenggarakan urusan pemerintahan di bidang aparatur negara",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q304"
+    },
+    {
+      "id": "ch_neg_029",
+      "question": "Apakah Bank Indonesia merupakan satu-satunya pihak yang berwenang mengajukan permohonan pernyataan pailit terhadap penyelenggara infrastruktur sistem pembayaran?",
+      "answer": "Tidak tersedia keterangan yang dapat digunakan untuk memastikan pihak yang berwenang.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban tidak mengonfirmasi atau menyangkal kewenangan Bank Indonesia dan hanya menyatakan keterbatasan informasi.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_029"
+    },
+    {
+      "id": "ch_neg_013",
+      "question": "Siapakah satu-satunya pihak yang berwenang mengajukan permohonan pernyataan pailit terhadap penyelenggara infrastruktur sistem pembayaran?",
+      "answer": "Otoritas Jasa Keuangan berwenang melakukan pengaturan dan pengawasan terhadap lembaga jasa keuangan sesuai dengan ketentuan peraturan perundang-undangan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta pihak yang berwenang mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran, tetapi jawaban membahas kewenangan umum OJK, bukan kewenangan khusus Bank Indonesia.",
+      "category": "Wrong Entity",
+      "source_id": "ch_013"
+    },
+    {
+      "id": "ch_pos_004",
+      "question": "Kalau sebuah UPT dapat nilai di bawah 0,562, masuk kategori apa namanya?",
+      "answer": "Kantor Bahasa sebagaimana dimaksud pada ayat (1) huruf b mempunyai jumlah nilai < 0,562",
+      "human_relevant": true,
+      "human_relevance_reason": "Audited. Human label correct. The answer names 'Kantor Bahasa' as the category for UPT with score < 0.562. The judge missed this because it focused on the quote form rather than the answer content. Kept as True.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q495"
+    },
+    {
+      "id": "ch_pos_026",
+      "question": "Kalau ada pengaduan soal pungli yang dilakukan anggota polisi, kode berapa yang dipakai buat mengelompokkan pengaduan itu?",
+      "answer": "korupsi/pungutan liar 0300 (nol tiga ratus)",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q353"
+    },
+    {
+      "id": "ch_neg_045",
+      "question": "Apakah Bank Indonesia merupakan satu-satunya pihak yang boleh mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran, dan melalui mekanisme apa permohonan tersebut diajukan?",
+      "answer": "Bank Indonesia menetapkan kebijakan sistem pembayaran nasional serta mengembangkan infrastruktur pembayaran yang mendukung kelancaran transaksi ekonomi.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta penegasan pihak yang berwenang sekaligus mekanisme pengajuan permohonan pailit, tetapi jawaban hanya membahas kebijakan dan pengembangan infrastruktur pembayaran.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_045"
+    },
+    {
+      "id": "ch_neg_032",
+      "question": "Berapa jumlah penyertaan modal yang disetorkan Pemerintah Daerah Kabupaten Pulang Pisau kepada PT. JAMKRIDA KALTENG pada tahun anggaran 2014?",
+      "answer": "Pemegang polis berhak memperoleh manfaat pertanggungan sesuai dengan nilai dan ketentuan yang tercantum dalam perjanjian asuransi.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta nilai penyertaan modal pemerintah daerah pada perusahaan penjaminan, sedangkan jawaban membahas hak pemegang polis dalam perjanjian asuransi.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_032"
+    },
+    {
+      "id": "ch_neg_014",
+      "question": "Lembaga mana yang berwenang mengatur dan mengawasi pelaksanaan kebijakan sistem pembayaran serta mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran?",
+      "answer": "Otoritas Jasa Keuangan melakukan pengaturan dan pengawasan terhadap kegiatan jasa keuangan perbankan, pasar modal, dan sektor jasa keuangan lainnya sesuai dengan undang-undang.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban mengalihkan kewenangan yang ditanyakan kepada OJK, padahal pertanyaan mengenai kewenangan khusus di bidang sistem pembayaran mengarah pada Bank Indonesia.",
+      "category": "Wrong Entity",
+      "source_id": "ch_014"
+    },
+    {
+      "id": "ch_neg_021",
+      "question": "Apa sanksi pertama bagi pelaku usaha film yang tidak memiliki izin usaha perfilman dan berapa lama waktu yang diberikan untuk mengurus izinnya?",
+      "answer": "Saya tidak tahu.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban hanya menyatakan ketidaktahuan dan tidak memberikan informasi mengenai jenis sanksi maupun tenggat waktu pemenuhan izin.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_021"
+    },
+    {
+      "id": "ch_pos_027",
+      "question": "Deposito di bank komersial untuk BLUD Puskesmas itu bisa diperpanjang otomatis nggak, dan berapa lama tenornya?",
+      "answer": "deposito pada bank umum dengan jangka waktu 3 sampai dengan 12 bulan dan/atau yang dapat diperpanjang secara otomatis",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q111"
+    },
+    {
+      "id": "ch_pos_011",
+      "question": "Dalam Peraturan Kepolisian Nomor 6 Tahun 2023, berapa lama batas waktu pencetakan dan penerbitan SKCK setelah berkas diterima secara lengkap dan dinyatakan memenuhi syarat?",
+      "answer": "dicetak dan diterbitkan paling lama 2 (dua) jam setelah berkas diterima",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q361"
+    },
+    {
+      "id": "ch_pos_031",
+      "question": "Berapa lama batas waktu yang diberikan kepada obyek yang diperiksa untuk menyelesaikan tindak lanjut rekomendasi hasil pemeriksaan sebelum diserahkan kepada Aparat Penegak Hukum?",
+      "answer": "obyek yang diperiksa diberikan waktu selama 60 (enam puluh) hari",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q073"
+    },
+    {
+      "id": "ch_pos_012",
+      "question": "Berapa lama batas waktu yang diberikan kepada pihak yang berwenang untuk membubuhkan tanda persetujuan pada dokumen verbal rancangan regulasi kesehatan?",
+      "answer": "harus dapat memberikan paraf dalam jangka waktu paling lama 3 (tiga) hari kerja",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q218"
+    },
+    {
+      "id": "ch_pos_002",
+      "question": "Siapa yang bertanggung jawab melakukan pembinaan terhadap penyelenggaraan SIP dan kepada siapa pembinaan tersebut ditujukan?",
+      "answer": "Menteri mendelegasikan ke Sekjen Kemendag; pembinaan ditujukan terhadap Produsen Data.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q393"
+    },
+    {
+      "id": "ch_neg_040",
+      "question": "Siapa yang berwenang mengatur pemberian penugasan kepada kelompok jabatan fungsional di Balai Layanan Penghubung Identitas Digital?",
+      "answer": "Penyelenggara sistem elektronik wajib melindungi data pribadi yang diprosesnya serta memastikan keamanan sistem elektronik sesuai dengan ketentuan yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menjelaskan kewajiban perlindungan data pribadi dan keamanan sistem elektronik, bukan kewenangan pejabat dalam memberikan penugasan kepada kelompok jabatan fungsional.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_040"
+    },
+    {
+      "id": "ch_neg_036",
+      "question": "Berapa lama pelaku usaha perfilman diberi kesempatan memenuhi perizinan setelah mendapat teguran tertulis?",
+      "answer": "Pekerja berhak memperoleh upah sesuai dengan perjanjian kerja, peraturan perusahaan, atau perjanjian kerja bersama yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan menanyakan tenggat pemenuhan izin perfilman, sedangkan jawaban membahas hak pekerja atas upah.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_036"
+    },
+    {
+      "id": "ch_neg_007",
+      "question": "Berapa nilai modal yang benar-benar telah disetorkan kepada PT. JAMKRIDA KALTENG oleh Pemerintah Daerah Kabupaten Pulang Pisau pada tahun anggaran 2014?",
+      "answer": "Penambahan modal pada badan usaha milik daerah dapat dilakukan dengan mempertimbangkan kebutuhan pengembangan usaha, rencana bisnis, dan kemampuan keuangan daerah.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menjelaskan pertimbangan umum untuk penambahan modal, bukan nilai penyertaan modal yang benar-benar disetorkan pada tahun anggaran 2014.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_007"
+    },
+    {
+      "id": "ch_pos_010",
+      "question": "Apa yang dimaksud dengan Nomor Induk Berusaha dan bagaimana prosedur badan penyelenggara berbadan hukum untuk mendapatkannya dalam rangka pendirian Perguruan Tinggi lembaga negara lain di KEK?",
+      "answer": "NIB adalah bukti registrasi/identitas PT; badan penyelenggara mendaftarkan Perizinan Berusaha melalui Sistem OSS untuk mendapatkan NIB.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q466"
+    },
+    {
+      "id": "ch_neg_031",
+      "question": "Apa sanksi pertama bagi pelaku usaha perfilman yang tidak memiliki izin usaha perfilman?",
+      "answer": "Wajib Pajak yang terlambat menyampaikan Surat Pemberitahuan dapat dikenai sanksi administratif berupa denda sesuai dengan jenis pajak dan ketentuan perpajakan yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan membahas sanksi perizinan usaha perfilman, sedangkan jawaban membahas denda keterlambatan pelaporan pajak.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_031"
+    },
+    {
+      "id": "ch_neg_041",
+      "question": "Apa sanksi pertama bagi pelaku usaha film yang tidak mempunyai izin usaha perfilman dan berapa lama batas waktu untuk mengurus izin tersebut?",
+      "answer": "Pelaku usaha wajib menyampaikan laporan realisasi penanaman modal secara berkala sesuai dengan jadwal pelaporan yang ditetapkan oleh instansi terkait.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta jenis sanksi pertama dan tenggat pemenuhan izin, tetapi jawaban membahas pelaporan realisasi penanaman modal dan tidak menjawab kedua aspek inti tersebut.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_041"
+    },
+    {
+      "id": "ch_pos_036",
+      "question": "Berapa lama batas waktu yang diberikan kepada dewan perwakilan rakyat daerah untuk melakukan pembahasan LKPJ setelah diterima?",
+      "answer": "paling lambat 30 (tiga puluh) hari setelah LKPJ diterima",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q254"
+    },
+    {
+      "id": "ch_pos_024",
+      "question": "Berapa batas maksimal pinjaman modal kerja yang dapat diberikan kepada usaha mikro dan usaha kecil binaan BUMN, dan berapa besaran jasa administrasi serta tenor maksimal pinjaman tersebut?",
+      "answer": "Maks Rp250 juta per UMK; jasa administrasi 6% per tahun, tenor maks 3 tahun.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q421"
+    },
+    {
+      "id": "ch_neg_043",
+      "question": "Apakah pengusaha pabrik wajib membayar biaya pengganti pita cukai yang rusak, dan berdasarkan dokumen apa kewajiban tersebut ditetapkan?",
+      "answer": "Pengusaha pabrik wajib melaksanakan pencatatan hasil produksi dan menyusun laporan persediaan barang kena cukai sesuai dengan tata cara administrasi yang ditentukan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta kepastian kewajiban membayar biaya pengganti dan dokumen yang menjadi dasar penetapannya, sedangkan jawaban membahas pencatatan produksi dan persediaan.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_043"
+    },
+    {
+      "id": "ch_pos_018",
+      "question": "Bagaimana ketentuan pemberian TPP bagi CPNS yang baru diangkat dan siapa yang berwenang menetapkan besaran TPP tersebut?",
+      "answer": "CPNS mendapat TPP 50% dari besaran jabatan selama 1 tahun; besarannya ditetapkan oleh Kepala Perangkat Daerah pemungut pajak/retribusi.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q116"
+    },
+    {
+      "id": "ch_neg_008",
+      "question": "Apa kewajiban pengusaha pabrik setelah pita cukai yang dimilikinya dinyatakan rusak dan berapa biaya penggantinya?",
+      "answer": "Pita cukai yang belum digunakan harus disimpan dengan baik dan diperlakukan sesuai dengan tata cara administrasi persediaan serta ketentuan pengelolaan dokumen cukai.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas penyimpanan pita cukai yang belum digunakan, bukan kewajiban setelah pita cukai dinyatakan rusak atau besarnya biaya pengganti.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_008"
+    },
+    {
+      "id": "ch_neg_019",
+      "question": "Siapa yang berwenang memberikan penugasan kepada kelompok jabatan fungsional pada Balai Layanan Penghubung Identitas Digital sesuai struktur organisasi?",
+      "answer": "Direktur Jenderal menetapkan rencana strategis pelaksanaan kebijakan teknis pada direktorat jenderal yang dipimpinnya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban menyebut Direktur Jenderal dan kewenangan perencanaan strategis, bukan pejabat yang mengatur penugasan kelompok jabatan fungsional di Balai.",
+      "category": "Wrong Entity",
+      "source_id": "ch_019"
+    },
+    {
+      "id": "ch_neg_030",
+      "question": "Apa sanksi pertama bagi pelaku usaha perfilman yang tidak memiliki izin usaha dan berapa lama waktu yang diberikan untuk memenuhi perizinannya?",
+      "answer": "Saya tidak memiliki informasi yang cukup untuk menjelaskan ketentuan sanksi maupun tenggat waktunya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban secara eksplisit mengabstain dan tidak menjawab kedua bagian pertanyaan, yaitu jenis sanksi dan jangka waktu.",
+      "category": "Refusal / Abstention",
+      "source_id": "ch_030"
+    },
+    {
+      "id": "ch_neg_049",
+      "question": "Siapa yang berwenang memberikan penugasan kepada kelompok jabatan fungsional dan bagaimana penugasan tersebut ditetapkan berdasarkan kebutuhan organisasi?",
+      "answer": "Kelompok jabatan fungsional melaksanakan kegiatan sesuai dengan standar kompetensi jabatan dan ketentuan mengenai angka kredit serta pengembangan karier aparatur sipil negara.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta pejabat pemberi penugasan dan cara penetapannya berdasarkan kebutuhan organisasi, sedangkan jawaban membahas kompetensi, angka kredit, dan pengembangan karier.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_049"
+    },
+    {
+      "id": "ch_pos_032",
+      "question": "Apa yang dimaksud dengan Stabilitas Sistem Keuangan (SSK) menurut Peraturan Bank Indonesia Nomor 4 Tahun 2024?",
+      "answer": "kondisi sistem keuangan yang berfungsi efektif dan efisien serta mampu bertahan dari gejolak",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q196"
+    },
+    {
+      "id": "ch_pos_014",
+      "question": "Berapa lama tenggat penyerahan rancangan penghematan daya listrik dan air setelah menerima hasil evaluasi?",
+      "answer": "disampaikan paling lambat 1 (satu) bulan sejak diterimanya hasil pengkajian",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q090"
+    },
+    {
+      "id": "ch_pos_044",
+      "question": "Jika seorang pelaku perseorangan terbukti melakukan Tindak Pidana Adat namun menolak melaksanakan hasil keputusan musyawarah, berapa nilai ganti rugi yang harus dibayarkan dan kepada siapa ganti rugi tersebut diberikan?",
+      "answer": "Ganti rugi setara pidana denda kategori II KUHP untuk perseorangan; diberikan kepada korban dan/atau Masyarakat Hukum Adat setempat.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q046"
+    },
+    {
+      "id": "ch_neg_002",
+      "question": "Berapa jumlah penyertaan modal yang telah disetorkan Pemerintah Daerah Kabupaten Pulang Pisau kepada PT. JAMKRIDA KALTENG pada tahun anggaran 2014?",
+      "answer": "Penyertaan modal daerah pada tahun anggaran berikutnya dilaksanakan dengan memperhatikan kemampuan keuangan daerah dan ditetapkan melalui mekanisme penganggaran sesuai dengan ketentuan peraturan perundang-undangan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas prinsip dan mekanisme penyertaan modal untuk penganggaran, bukan jumlah nominal yang telah disetorkan pada tahun 2014.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_002"
+    },
+    {
+      "id": "ch_pos_008",
+      "question": "Siapa yang menjabat sebagai KPA dalam penyediaan barang/jasa haji dan apakah KPA dapat menugaskan PPK untuk melaksanakan kewenangannya?",
+      "answer": "KPA dijabat Staf Teknis Haji; KPA dapat menugaskan PPK untuk melaksanakan kewenangan pada ayat (2) huruf a dan b.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q382"
+    },
+    {
+      "id": "ch_neg_047",
+      "question": "Berapa jumlah penyertaan modal yang disetorkan pada tahun anggaran 2014, dan apa tujuan penyertaan modal Pemerintah Daerah Kabupaten Pulang Pisau kepada PT. JAMKRIDA KALTENG?",
+      "answer": "Penyertaan modal dapat dilakukan dalam bentuk uang atau barang milik daerah yang dinilai berdasarkan ketentuan pengelolaan barang milik daerah dan administrasi keuangan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta nilai setoran aktual dan tujuan penyertaan modal, sedangkan jawaban hanya menjelaskan bentuk umum penyertaan modal tanpa memberikan nilai maupun tujuan khusus yang ditanyakan.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_047"
+    },
+    {
+      "id": "ch_neg_033",
+      "question": "Apakah pengusaha pabrik wajib membayar biaya pengganti atas pita cukai yang rusak setelah konfirmasi perusakan?",
+      "answer": "Wajib Pajak wajib menyelenggarakan pembukuan dan menyimpan dokumen pendukung untuk membuktikan kebenaran jumlah penghasilan, biaya, dan kewajiban perpajakannya.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas kewajiban pembukuan dan dokumentasi perpajakan, bukan kewajiban pembayaran biaya pengganti pita cukai.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_033"
+    },
+    {
+      "id": "ch_neg_034",
+      "question": "Siapa yang berwenang memberikan penugasan kepada kelompok jabatan fungsional di Balai Layanan Penghubung Identitas Digital?",
+      "answer": "Pengelolaan arsip dinamis dilaksanakan oleh pencipta arsip sesuai dengan jadwal retensi arsip dan prosedur penyusutan arsip yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan berkaitan dengan kewenangan penugasan jabatan fungsional dalam organisasi identitas digital, sedangkan jawaban membahas pengelolaan arsip.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_034"
+    },
+    {
+      "id": "ch_neg_037",
+      "question": "Berapa nilai penyertaan modal yang dibayarkan Pemerintah Daerah Kabupaten Pulang Pisau kepada PT. JAMKRIDA KALTENG pada tahun anggaran 2014?",
+      "answer": "Pengadaan barang dan jasa pemerintah dilaksanakan berdasarkan prinsip efisien, efektif, transparan, terbuka, bersaing, adil, dan akuntabel.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas prinsip pengadaan barang dan jasa pemerintah, bukan nilai penyertaan modal kepada PT. JAMKRIDA KALTENG.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_037"
+    },
+    {
+      "id": "ch_pos_007",
+      "question": "Berapa jumlah penduduk minimal dan usia minimal Kecamatan yang harus dipenuhi sebagai persyaratan dasar pembentukan Kecamatan di Kabupaten Administratif?",
+      "answer": "Jumlah penduduk minimal 15.000 jiwa (Pasal 6 ayat 2); usia minimal paling singkat 5 tahun (Pasal 6 ayat 4).",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q446"
+    },
+    {
+      "id": "ch_neg_010",
+      "question": "Pihak mana yang berhak mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran di Indonesia?",
+      "answer": "Pernyataan pailit terhadap suatu badan usaha harus memperhatikan syarat adanya dua atau lebih kreditor serta adanya utang yang telah jatuh waktu dan dapat ditagih.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas persyaratan umum pernyataan pailit, bukan identitas pihak yang secara khusus berwenang mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_010"
+    },
+    {
+      "id": "ch_neg_050",
+      "question": "Siapa satu-satunya pihak yang berwenang mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran, dan apa akibat hukum apabila permohonan tersebut dikabulkan?",
+      "answer": "Penyelenggara sistem pembayaran wajib menjaga kerahasiaan informasi nasabah dan menerapkan prinsip perlindungan konsumen dalam penyelenggaraan layanan pembayaran.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta pihak yang berwenang mengajukan permohonan pailit dan akibat hukum jika permohonan dikabulkan, sedangkan jawaban membahas kerahasiaan nasabah dan perlindungan konsumen tanpa menjawab kedua aspek inti tersebut.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_050"
+    },
+    {
+      "id": "ch_neg_005",
+      "question": "Siapa satu-satunya pihak yang berwenang mengajukan permohonan pernyataan pailit terhadap penyelenggara infrastruktur sistem pembayaran?",
+      "answer": "Penyelenggara infrastruktur sistem pembayaran wajib menjaga keamanan, keandalan, dan kelancaran penyelenggaraan sistem pembayaran sesuai dengan ketentuan yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas kewajiban operasional penyelenggara infrastruktur sistem pembayaran, bukan pihak yang berwenang mengajukan permohonan pailit.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_005"
+    },
+    {
+      "id": "ch_pos_046",
+      "question": "Berapa persen tunjangan bulanan yang diterima pekerja yang kehilangan mata pencaharian, dan paling lama berapa lama tunjangan itu bisa diperoleh?",
+      "answer": "60% dari Upah, untuk paling lama 6 bulan",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q247"
+    },
+    {
+      "id": "ch_neg_006",
+      "question": "Berapa lama tenggat waktu yang diberikan kepada pelaku usaha film untuk memenuhi perizinan setelah menerima teguran tertulis?",
+      "answer": "Setiap pelaku usaha perfilman wajib menyampaikan data kegiatan usaha dan informasi yang diperlukan untuk pembinaan serta pengawasan penyelenggaraan perfilman.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas kewajiban pelaporan dan penyampaian data usaha perfilman, bukan tenggat waktu untuk memenuhi perizinan.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_006"
+    },
+    {
+      "id": "ch_neg_035",
+      "question": "Siapa satu-satunya pihak yang berwenang mengajukan permohonan pernyataan pailit terhadap penyelenggara infrastruktur sistem pembayaran?",
+      "answer": "Tindak pidana pencucian uang dapat dikenai pidana penjara dan denda sesuai dengan bentuk perbuatan dan ketentuan pidana yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas sanksi pidana pencucian uang, bukan pihak yang berwenang mengajukan permohonan pailit terhadap penyelenggara infrastruktur sistem pembayaran.",
+      "category": "Off-topic (Different Domain)",
+      "source_id": "ch_035"
+    },
+    {
+      "id": "ch_neg_048",
+      "question": "Apakah pengusaha pabrik harus membayar biaya pengganti pita cukai yang rusak, dan bagaimana prosedur pembayaran biaya pengganti tersebut?",
+      "answer": "Pemesanan pita cukai diajukan dengan menggunakan dokumen pemesanan yang dipersyaratkan dan mengikuti tata cara penatausahaan pita cukai yang berlaku.",
+      "human_relevant": false,
+      "human_relevance_reason": "Pertanyaan meminta kepastian kewajiban pembayaran biaya pengganti serta prosedur pembayarannya, sedangkan jawaban membahas pemesanan pita cukai dan tidak menjawab kedua bagian pertanyaan.",
+      "category": "Partial/Missing Aspect (Completeness Failure)",
+      "source_id": "ch_048"
+    },
+    {
+      "id": "ch_pos_013",
+      "question": "Berapa lama batas waktu paling lambat buat gubernur netapin surat keputusan soal siapa yang pegang anggaran dekonsentrasi setelah tahun fiskal dimulai?",
+      "answer": "paling lama ditetapkan 3 (tiga) minggu sejak dimulainya tahun anggaran.",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q267"
+    },
+    {
+      "id": "ch_pos_025",
+      "question": "Dalam Peraturan Bupati Karawang Nomor 9 Tahun 2026, dari mana sumber pembiayaan untuk pelaksanaan tugas Koordinator Wilayah Pendidikan?",
+      "answer": "anggaran pendapatan dan belanja Daerah serta sumber lain yang sah",
+      "human_relevant": true,
+      "human_relevance_reason": "Reviewed: answer addresses the question topic.",
+      "category": "Positive (real legal QA)",
+      "source_id": "q126"
+    },
+    {
+      "id": "ch_neg_003",
+      "question": "Apakah pengusaha pabrik wajib membayar biaya pengganti pita cukai yang rusak setelah menerima konfirmasi perusakan?",
+      "answer": "Pemesanan pita cukai dilakukan oleh pengusaha dengan mengajukan permohonan sesuai dengan prosedur pemesanan dan jumlah kebutuhan pita cukai yang ditetapkan.",
+      "human_relevant": false,
+      "human_relevance_reason": "Jawaban membahas prosedur pemesanan pita cukai, bukan kewajiban membayar biaya pengganti atas pita cukai yang rusak.",
+      "category": "Wrong Article/Scope",
+      "source_id": "ch_003"
+    }
+  ]
+}
