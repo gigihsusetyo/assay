@@ -108,11 +108,6 @@ What works today:
 - Gate: fail with exit code 1 if quality regresses.
 - Live demo deployed on Render.
 
-What is not done yet:
-
-- Integration with Ragas or DeepEval.
-- Real Kubernetes deployment.
-
 ---
 
 ## Quickstart
@@ -569,7 +564,7 @@ Apache 2.0. See [LICENSE](LICENSE).
 
 ## Links
 
-- Live demo: [assay-6pji.onrender.com](https://assay-6pji.onrender.com)
-- API docs: [assay-6pji.onrender.com/docs](https://assay-6pji.onrender.com/docs)
 - Domain: [assay.web.id](https://assay.web.id)
 - GitHub: [github.com/gigihsusetyo/assay](https://github.com/gigihsusetyo/assay)
+- Live API (Swagger UI): [assay-6pji.onrender.com/docs](https://assay-6pji.onrender.com/docs)
+- CI/CD: [GitHub Actions](https://github.com/gigihsusetyo/assay/actions)
