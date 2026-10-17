@@ -1,6 +1,18 @@
-# Assay
+<p align="center">
+  <img src="./docs/logo.png" alt="Assay" width="140" />
+</p>
 
-**CI gate for RAG quality regressions.**
+<h1 align="center">Assay</h1>
+
+<p align="center"><em>The CI gate for RAG quality regressions.</em></p>
+
+<p align="center">
+  <a href="https://github.com/gigihsusetyo/assay/actions/workflows/tests.yml"><img src="https://github.com/gigihsusetyo/assay/actions/workflows/tests.yml/badge.svg" alt="CI" /></a>
+  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache 2.0" /></a>
+  <a href="https://assay.web.id"><img src="https://img.shields.io/badge/Domain-assay.web.id-blue" alt="Domain" /></a>
+</p>
+
+---
 
 Run your production-like RAG against a golden dataset, compare it with a pinned baseline, and fail the build when quality, latency, or cost regress beyond your policy.
 
@@ -445,51 +457,9 @@ This runs the judge with each configured provider and reports agreement, Cohen's
 
 ## Architecture
 
-```
-                    ┌───────────────────────┐
-                    │      Assay CLI        │
-                    │  assay dataset ...    │
-                    │  assay run ...        │
-                    │  assay baseline ...   │
-                    │  assay gate ...       │
-                    └───────────┬───────────┘
-                                │
-                                ▼
-                    ┌───────────────────────┐
-                    │   Python FastAPI      │
-                    │                       │
-                    │  datasets             │
-                    │  runs                 │
-                    │  results              │
-                    │  baselines            │
-                    │  comparison           │
-                    │  regression policy    │
-                    └───────┬───────────────┘
-                            │
-            ┌───────────────┼───────────────┐
-            │               │               │
-            ▼               ▼               ▼
-    ┌──────────────┐ ┌─────────────┐ ┌────────────────┐
-    │  Simple      │ │  LLM-as-    │ │  HTTP Target   │
-    │  Metrics     │ │  Judge      │ │  Adapter       │
-    │  (token      │ │  (BYOK,     │ │  (calls RAG    │
-    │   overlap)   │ │   fallback) │ │   endpoint)    │
-    │              │ │             │ │                │
-    │              │ │ - grounded  │ │                │
-    │              │ │ - relevance │ │                │
-    └──────────────┘ └─────────────┘ └────────────────┘
-                            │
-                            ▼
-                    ┌───────────────────────┐
-                    │   PostgreSQL / SQLite │
-                    │                       │
-                    │  datasets             │
-                    │  questions            │
-                    │  runs                 │
-                    │  results              │
-                    │  baselines            │
-                    └───────────────────────┘
-```
+<p align="center">
+  <img src="./docs/architecture.png" alt="Assay Architecture" width="100%" />
+</p>
 
 SQLite is the default for local development. PostgreSQL is the target for production. Assay is tested with Supabase as a managed PostgreSQL provider.
 
@@ -554,6 +524,40 @@ docker build -t assay:dev .
 ```
 
 Note: Docker Desktop 4.15.0 is the last version that runs on macOS Catalina. On newer systems, any recent Docker version works.
+
+---
+
+## Optional Extras
+
+Assay ships with a small core. Some features are available as extras.
+
+### Ragas integration
+
+To use Ragas metrics (faithfulness, answer relevancy, context
+precision, context recall) as part of an Assay run, install the
+`ragas` extra:
+
+```bash
+pip install "assay[ragas]"
+```
+
+Then run:
+
+```bash
+assay run execute <run_id> --ragas
+```
+
+Note: `ragas` pulls in LangChain, `pyarrow`, and `libcst`. On some
+systems (notably macOS without Rust), `pip` may attempt to build
+`pyarrow` from source and fail. If so, install a Rust toolchain, or
+use a system where prebuilt wheels are available. This is a
+limitation of the Ragas ecosystem, not Assay. Assay itself remains
+lightweight and does not require these dependencies.
+
+When Ragas is not installed, `--ragas` is silently skipped. Assay
+continues to run with the core metrics (groundedness, relevance,
+completeness, context recall, citation accuracy, refusal
+correctness).
 
 ---
 
