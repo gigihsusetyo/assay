@@ -339,6 +339,7 @@ def run_execute(
     run_id: int = typer.Argument(..., help="Run ID to execute"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Show per-question output"),
     judge: bool = typer.Option(False, "--judge", help="Use LLM-as-judge for groundedness"),
+    ragas: bool = typer.Option(False, "--ragas", help="Use Ragas metrics (requires assay[ragas])"),
 ) -> None:
     """Execute a run: call the target for each question and store results."""
     from assay.core.executor import execute_run
@@ -346,7 +347,9 @@ def run_execute(
     session = SessionLocal()
     try:
         try:
-            summary = execute_run(session, run_id, verbose=verbose, use_judge=judge)
+            summary = execute_run(
+                session, run_id, verbose=verbose, use_judge=judge, use_ragas=ragas
+            )
         except ValueError as e:
             console.print(f"[red]Error:[/red] {e}")
             raise typer.Exit(code=2) from e
@@ -369,6 +372,8 @@ def run_execute(
                 f"Refusal correctness evaluated on [cyan]{summary.refusal_evaluated}[/cyan] questions "
                 f"([green]{summary.refusal_correct}[/green] correct)"
             )
+        if summary.ragas_used:
+            console.print(f"Ragas evaluated on [cyan]{summary.ragas_used}[/cyan] questions")
     finally:
         session.close()
 

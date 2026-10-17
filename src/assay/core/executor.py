@@ -13,6 +13,7 @@ from assay.core.metrics.judge import (
     judge_answer_relevance,
     judge_groundedness,
 )
+from assay.core.metrics.ragas_adapter import evaluate_ragas
 from assay.core.metrics.refusal import evaluate_refusal
 from assay.core.metrics.simple import context_recall, groundedness
 from assay.db.models import RunStatus
@@ -36,6 +37,7 @@ class ExecutionSummary:
     citation_used: int = 0
     refusal_evaluated: int = 0
     refusal_correct: int = 0
+    ragas_used: int = 0
 
 
 def execute_run(
@@ -43,6 +45,7 @@ def execute_run(
     run_id: int,
     verbose: bool = False,
     use_judge: bool = False,
+    use_ragas: bool = False,
 ) -> ExecutionSummary:
     """Execute a run: call the target for each question, store results.
 
@@ -79,6 +82,12 @@ def execute_run(
     if use_judge and not settings.judge_enabled and verbose:
         print("  Judge requested but not configured. Falling back to simple metrics.")
 
+    ragas_active = use_ragas
+    if use_ragas and verbose:
+        from assay.core.metrics.ragas_adapter import _is_ragas_installed
+        if not _is_ragas_installed():
+            print("  Ragas requested but not installed. Skipping.")
+
     succeeded = 0
     failed = 0
     total_latency = 0
@@ -89,6 +98,7 @@ def execute_run(
     citation_used = 0
     refusal_evaluated = 0
     refusal_correct = 0
+    ragas_used = 0
 
     for q in questions:
         try:
@@ -145,6 +155,28 @@ def execute_run(
             citation_score = citation_result.score  # None if no citations
             if citation_score is not None:
                 citation_used += 1
+
+            # Ragas evaluation (optional)
+            if ragas_active:
+                try:
+                    rr = evaluate_ragas(
+                        question=q.question,
+                        answer=response.answer,
+                        contexts=contexts,
+                        ground_truth=q.expected_answer,
+                    )
+                    if rr.error is None:
+                        ragas_used += 1
+                        if verbose:
+                            print(
+                                f"  Q{q.id}: Ragas scores "
+                                f"(faithfulness={rr.faithfulness:.2f})"
+                            )
+                    elif verbose:
+                        print(f"  Q{q.id}: Ragas error ({rr.error})")
+                except Exception as e:
+                    if verbose:
+                        print(f"  Q{q.id}: Ragas exception ({e})")
 
             # Refusal correctness: deterministic, always computed.
             refusal_result = evaluate_refusal(
@@ -211,4 +243,5 @@ def execute_run(
         citation_used=citation_used,
         refusal_evaluated=refusal_evaluated,
         refusal_correct=refusal_correct,
+        ragas_used=ragas_used,
     )

@@ -33,6 +33,9 @@ dev = [
     "black>=24.10.0",
     "mypy>=1.13.0",
 ]
+ragas = [
+    "ragas>=0.2.0",
+]
 
 [project.scripts]
 assay = "assay.cli.main:app"
