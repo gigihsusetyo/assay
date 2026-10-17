@@ -142,7 +142,7 @@ def test_provider_config_timeout_default(monkeypatch) -> None:
     monkeypatch.setenv("ASSAY_JUDGE_API_KEY", "k1")
 
     settings = Settings(_env_file=None)
-    assert settings.judge_providers[0].timeout == 30.0
+    assert settings.judge_providers[0].timeout == 15.0
 
 
 def test_provider_config_timeout_override(monkeypatch) -> None:

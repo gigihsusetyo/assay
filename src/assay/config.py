@@ -12,7 +12,7 @@ class JudgeProviderConfig:
         model: str,
         api_key: str,
         base_url: str,
-        timeout: float = 30.0,
+        timeout: float = 15.0,
     ) -> None:
         self.name = name
         self.model = model
@@ -41,26 +41,26 @@ class Settings(BaseSettings):
     judge_model: str | None = None
     judge_api_key: str | None = None
     judge_base_url: str | None = None
-    judge_timeout: float = 30.0
+    judge_timeout: float = 15.0
 
     # Additional providers for fallback (numbered)
     judge_provider_2: str | None = None
     judge_model_2: str | None = None
     judge_api_key_2: str | None = None
     judge_base_url_2: str | None = None
-    judge_timeout_2: float = 30.0
+    judge_timeout_2: float = 15.0
 
     judge_provider_3: str | None = None
     judge_model_3: str | None = None
     judge_api_key_3: str | None = None
     judge_base_url_3: str | None = None
-    judge_timeout_3: float = 30.0
+    judge_timeout_3: float = 15.0
 
     judge_provider_4: str | None = None
     judge_model_4: str | None = None
     judge_api_key_4: str | None = None
     judge_base_url_4: str | None = None
-    judge_timeout_4: float = 30.0
+    judge_timeout_4: float = 15.0
 
     # Fallback behavior
     judge_fallback: bool = True

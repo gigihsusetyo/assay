@@ -102,7 +102,19 @@ def main() -> None:
         help="Minimum size for the minority class before reporting per-class "
         "metrics. Below this, the class is reported as INSUFFICIENT DATA.",
     )
+    parser.add_argument(
+        "--timeout",
+        type=float,
+        default=15.0,
+        help="Timeout per entry in seconds (default: 15.0).",
+    )
     args = parser.parse_args()
+
+    # Override settings timeout if provided
+    from assay.config import settings
+    if settings.judge_providers:
+        for p in settings.judge_providers:
+            p.timeout = args.timeout
 
     path = Path(args.calibration_set)
     if not path.exists():
@@ -149,10 +161,11 @@ def main() -> None:
             elapsed = time.monotonic() - start_time
             avg = elapsed / (i + 1)
             remaining = avg * (total - i - 1)
+            eta_str = f"{int(remaining // 60)}m {int(remaining % 60)}s" if remaining > 60 else f"{int(remaining)}s"
             print(
                 f"[{i + 1}/{total}] {entry.get('id', '?')}: "
                 f"human={human} judge={judge} "
-                f"({entry_elapsed:.1f}s, avg {avg:.1f}s, ~{remaining:.0f}s left)",
+                f"({entry_elapsed:.1f}s, avg {avg:.1f}s, ETA {eta_str})",
                 flush=True,
             )
 
